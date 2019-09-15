@@ -31,7 +31,7 @@ include_directories(
 )
 
 set(SOURCES_CXX_FILES
-  unit/common_test.cpp
+  unit/client_test.cpp
 )
 
 add_executable(${PROJECT_NAME} main.cpp ${SOURCES_CXX_FILES})
