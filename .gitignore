@@ -1,0 +1,5 @@
+# IDE's
+/.vscode
+
+# Just in case
+*.o
