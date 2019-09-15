@@ -7,7 +7,7 @@
 namespace Http {
 
     /**
-     * The Http Class
+     * The Client Class
      */
     class Client : public Interfaces::ClientInterface {
 

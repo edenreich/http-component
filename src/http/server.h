@@ -1,15 +1,15 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "interfaces/client_interface.h"
+#include "interfaces/server_interface.h"
 
 
 namespace Http {
 
     /**
-     * The Http Class
+     * The Server Class
      */
-    class Client : public Interfaces::ClientInterface {
+    class Server : public Interfaces::ServerInterface {
 
     public:
         //

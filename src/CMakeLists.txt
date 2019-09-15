@@ -9,23 +9,11 @@ DESCRIPTION "An easy to use component for interacting with the http layer."
 set(BUILD_SHARED_LIBS OFF)
 set(DISTRIBUTE_DIR ${CMAKE_BINARY_DIR}/dist)
 
-set(HEADERS_CXX_FILES_HTTP
-    http/client.h
-    http/server.h
-)
-
-set(HEADERS_CXX_FILES_HTTP_INTERFACES
-    http/interfaces/client_interface.h
-    http/interfaces/server_interface.h
-)
-
-set(HEADERS_CXX_FILES_HTTP_TYPES
-    http/types/common.h
-)
-
 set(SOURCES_CXX_FILES_HTTP
     client.cpp
     server.cpp
+    request.cpp
+    response.cpp
 )
 
 add_library(${PROJECT_NAME}
