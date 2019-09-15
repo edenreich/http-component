@@ -12,7 +12,14 @@ namespace Http {
     class Client : public Interfaces::ClientInterface {
 
     public:
-        //
+
+        /**
+         * Get the response by given url.
+         * 
+         * @param Interfaces::UrlInterface url
+         * @return Interfaces::ResponseInterface
+         */
+        Interfaces::ResponseInterface get(Interfaces::UrlInterface & url) const override;
 
     private:
         //
