@@ -1,11 +1,12 @@
 #include "http/url.h"
 #include <algorithm>
 #include <regex>
+#include <iostream>
 
 using namespace Http;
 
 
-Url::Url(const std::string & url): m_url(url)
+Url::Url(const std::string & url)
 {
     parse(url);
 }
@@ -21,20 +22,44 @@ std::string Url::getProtocol() const
 }
 
 /**
+ * Retrieve the host.
+ * 
+ * @return std::string
+ */
+std::string Url::getHost() const
+{
+    return m_host;
+}
+
+/**
+ * Retrieve the path.
+ * 
+ * @return std::string
+ */
+std::string Url::getPath() const
+{
+    return m_path;
+}
+
+/**
  * Parse a url and return it.
  * 
  * @param std::string & url
  * @return void
  */
-void Url::parse(std::string & url)
+void Url::parse(const std::string & url)
 {
-    // Parse protocol
-    const std::regex pattern("^[^:]+(?=://)");
-    std::smatch match;
-    std::string encodedUrl = "";
+    unsigned counter = 0;
 
-    if (std::regex_search(url, match, pattern) && match.size() > 1) {
-        std::string protocol = match.str(1);
-        m_protocol = protocol;
+    std::regex pattern(R"(^(([^:\/?#]+):)?(//([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)", std::regex::extended);
+    std::smatch matches;
+
+    if (std::regex_match(url, matches, pattern)) {
+        m_protocol = matches[2];
+        m_host = matches[4];
+        m_path = matches[5];
+        m_query = matches[7];
+    } else {
+        std::cerr << "Malformed url." << std::endl;
     }
 }

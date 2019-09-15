@@ -21,6 +21,20 @@ namespace Http {
              * @return std::string
              */
             virtual std::string getProtocol() const = 0;
+        
+            /**
+             * Retrieve the host.
+             * 
+             * @return std::string
+             */
+            virtual std::string getHost() const = 0;
+
+            /**
+             * Retrieve the path.
+             * 
+             * @return std::string
+             */
+            virtual std::string getPath() const = 0;
 
             /**
              * Virtual destructor.

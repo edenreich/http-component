@@ -16,16 +16,30 @@ namespace Http {
         /**
          * Initialize a url string.
          * 
-         * @param std::string & url 
+         * @param const std::string & url 
          */
-        Url(const std::string & url);
+        explicit Url(const std::string & url);
 
         /**
          * Retrieve the protocol.
          * 
          * @return std::string
          */
-        virtual std::string getProtocol() const override;
+        std::string getProtocol() const override;
+
+        /**
+         * Retrieve the host.
+         * 
+         * @return std::string
+         */
+        std::string getHost() const override;
+
+        /**
+         * Retrieve the path.
+         * 
+         * @return std::string
+         */
+        std::string getPath() const override;
 
     private:
 
@@ -35,21 +49,35 @@ namespace Http {
          * @param std::string & url
          * @return void
          */
-        void parse(std::string & url);
-
-        /**
-         * Store the url.
-         * 
-         * @var std::string & m_url
-         */
-        std::string & m_url;
+        void parse(const std::string & url);
 
         /**
          * Store the protocol.
          * 
          * @var std::string & m_prtocol
          */
-        std::string & m_protocol;
+        std::string m_protocol;
+
+        /**
+         * Store the host.
+         * 
+         * @var std::string & m_host
+         */
+        std::string m_host;
+
+        /**
+         * Store the path.
+         * 
+         * @var std::string & m_path
+         */
+        std::string m_path;
+
+        /**
+         * Store the query string.
+         * 
+         * @var std::string & m_query
+         */
+        std::string m_query;
 
     };
 
