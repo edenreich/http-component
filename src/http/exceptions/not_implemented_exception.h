@@ -8,6 +8,12 @@ class NotImplementedException : public std::exception
 {
 
 public:
+
+    /**
+     * Retrieve the reason.
+     * 
+     * @return char const *
+     */
     char const * what() const throw() override { return "Pending implemention."; }
 
 };
