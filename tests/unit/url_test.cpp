@@ -7,7 +7,7 @@
 TEST(UrlTest, ItRetrieveTheRawUrlBack) {
     
     Http::Url url("http://www.google.com/some/path?value=key");
-    std::string rawUrl = url.getUrl();
+    std::string rawUrl = url.get();
 
     EXPECT_EQ(rawUrl, "http://www.google.com/some/path?value=key");
 }
@@ -15,7 +15,7 @@ TEST(UrlTest, ItRetrieveTheRawUrlBack) {
 TEST(UrlTest, ItRetrieveTheEncodedUrl) {
     
     Http::Url url("http://www.google.com/some/path?value=key with space");
-    std::string encodedUrl = url.getEncodedUrl();
+    std::string encodedUrl = url.getEncoded();
 
     EXPECT_EQ(encodedUrl, "http%3A%2F%2Fwww.google.com%2Fsome%2Fpath%3Fvalue%3Dkey+with+space");
 }
@@ -23,7 +23,7 @@ TEST(UrlTest, ItRetrieveTheEncodedUrl) {
 TEST(UrlTest, ItRetrieveTheProtocol) {
     
     Http::Url url("http://www.google.com");
-    std::string protocol = url.getProtocol();
+    std::string protocol = url.getScheme();
 
     EXPECT_EQ(protocol, "http");
 }

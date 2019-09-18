@@ -17,7 +17,7 @@ Url::Url(const std::string & url)
  * 
  * @return std::string
  */
-std::string Url::getUrl() const
+std::string Url::get() const
 {
     return m_url;
 }
@@ -27,7 +27,7 @@ std::string Url::getUrl() const
  * 
  * @return std::string
  */
-std::string Url::getEncodedUrl() const
+std::string Url::getEncoded() const
 {
     throw NotImplementedException();
 }
@@ -37,9 +37,9 @@ std::string Url::getEncodedUrl() const
  * 
  * @return std::string
  */
-std::string Url::getProtocol() const
+std::string Url::getScheme() const
 {
-    return m_protocol;
+    return m_scheme;
 }
 
 /**
@@ -75,7 +75,7 @@ void Url::parse(const std::string & url)
 
     if (std::regex_match(url, matches, pattern)) {
         m_url = matches[0];
-        m_protocol = matches[2];
+        m_scheme = matches[2];
         m_host = matches[4];
         m_path = matches[5];
         m_query = matches[7];

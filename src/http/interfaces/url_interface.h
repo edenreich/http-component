@@ -20,21 +20,21 @@ namespace Http {
              * 
              * @return std::string
              */
-            virtual std::string getUrl() const = 0;
+            virtual std::string get() const = 0;
 
             /**
              * Retrieve the encoded url.
              * 
              * @return std::string
              */
-            virtual std::string getEncodedUrl() const = 0;
+            virtual std::string getEncoded() const = 0;
 
             /**
-             * Retrieve the protocol.
+             * Retrieve the scheme.
              * 
              * @return std::string
              */
-            virtual std::string getProtocol() const = 0;
+            virtual std::string getScheme() const = 0;
         
             /**
              * Retrieve the host.

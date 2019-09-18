@@ -25,21 +25,21 @@ namespace Http {
          * 
          * @return std::string
          */
-        std::string getUrl() const override;
+        std::string get() const override;
 
         /**
          * Retrieve the encoded url.
          * 
          * @return std::string
          */
-        std::string getEncodedUrl() const override;
+        std::string getEncoded() const override;
 
         /**
-         * Retrieve the protocol.
+         * Retrieve the scheme.
          * 
          * @return std::string
          */
-        std::string getProtocol() const override;
+        std::string getScheme() const override;
 
         /**
          * Retrieve the host.
@@ -73,11 +73,11 @@ namespace Http {
         std::string m_url;
 
         /**
-         * Store the protocol.
+         * Store the scheme.
          * 
          * @var std::string m_prtocol
          */
-        std::string m_protocol;
+        std::string m_scheme;
 
         /**
          * Store the host.
