@@ -28,5 +28,4 @@ jobs:
         run: cd build && cmake --build . --target install --config Release
 
       - name: test
-        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macOS-latest'
         run: ./build/bin/tests
