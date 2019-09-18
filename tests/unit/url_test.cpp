@@ -12,6 +12,14 @@ TEST(UrlTest, ItRetrieveTheRawUrlBack) {
     EXPECT_EQ(rawUrl, "http://www.google.com/some/path?value=key");
 }
 
+TEST(UrlTest, ItRetrieveTheEncodedUrl) {
+    
+    Http::Url url("http://www.google.com/some/path?value=key with space");
+    std::string encodedUrl = url.getEncodedUrl();
+
+    EXPECT_EQ(encodedUrl, "http%3A%2F%2Fwww.google.com%2Fsome%2Fpath%3Fvalue%3Dkey+with+space");
+}
+
 TEST(UrlTest, ItRetrieveTheProtocol) {
     
     Http::Url url("http://www.google.com");
