@@ -1,8 +1,7 @@
 #include "http/url.h"
 #include <algorithm>
 #include <regex>
-#include <iostream>
-#include "http/exceptions/not_implemented_exception.h"
+#include "http/exceptions/invalid_url_exception.h"
 
 using namespace Http;
 
@@ -29,11 +28,45 @@ std::string Url::get() const
  */
 std::string Url::getEncoded() const
 {
-    throw NotImplementedException();
+    std::map<const char, const std::string> signs = {
+        {'%', "%25"},
+        {'!', "%21"},
+        {'#', "%23"},
+        {'$', "%24"},
+        {'&', "%26"},
+        {'\'', "%27"},
+        {'(', "%28"},
+        {')', "%29"},
+        {'*', "%2A"},
+        {',', "%2C"},
+        {'/', "%2F"},
+        {':', "%3A"},
+        {';', "%2B"},
+        {'=', "%3D"},
+        {'?', "%3F"},
+        {'@', "%40"},
+        {'[', "%5B"},
+        {']', "%5D"},
+        {' ', "+"},
+    };
+
+    std::string url = m_url;
+    std::string::size_type pos = 0;
+    for (auto const& sign : signs)
+    {
+        size_t count = std::count(url.begin(), url.end(), sign.first);
+
+        while (count > 0) {
+            url.replace(url.find(sign.first), 1, sign.second);
+            count--;
+        }
+    }
+
+    return url;
 }
 
 /**
- * Retrieve the protocol.
+ * Retrieve the scheme.
  * 
  * @return std::string
  */
@@ -80,6 +113,6 @@ void Url::parse(const std::string & url)
         m_path = matches[5];
         m_query = matches[7];
     } else {
-        std::cerr << "Malformed url." << std::endl;
+        throw InvalidUrlException();
     }
 }
