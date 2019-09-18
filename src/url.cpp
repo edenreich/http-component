@@ -51,7 +51,6 @@ std::string Url::getEncoded() const
     };
 
     std::string url = m_url;
-    std::string::size_type pos = 0;
     for (auto const& sign : signs)
     {
         size_t count = std::count(url.begin(), url.end(), sign.first);
