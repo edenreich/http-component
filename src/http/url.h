@@ -21,6 +21,20 @@ namespace Http {
         explicit Url(const std::string & url);
 
         /**
+         * Retrieve the url.
+         * 
+         * @return std::string
+         */
+        std::string getUrl() const override;
+
+        /**
+         * Retrieve the encoded url.
+         * 
+         * @return std::string
+         */
+        std::string getEncodedUrl() const override;
+
+        /**
          * Retrieve the protocol.
          * 
          * @return std::string
@@ -52,30 +66,37 @@ namespace Http {
         void parse(const std::string & url);
 
         /**
+         * Store the raw url.
+         * 
+         * @var std::string m_url
+         */
+        std::string m_url;
+
+        /**
          * Store the protocol.
          * 
-         * @var std::string & m_prtocol
+         * @var std::string m_prtocol
          */
         std::string m_protocol;
 
         /**
          * Store the host.
          * 
-         * @var std::string & m_host
+         * @var std::string m_host
          */
         std::string m_host;
 
         /**
          * Store the path.
          * 
-         * @var std::string & m_path
+         * @var std::string m_path
          */
         std::string m_path;
 
         /**
          * Store the query string.
          * 
-         * @var std::string & m_query
+         * @var std::string m_query
          */
         std::string m_query;
 

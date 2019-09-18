@@ -4,6 +4,14 @@
 #include <string>
 
 
+TEST(UrlTest, ItRetrieveTheRawUrlBack) {
+    
+    Http::Url url("http://www.google.com/some/path?value=key");
+    std::string rawUrl = url.getUrl();
+
+    EXPECT_EQ(rawUrl, "http://www.google.com/some/path?value=key");
+}
+
 TEST(UrlTest, ItRetrieveTheProtocol) {
     
     Http::Url url("http://www.google.com");

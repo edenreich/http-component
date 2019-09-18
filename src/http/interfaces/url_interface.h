@@ -16,6 +16,20 @@ namespace Http {
         public:
 
             /**
+             * Retrieve the url.
+             * 
+             * @return std::string
+             */
+            virtual std::string getUrl() const = 0;
+
+            /**
+             * Retrieve the encoded url.
+             * 
+             * @return std::string
+             */
+            virtual std::string getEncodedUrl() const = 0;
+
+            /**
              * Retrieve the protocol.
              * 
              * @return std::string

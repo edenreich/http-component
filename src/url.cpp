@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <regex>
 #include <iostream>
+#include "http/exceptions/not_implemented_exception.h"
 
 using namespace Http;
 
@@ -9,6 +10,26 @@ using namespace Http;
 Url::Url(const std::string & url)
 {
     parse(url);
+}
+
+/**
+ * Retrieve the url.
+ * 
+ * @return std::string
+ */
+std::string Url::getUrl() const
+{
+    return m_url;
+}
+
+/**
+ * Retrieve the encoded url.
+ * 
+ * @return std::string
+ */
+std::string Url::getEncodedUrl() const
+{
+    throw NotImplementedException();
 }
 
 /**
@@ -49,12 +70,11 @@ std::string Url::getPath() const
  */
 void Url::parse(const std::string & url)
 {
-    unsigned counter = 0;
-
     std::regex pattern(R"(^(([^:\/?#]+):)?(//([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)", std::regex::extended);
     std::smatch matches;
 
     if (std::regex_match(url, matches, pattern)) {
+        m_url = matches[0];
         m_protocol = matches[2];
         m_host = matches[4];
         m_path = matches[5];
