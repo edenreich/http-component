@@ -18,47 +18,47 @@ namespace Http {
             /**
              * Virtual Destructor.
              */
-            virtual ~ClientInterface();
+            virtual ~ClientInterface() {}
             
             /**
              * Send a get request to given url.
              * 
              * @param const UrlInterface url
-             * @return ResponseInterface &
+             * @return const ResponseInterface &
              */
-            virtual ResponseInterface & get(const UrlInterface & url) const = 0;
+            virtual const ResponseInterface & get(const UrlInterface & url) const = 0;
 
             /**
              * Send a post request to given url.
              * 
              * @param const UrlInterface url
-             * @return ResponseInterface &
+             * @return const ResponseInterface &
              */
-            virtual ResponseInterface & post(const UrlInterface & url) const = 0;
+            virtual const ResponseInterface & post(const UrlInterface & url) const = 0;
 
             /**
              * Send a put request to given url.
              * 
              * @param const UrlInterface url
-             * @return ResponseInterface &
+             * @return const ResponseInterface &
              */
-            virtual ResponseInterface & put(const UrlInterface & url) const = 0;
+            virtual const ResponseInterface & put(const UrlInterface & url) const = 0;
 
             /**
              * Send a patch request to given url.
              * 
              * @param const UrlInterface url
-             * @return ResponseInterface &
+             * @return const ResponseInterface &
              */
-            virtual ResponseInterface & patch(const UrlInterface & url) const = 0;
+            virtual const ResponseInterface & patch(const UrlInterface & url) const = 0;
 
             /**
              * Send a delete request to given url.
              * 
              * @param const UrlInterface url
-             * @return ResponseInterface &
+             * @return const ResponseInterface &
              */
-            virtual ResponseInterface & del(const UrlInterface & url) const = 0;
+            virtual const ResponseInterface & del(const UrlInterface & url) const = 0;
 
         };
     }

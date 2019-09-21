@@ -17,7 +17,7 @@ namespace Http {
             /**
              * Virtual Destructor.
              */
-            virtual ~StreamInterface();
+            virtual ~StreamInterface() {}
             
             /**
              * Retrieve all content.

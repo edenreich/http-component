@@ -7,9 +7,22 @@
 using namespace Http;
 
 
+/**
+ * Initialize a url string.
+ * 
+ * @param const std::string & url 
+ */
 Url::Url(const std::string & url)
 {
     parse(url);
+}
+
+/**
+ * Virtual Destructor.
+ */
+Url::~Url()
+{
+
 }
 
 /**

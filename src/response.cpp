@@ -1,5 +1,5 @@
-#include "response.h"
-#include "not_implemented_exception.h"
+#include "http/response.h"
+#include "http/exceptions/not_implemented_exception.h"
 
 using namespace Http;
 

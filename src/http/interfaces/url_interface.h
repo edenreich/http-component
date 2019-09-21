@@ -17,7 +17,7 @@ namespace Http {
             /**
              * Virtual Destructor.
              */
-            virtual ~UrlInterface();
+            virtual ~UrlInterface() {}
 
             /**
              * Retrieve the url.

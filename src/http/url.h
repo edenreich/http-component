@@ -21,6 +21,11 @@ namespace Http {
         explicit Url(const std::string & url);
 
         /**
+         * Virtual Destructor.
+         */
+        ~Url() override;
+
+        /**
          * Retrieve the url.
          * 
          * @return std::string

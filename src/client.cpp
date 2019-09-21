@@ -12,7 +12,7 @@ Client::Client() : m_request(Request()), m_response(Response())
     //
 }
 
-Client:: Client(Interfaces::RequestInterface & request, Interfaces::ResponseInterface & response) : m_request(request), m_response(response)
+Client::Client(const Interfaces::RequestInterface & request, const Interfaces::ResponseInterface & response) : m_request(request), m_response(response)
 {
     //
 }
@@ -20,54 +20,64 @@ Client:: Client(Interfaces::RequestInterface & request, Interfaces::ResponseInte
 /**
  * Send a get request to given url.
  * 
- * @param const UrlInterface url
- * @return ResponseInterface
+ * @param const UrlInterface & url
+ * @return const ResponseInterface &
  */
-Interfaces::ResponseInterface & get(const Interfaces::UrlInterface & url) const
+const Interfaces::ResponseInterface & Client::get(const Interfaces::UrlInterface & url) const
 {
     throw NotImplementedException();
+
+    return m_response;
 }
 
 /**
  * Send a post request to given url.
  * 
- * @param const UrlInterface url
- * @return ResponseInterface
+ * @param const UrlInterface & url
+ * @return const ResponseInterface &
  */
-Interfaces::ResponseInterface & post(const Interfaces::UrlInterface & url) const
+const Interfaces::ResponseInterface & Client::post(const Interfaces::UrlInterface & url) const
 {
     throw NotImplementedException();
+
+    return m_response;
 }
 
 /**
  * Send a put request to given url.
  * 
- * @param const UrlInterface url
- * @return ResponseInterface
+ * @param const UrlInterface & url
+ * @return const ResponseInterface &
  */
-Interfaces::ResponseInterface & put(const Interfaces::UrlInterface & url) const
+const Interfaces::ResponseInterface & Client::put(const Interfaces::UrlInterface & url) const
 {
     throw NotImplementedException();
+
+    return m_response;
 }
 
 /**
  * Send a patch request to given url.
  * 
- * @param const UrlInterface url
- * @return ResponseInterface
+ * @param const UrlInterface & url
+ * @return const ResponseInterface &
  */
-Interfaces::ResponseInterface & patch(const Interfaces::UrlInterface & url) const
+const Interfaces::ResponseInterface & Client::patch(const Interfaces::UrlInterface & url) const
 {
     throw NotImplementedException();
+
+    return m_response;
 }
 
 /**
  * Send a delete request to given url.
  * 
- * @param const UrlInterface url
- * @return ResponseInterface
+ * @param const UrlInterface & url
+ * @return const ResponseInterface &
  */
-Interfaces::ResponseInterface & del(const Interfaces::UrlInterface & url) const
+const Interfaces::ResponseInterface & Client::del(const Interfaces::UrlInterface & url) const
 {
     throw NotImplementedException();
+
+    return m_response;
 }

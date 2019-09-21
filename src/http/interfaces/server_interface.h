@@ -17,7 +17,7 @@ namespace Http {
             /**
              * Virtual Destructor.
              */
-            virtual ~ServerInterface();
+            virtual ~ServerInterface() {}
 
             /**
              * Bind the server to specific address.
