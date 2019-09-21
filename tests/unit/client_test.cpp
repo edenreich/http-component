@@ -2,13 +2,14 @@
 #include <gtest/gtest.h>
 #include <http/client.h>
 #include <http/response.h>
+#include <http/url.h>
 
 
 TEST(ClientTest, ItReturnsAnHttpResponse) {
     
     Http::Client client;
 
-    // client.get(Http::Url("https://www.google.com"), [](Http::Response response) {
+    // client.GET(Http::Url("https://www.google.com"), [](Http::Response response) {
 
     // });
 
