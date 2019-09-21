@@ -13,6 +13,11 @@ namespace Http {
         class StreamInterface {
 
         public:
+
+            /**
+             * Virtual Destructor.
+             */
+            virtual ~StreamInterface();
             
             /**
              * Retrieve all content.

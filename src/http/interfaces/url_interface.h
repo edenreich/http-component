@@ -15,6 +15,11 @@ namespace Http {
         public:
 
             /**
+             * Virtual Destructor.
+             */
+            virtual ~UrlInterface();
+
+            /**
              * Retrieve the url.
              * 
              * @return std::string

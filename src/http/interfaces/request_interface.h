@@ -8,14 +8,17 @@
 namespace Http {
     namespace Interfaces {
 
-        class UrlInterface;
-
         /**
          * The Request Interface
          */
         class RequestInterface {
 
         public:
+
+            /**
+             * Virtual Destructor.
+             */
+            virtual ~RequestInterface();
             
             /**
              * Send a get request to given url.

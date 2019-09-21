@@ -11,7 +11,12 @@ namespace Http {
         class ServerInterface {
 
         public:
-            
+
+            /**
+             * Virtual Destructor.
+             */
+            virtual ~ServerInterface();
+
             /**
              * Start an http server on given port.
              * 

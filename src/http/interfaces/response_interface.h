@@ -13,13 +13,18 @@ namespace Http {
         class ResponseInterface {
 
         public:
+
+            /**
+             * Virtual Destructor.
+             */
+            virtual ~ResponseInterface();
             
             /**
              * Retrieve the stream body.
              * 
-             * @return ResponseBodyInterface
+             * @return StreamInterface
              */
-            virtual StreamInterface getBody() const = 0;
+            virtual StreamInterface & getBody() const = 0;
 
             /**
              * Retrieve the status code.
