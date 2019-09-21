@@ -3,7 +3,6 @@
 #include <regex>
 #include <map>
 #include "http/exceptions/invalid_url_exception.h"
-#include <sstream>
 
 using namespace Http;
 
@@ -52,17 +51,17 @@ std::string Url::getEncoded() const
         {' ', "+"},
     };
 
-    std::stringstream url;
+    std::string url;
     for (const char& c : m_url)
     {
         if (signs.find(c) == signs.end()) {
-            url << c;
+            url += c;
         } else {
-            url << signs[c];
+            url += signs[c];
         }
     }
 
-    return url.str();
+    return url;
 }
 
 /**
