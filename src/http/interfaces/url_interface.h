@@ -61,11 +61,6 @@ namespace Http {
              */
             virtual std::string getPath() const = 0;
 
-            /**
-             * Virtual destructor.
-             */
-            virtual ~UrlInterface() { }
-
         };
     }
 }
