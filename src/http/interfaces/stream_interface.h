@@ -15,19 +15,33 @@ namespace Http {
         public:
             
             /**
-             * Retrieve the raw body.
+             * Retrieve all content.
              * 
              * @return std::string
              */
             virtual std::string getContents() const = 0;
 
             /**
-             * Read data from the stream.
+             * Read data by given length.
              * 
              * @param unsigned int length
              * @return std::string
              */
             virtual std::string read(unsigned int length) const = 0;
+
+            /**
+             * Read a line.
+             * 
+             * @return std::string
+             */
+            virtual std::string readLine() const = 0;
+
+            /**
+             * Get the size.
+             * 
+             * @return unsigned int
+             */
+            virtual unsigned int getSize() const = 0;
 
         };
     }
