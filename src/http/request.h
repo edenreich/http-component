@@ -3,6 +3,7 @@
 
 #include "interfaces/request_interface.h"
 #include "interfaces/url_interface.h"
+#include "interfaces/response_interface.h"
 
 
 namespace Http {
@@ -23,41 +24,41 @@ namespace Http {
              * Send a get request to given url.
              * 
              * @param const Interfaces::UrlInterface & url
-             * @return std::string
+             * @return Interfaces::ResponseInterface &
              */
-            std::string get(const Interfaces::UrlInterface & url) const override;
+            Interfaces::ResponseInterface & get(const Interfaces::UrlInterface & url) const override;
 
             /**
              * Send a post request to given url.
              * 
              * @param const Interfaces::UrlInterface & url
-             * @return std::string
+             * @return Interfaces::ResponseInterface &
              */
-            std::string post(const Interfaces::UrlInterface & url) const override;
+            Interfaces::ResponseInterface & post(const Interfaces::UrlInterface & url) const override;
 
             /**
              * Send a put request to given url.
              * 
              * @param const Interfaces::UrlInterface & url
-             * @return std::string
+             * @return Interfaces::ResponseInterface &
              */
-            std::string put(const Interfaces::UrlInterface & url) const override;
+            Interfaces::ResponseInterface & put(const Interfaces::UrlInterface & url) const override;
 
             /**
              * Send a patch request to given url.
              * 
              * @param const Interfaces::UrlInterface & url
-             * @return std::string
+             * @return Interfaces::ResponseInterface &
              */
-            std::string patch(const Interfaces::UrlInterface & url) const override;
+            Interfaces::ResponseInterface & patch(const Interfaces::UrlInterface & url) const override;
 
             /**
              * Send a delete request to given url.
              * 
              * @param const Interfaces::UrlInterface & url
-             * @return std::string
+             * @return Interfaces::ResponseInterface &
              */
-            std::string del(const Interfaces::UrlInterface & url) const override;
+            Interfaces::ResponseInterface & del(const Interfaces::UrlInterface & url) const override;
 
     private:
         //
