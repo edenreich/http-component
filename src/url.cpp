@@ -97,6 +97,11 @@ std::string Url::getDecoded() const
     std::string url;
     for (auto it = m_url.begin(); it != m_url.end(); ++it)
     {
+        if (*it != '%' && *it != '+') {
+            url += *it;
+            continue;
+        }
+
         if (*it == '+') {
             url += ' ';
             continue;
@@ -110,8 +115,6 @@ std::string Url::getDecoded() const
             }
             sign += *it;
             url += signs[sign];
-        } else {
-            url += *it;
         }
     }
 
