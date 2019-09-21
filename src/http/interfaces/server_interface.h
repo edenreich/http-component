@@ -11,7 +11,13 @@ namespace Http {
         class ServerInterface {
 
         public:
-            //
+            
+            /**
+             * Start an http server on given port.
+             * 
+             * @return void
+             */
+            virtual void listen(unsigned int port) const = 0;
 
         };
     }

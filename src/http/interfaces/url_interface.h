@@ -1,7 +1,6 @@
 #ifndef URL_INTERFACE_H
 #define URL_INTERFACE_H
 
-#include "url_interface.h"
 #include <string>
 
 
@@ -9,7 +8,7 @@ namespace Http {
     namespace Interfaces {
 
         /**
-         * The Client Interface
+         * The Url Interface
          */
         class UrlInterface {
 
