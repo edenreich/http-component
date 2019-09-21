@@ -30,7 +30,6 @@ std::string Url::get() const
  */
 std::string Url::getEncoded() const
 {
-    // @todo refactor this, there is a better way to solve this
     std::map<const char, const std::string> signs = {
         {'%', "%25"},
         {'!', "%21"},
