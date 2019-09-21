@@ -4,7 +4,7 @@
 #include <string>
 
 
-TEST(UrlTest, ItRetrieveTheRawUrlBack) {
+TEST(UrlTest, ItRetrieveTheRawUrl) {
     
     Http::Url url("http://www.google.com/some/path?value=key");
     std::string rawUrl = url.get();
@@ -18,6 +18,14 @@ TEST(UrlTest, ItRetrieveTheEncodedUrl) {
     std::string encodedUrl = url.getEncoded();
 
     EXPECT_EQ(encodedUrl, "http%3A%2F%2Fwww.google.com%2Fsome%2Fpath%3Fvalue%3Dkey+with+space");
+}
+
+TEST(UrlTest, ItRetrieveTheDecodedUrl) {
+    
+    Http::Url url("http%3A%2F%2Fwww.google.com%2Fsome%2Fpath%3Fvalue%3Dkey+with+space");
+    std::string decodedUrl = url.getDecoded();
+
+    EXPECT_EQ(decodedUrl, "http://www.google.com/some/path?value=key with space");
 }
 
 TEST(UrlTest, ItRetrieveTheProtocol) {

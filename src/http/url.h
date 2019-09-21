@@ -35,6 +35,13 @@ namespace Http {
         std::string getEncoded() const override;
 
         /**
+         * Retrieve the decoded url.
+         * 
+         * @return std::string
+         */
+        std::string getDecoded() const override;
+
+        /**
          * Retrieve the scheme.
          * 
          * @return std::string

@@ -66,6 +66,59 @@ std::string Url::getEncoded() const
 }
 
 /**
+ * Retrieve the decoded url.
+ * 
+ * @return std::string
+ */
+std::string Url::getDecoded() const
+{
+    std::map<const std::string, const char> signs = {
+        {"%25", '%'},
+        {"%21", '!'},
+        {"%23", '#'},
+        {"%24", '$'},
+        {"%26", '&'},
+        {"%27", '\''},
+        {"%28", '('},
+        {"%29", ')'},
+        {"%2A", '*'},
+        {"%2C", ','},
+        {"%2F", '/'},
+        {"%3A", ':'},
+        {"%2B", ';'},
+        {"%3D", '='},
+        {"%3F", '?'},
+        {"%40", '@'},
+        {"%5B", '['},
+        {"%5D", ']'},
+        {"+", ' '},
+    };
+
+    std::string url;
+    for (auto it = m_url.begin(); it != m_url.end(); ++it)
+    {
+        if (*it == '+') {
+            url += ' ';
+            continue;
+        }
+
+        if (*it == '%') {
+            std::string sign;
+            for (unsigned int i = 0; i < 2; i++) {
+                sign += *it;
+                ++it;
+            }
+            sign += *it;
+            url += signs[sign];
+        } else {
+            url += *it;
+        }
+    }
+
+    return url;
+}
+
+/**
  * Retrieve the scheme.
  * 
  * @return std::string

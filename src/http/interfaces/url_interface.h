@@ -30,6 +30,13 @@ namespace Http {
             virtual std::string getEncoded() const = 0;
 
             /**
+             * Retrieve the decoded url.
+             * 
+             * @return std::string
+             */
+            virtual std::string getDecoded() const = 0;
+
+            /**
              * Retrieve the scheme.
              * 
              * @return std::string
