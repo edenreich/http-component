@@ -1,5 +1,4 @@
 #include "http/request.h"
-#include <arpa/inet.h>
 #include <string>
 #include <sstream>
 
@@ -7,6 +6,7 @@
     #include <winsock2.h>
 #else
     #include <sys/socket.h>
+    #include <arpa/inet.h>
 #endif
 
 #include "http/exceptions/bad_connection_exception.h"
