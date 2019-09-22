@@ -8,7 +8,7 @@
 using namespace Http;
 
 
-TEST(ClientTest, ItReturnsAnHttpStatusCode) {
+TEST(RequestTest, ItReturnsAnHttpStatusCode) {
     
     Request request = Request(Response());
 
