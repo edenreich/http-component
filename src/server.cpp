@@ -11,12 +11,18 @@ using namespace Http;
 /**
  * Construct a server
  */
-Server::Server() : m_server_fd(::socket(AF_INET, SOCK_STREAM, 0)), m_address(std::string()), m_running(false)
+Server::Server() : m_address(std::string()), m_running(false)
 {
-    if (m_server_fd == 0) 
-    { 
-        throw BadConnectionException("Could not create the socket");
-    } 
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+        // @todo write windows specific implemention
+    #else
+        m_server_fd = ::socket(AF_INET, SOCK_STREAM, 0);
+
+        if (m_server_fd == 0) 
+        { 
+            throw BadConnectionException("Could not create the socket");
+        }
+    #endif
 }
 
 /**
