@@ -1,8 +1,13 @@
 #include "http/request.h"
-#include <sys/socket.h>
 #include <arpa/inet.h>
 #include <string>
 #include <sstream>
+
+#ifdef __WIN32__
+    #include <winsock2.h>
+#else
+    #include <sys/socket.h>
+#endif
 
 #include "http/exceptions/bad_connection_exception.h"
 #include "http/exceptions/not_implemented_exception.h"
