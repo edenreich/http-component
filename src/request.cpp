@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 
-#ifdef __WIN32
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
     #include <winsock2.h>
 #else
     #include <sys/socket.h>
