@@ -12,9 +12,9 @@ Response::Response()
 /**
  * Retrieve the stream body.
  * 
- * @return Interfaces::StreamInterface &
+ * @return const Interfaces::StreamInterface &
  */
-Interfaces::StreamInterface & Response::getBody() const
+const Interfaces::StreamInterface & Response::getBody() const
 {
     throw NotImplementedException();
 }

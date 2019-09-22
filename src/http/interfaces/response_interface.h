@@ -22,9 +22,9 @@ namespace Http {
             /**
              * Retrieve the stream body.
              * 
-             * @return StreamInterface
+             * @return const StreamInterface &
              */
-            virtual StreamInterface & getBody() const = 0;
+            virtual const StreamInterface & getBody() const = 0;
 
             /**
              * Retrieve the status code.

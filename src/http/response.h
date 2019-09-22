@@ -22,9 +22,9 @@ namespace Http {
         /**
          * Retrieve the stream body.
          * 
-         * @return Interfaces::StreamInterface &
+         * @return const Interfaces::StreamInterface &
          */
-        Interfaces::StreamInterface & getBody() const override;
+        const Interfaces::StreamInterface & getBody() const override;
 
         /**
          * Retrieve the status code.
