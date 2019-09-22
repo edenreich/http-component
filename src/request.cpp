@@ -35,27 +35,32 @@ Request::Request(const Interfaces::ResponseInterface & response) : m_response(re
  */
 const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterface & url) const
 {
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+        // @todo write windows implemention
+    #else
+        int sock = socket(AF_INET, SOCK_STREAM, 0);
 
-    if (sock == -1) 
-    {
-        throw BadConnectionException();
-    }
+        if (sock == -1) 
+        {
+            throw BadConnectionException();
+        }
 
-    int port = 80;
-    if (!url.getPort().empty()) 
-    {
-        std::stringstream ss;
-        ss << url.getPort();
-        ss >> port;
-    }
+        int port = 80;
+        if (!url.getPort().empty()) 
+        {
+            std::stringstream ss;
+            ss << url.getPort();
+            ss >> port;
+        }
 
-    sockaddr_in hint;
-    hint.sin_family = AF_INET;
-    hint.sin_port = htons(port);
-    inet_pton(AF_INET, url.get().c_str(), &hint.sin_addr);
+        sockaddr_in hint;
+        hint.sin_family = AF_INET;
+        hint.sin_port = htons(port);
+        inet_pton(AF_INET, url.get().c_str(), &hint.sin_addr);
 
-    int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
+        int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
+    #endif
+
 
     return m_response;
 }
