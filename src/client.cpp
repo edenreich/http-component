@@ -7,12 +7,7 @@
 using namespace Http;
 
 
-Client::Client() : m_request(Request()), m_response(Response())
-{
-    //
-}
-
-Client::Client(const Interfaces::RequestInterface & request, const Interfaces::ResponseInterface & response) : m_request(request), m_response(response)
+Client::Client(const Interfaces::RequestInterface & request, const Interfaces::ResponseInterface & response) : m_request(Request()), m_response(Response())
 {
     //
 }

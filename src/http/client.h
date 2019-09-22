@@ -17,11 +17,6 @@ namespace Http {
 
         /**
          * Construct a client.
-         */
-        Client();
-
-        /**
-         * Construct a client.
          * 
          * - Initialize a request
          * - Initialize a response
