@@ -10,6 +10,7 @@
     #include <stdlib.h> 
     #include <netinet/in.h>
     #include <arpa/inet.h>
+    #include <cstring>
 #endif
 
 
@@ -56,7 +57,7 @@ namespace Http {
          * 
          * @return void
          */
-        void close() const override;
+        void close() override;
 
     private:
         
@@ -65,7 +66,7 @@ namespace Http {
          * 
          * @var int 
          */
-        int server_fd;
+        int m_server_fd;
 
         /**
          * Store the ip address.
@@ -77,9 +78,16 @@ namespace Http {
         /**
          * Store the socket address.
          * 
-         * @var struct sockaddr_in *
+         * @var struct sockaddr_in
          */
-        struct sockaddr_in * m_localaddr;
+        struct sockaddr_in m_localaddr;
+
+        /**
+         * Determine if the server is running.
+         * 
+         * @var bool
+         */
+        bool m_running;
 
     };
 

@@ -13,9 +13,9 @@ TEST(ServerTest, ItRecievesAMessage) {
 
     server.bind("127.0.0.1");
 
+    server.listen(8080);
+
     server.onMessage([](Interfaces::ServerInterface const* server, const std::string & message) {
         std::cout << message << '\n';    
     });
-
-    server.listen(8080);
 }

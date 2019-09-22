@@ -51,7 +51,7 @@ namespace Http {
              * 
              * @return void
              */
-            virtual void close() const = 0;
+            virtual void close() = 0;
 
         };
 
