@@ -7,7 +7,7 @@
 using namespace Http;
 
 
-TEST(ClientTest, ItReturnsAnHttpStatusCode) {
+TEST(ServerTest, ItRecievesAMessage) {
     
     Server server;
 
