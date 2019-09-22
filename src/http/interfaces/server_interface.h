@@ -28,14 +28,15 @@ namespace Http {
              * @param const std::string & address
              * @return void
              */
-            virtual void bind(const std::string & address) const = 0;
+            virtual void bind(const std::string & address) = 0;
 
             /**
              * Start an http server on given port.
              * 
+             * @param const unsigned int & port
              * @return void
              */
-            virtual void listen(unsigned int port) const = 0;
+            virtual void listen(const unsigned int & port) = 0;
 
             /**
              * On data recieved event.
