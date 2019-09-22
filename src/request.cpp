@@ -45,7 +45,7 @@ const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterfac
             throw BadConnectionException();
         }
 
-        int port = 80;
+        unsigned int port = 80;
         if (!url.getPort().empty()) 
         {
             std::stringstream ss;
