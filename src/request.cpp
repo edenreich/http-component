@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 
-#ifdef __WIN32__
+#ifdef __WIN32
     #include <winsock2.h>
 #else
     #include <sys/socket.h>
