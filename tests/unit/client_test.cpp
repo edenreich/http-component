@@ -11,7 +11,9 @@ using namespace Http;
 
 TEST(ClientTest, ItReturnsAnHttpStatusCode) {
     
-    Client client(Request(Response()));
+    Request request = Request((Response()));
+
+    Client client(request);
 
     const Interfaces::ResponseInterface & response = client.get(Url("https://www.google.com"));
 
