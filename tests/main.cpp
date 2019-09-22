@@ -1,9 +1,9 @@
 
 #include <gtest/gtest.h>
 
-int main(int argc, char const * argv[])
+int main(int argc, char ** argv)
 {
-    testing::InitGoogleTest();
+    testing::InitGoogleTest(&argc, argv);
 
     int exitCode = RUN_ALL_TESTS();
 
