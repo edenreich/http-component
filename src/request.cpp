@@ -1,10 +1,23 @@
 #include "http/request.h"
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <string>
+#include <sstream>
+
+#include "http/exceptions/bad_connection_exception.h"
 #include "http/exceptions/not_implemented_exception.h"
 
 using namespace Http;
 
 
-Request::Request()
+/**
+ * Construct a request.
+ *  
+ * - initialize a response
+ * 
+ * @param const Interfaces::ResponseInterface & response
+ */
+Request::Request(const Interfaces::ResponseInterface & response) : m_response(response)
 {
     //
 }
@@ -17,7 +30,29 @@ Request::Request()
  */
 const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterface & url) const
 {
-    throw NotImplementedException();
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    if (sock == -1) 
+    {
+        throw BadConnectionException();
+    }
+
+    int port = 80;
+    if (!url.getPort().empty()) 
+    {
+        std::stringstream ss;
+        ss << url.getPort();
+        ss >> port;
+    }
+
+    sockaddr_in hint;
+    hint.sin_family = AF_INET;
+    hint.sin_port = htons(port);
+    inet_pton(AF_INET, url.get().c_str(), &hint.sin_addr);
+
+    int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
+
+    return m_response;
 }
 
 /**

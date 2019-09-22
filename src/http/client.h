@@ -19,12 +19,10 @@ namespace Http {
          * Construct a client.
          * 
          * - Initialize a request
-         * - Initialize a response
          * 
          * @param const Interfaces::RequestInterface & request
-         * @param const Interfaces::RequestInterface & response
          */
-        Client(const Interfaces::RequestInterface & request, const Interfaces::ResponseInterface & response);
+        Client(const Interfaces::RequestInterface & request);
 
         /**
          * Send a get request to given url.
@@ -74,13 +72,6 @@ namespace Http {
          * @var const Interfaces::RequestInterface &
          */
         const Interfaces::RequestInterface & m_request;
-
-        /**
-         * Store the response.
-         * 
-         * @var const Interfaces::ResponseInterface &
-         */
-        const Interfaces::ResponseInterface & m_response;
 
     };
 

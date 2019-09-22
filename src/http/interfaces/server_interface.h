@@ -1,6 +1,9 @@
 #ifndef SERVER_INTERFACE_H
 #define SERVER_INTERFACE_H
 
+#include "request_interface.h"
+#include "server_interface.h"
+#include "../events/common_events.h"
 #include <string>
 
 
@@ -35,6 +38,14 @@ namespace Http {
             virtual void listen(unsigned int port) const = 0;
 
             /**
+             * On data recieved event.
+             * 
+             * @param ::Http::Events::MessageRecievedHandler callback
+             * @return void
+             */
+            virtual void onMessage(::Http::Events::MessageRecievedHandler callback) const = 0;
+
+            /**
              * Close the http server.
              * 
              * @return void
@@ -42,6 +53,7 @@ namespace Http {
             virtual void close() const = 0;
 
         };
+
     }
 }
 

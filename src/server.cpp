@@ -1,4 +1,6 @@
 #include "http/server.h"
+#include "http/request.h"
+#include "http/response.h"
 #include "http/exceptions/not_implemented_exception.h"
 
 using namespace Http;
@@ -32,6 +34,17 @@ void Server::bind(const std::string & address) const
 void Server::listen(unsigned int port) const
 {
     throw NotImplementedException();
+}
+
+/**
+ * On data recieved event.
+ * 
+ * @param Events::MessageRecievedHandler callback
+ * @return void
+ */
+void Server::onMessage(Events::MessageRecievedHandler callback) const
+{
+    callback(this, "Hello world");
 }
 
 /**

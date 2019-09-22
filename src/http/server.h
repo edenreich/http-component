@@ -35,6 +35,14 @@ namespace Http {
         void listen(unsigned int port) const override;
 
         /**
+         * On message recieved event.
+         * 
+         * @param Events::MessageRecievedHandler callback
+         * @return void
+         */
+        void onMessage(Events::MessageRecievedHandler callback) const override;
+
+        /**
          * Close the http server.
          * 
          * @return void
