@@ -154,6 +154,16 @@ std::string Url::getHost() const
 }
 
 /**
+ * Retrieve the port.
+ * 
+ * @return std::string
+ */
+std::string Url::getPort() const
+{
+    return m_port;
+}
+
+/**
  * Retrieve the path.
  * 
  * @return std::string
@@ -171,15 +181,16 @@ std::string Url::getPath() const
  */
 void Url::parse(const std::string & url)
 {
-    std::regex pattern(R"(^(([^:\/?#]+):)?(//([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)", std::regex::extended);
+    std::regex pattern(R"(^(([^:\/?#]+):)?(\/\/([^\/?#:]*)?(:([0-9]+))?)?([^?#]*)(\?([^#]*))?(#(.*))?)", std::regex::extended);
     std::smatch matches;
 
     if (std::regex_match(url, matches, pattern)) {
         m_url = matches[0];
         m_scheme = matches[2];
         m_host = matches[4];
-        m_path = matches[5];
-        m_query = matches[7];
+        m_port = matches[6];
+        m_path = matches[7];
+        m_query = matches[9];
     } else {
         throw InvalidUrlException();
     }

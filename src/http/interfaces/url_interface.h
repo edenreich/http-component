@@ -55,6 +55,13 @@ namespace Http {
             virtual std::string getHost() const = 0;
 
             /**
+             * Retrieve the port.
+             * 
+             * @return std::string
+             */
+            virtual std::string getPort() const = 0;
+
+            /**
              * Retrieve the path.
              * 
              * @return std::string

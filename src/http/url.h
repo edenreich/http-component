@@ -61,6 +61,13 @@ namespace Http {
         std::string getHost() const override;
 
         /**
+         * Retrieve the port.
+         * 
+         * @return std::string
+         */
+        std::string getPort() const override;
+
+        /**
          * Retrieve the path.
          * 
          * @return std::string
@@ -97,6 +104,13 @@ namespace Http {
          * @var std::string m_host
          */
         std::string m_host;
+
+        /**
+         * Store the port.
+         * 
+         * @var std::string m_port
+         */
+        std::string m_port;
 
         /**
          * Store the path.
