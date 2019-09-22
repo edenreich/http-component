@@ -11,7 +11,7 @@ using namespace Http;
 
 TEST(ClientTest, ItReturnsAnHttpStatusCode) {
     
-    Request request = Request((Response()));
+    Request request = Request(Response());
 
     Client client(request);
 
