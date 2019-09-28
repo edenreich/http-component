@@ -35,6 +35,13 @@ namespace Http {
          */
         const Interfaces::ResponseInterface & sendRequest(Verb verb, const Interfaces::UrlInterface & url) const override;
 
+        /**
+         * Getter for the request.
+         * 
+         * @return const Http::Interfaces::RequestInterface &
+         */
+        const Interfaces::RequestInterface & getRequest() const override;
+
     private:
         
         /**

@@ -40,3 +40,13 @@ const Interfaces::ResponseInterface & Client::sendRequest(Verb verb, const Inter
 
     return request.get(url);
 }
+
+/**
+ * Getter for the request.
+ * 
+ * @return const Http::Interfaces::RequestInterface &
+ */
+const Interfaces::RequestInterface & Client::getRequest() const
+{
+    return m_request;
+}

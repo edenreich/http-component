@@ -28,9 +28,16 @@ namespace Http {
              * 
              * @param Http::Verb::[GET|POST|PUT|PATCH|DELETE|HEAD]
              * @param cost Http::Interfaces::UrlInterface & url
-             * @return const ResponseInterface &
+             * @return const Http::Interfaces::ResponseInterface &
              */
             virtual const ResponseInterface & sendRequest(::Http::Verb verb, const UrlInterface & url) const = 0;
+
+            /**
+             * Getter for the request.
+             * 
+             * @return const Http::Interfaces::RequestInterface &
+             */
+            virtual const RequestInterface & getRequest() const = 0;
 
         };
     }
