@@ -26,7 +26,7 @@ Client::Client(const Interfaces::RequestInterface & request) : m_request(request
  * @param cost Http::Interfaces::UrlInterface & url
  * @return const ResponseInterface &
  */
-const Interfaces::ResponseInterface & Client::sendRequest(Http::Verb verb, const Http::Interfaces::UrlInterface & url) const
+const Interfaces::ResponseInterface & Client::sendRequest(Verb verb, const Interfaces::UrlInterface & url) const
 {
     const Interfaces::RequestInterface & request = Request(Response());
 
@@ -37,4 +37,6 @@ const Interfaces::ResponseInterface & Client::sendRequest(Http::Verb verb, const
     case Verb::PATCH: return request.patch(url);
     case Verb::DELETE: return request.del(url);
     }
+
+    return request.get(url);
 }

@@ -32,7 +32,7 @@ namespace Http {
          * @param cost Http::Interfaces::UrlInterface & url
          * @return const ResponseInterface &
          */
-        const Interfaces::ResponseInterface & sendRequest(Http::Verb verb, const Http::Interfaces::UrlInterface & url) const override;
+        const Interfaces::ResponseInterface & sendRequest(Verb verb, const Interfaces::UrlInterface & url) const override;
 
     private:
         

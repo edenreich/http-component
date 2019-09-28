@@ -30,7 +30,7 @@ namespace Http {
              * @param cost Http::Interfaces::UrlInterface & url
              * @return const ResponseInterface &
              */
-            virtual const ResponseInterface & sendRequest(Http::Verb verb, const Http::Interfaces::UrlInterface & url) const = 0;
+            virtual const ResponseInterface & sendRequest(::Http::Verb verb, const UrlInterface & url) const = 0;
 
         };
     }
