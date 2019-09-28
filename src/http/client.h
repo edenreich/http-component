@@ -4,6 +4,7 @@
 #include "interfaces/client_interface.h"
 #include "interfaces/request_interface.h"
 #include "interfaces/response_interface.h"
+#include "types/verb.h"
 
 
 namespace Http {
@@ -20,56 +21,25 @@ namespace Http {
          * 
          * - Initialize a request
          * 
-         * @param const Interfaces::RequestInterface & request
+         * @param const Http::Interfaces::RequestInterface & request
          */
         Client(const Interfaces::RequestInterface & request);
 
         /**
-         * Send a get request to given url.
+         * Sends a request by given type and url.
          * 
-         * @param const UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
+         * @param Http::Verb::[GET|POST|PUT|PATCH|DELETE|HEAD]
+         * @param cost Http::Interfaces::UrlInterface & url
+         * @return const ResponseInterface &
          */
-        const Interfaces::ResponseInterface & get(const Interfaces::UrlInterface & url) const override;
-
-        /**
-         * Send a post request to given url.
-         * 
-         * @param const UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
-         */
-        const Interfaces::ResponseInterface & post(const Interfaces::UrlInterface & url) const override;
-
-        /**
-         * Send a put request to given url.
-         * 
-         * @param const UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
-         */
-        const Interfaces::ResponseInterface & put(const Interfaces::UrlInterface & url) const override;
-
-        /**
-         * Send a patch request to given url.
-         * 
-         * @param const UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
-         */
-        const Interfaces::ResponseInterface & patch(const Interfaces::UrlInterface & url) const override;
-
-        /**
-         * Send a delete request to given url.
-         * 
-         * @param const UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
-         */
-        const Interfaces::ResponseInterface & del(const Interfaces::UrlInterface & url) const override;
+        const Interfaces::ResponseInterface & sendRequest(Http::Verb verb, const Http::Interfaces::UrlInterface & url) const override;
 
     private:
         
         /**
          * Store the request.
          * 
-         * @var const Interfaces::RequestInterface &
+         * @var const Http::Interfaces::RequestInterface &
          */
         const Interfaces::RequestInterface & m_request;
 

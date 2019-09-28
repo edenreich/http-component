@@ -20,64 +20,21 @@ Client::Client(const Interfaces::RequestInterface & request) : m_request(request
 }
 
 /**
- * Send a get request to given url.
+ * Sends a request by given type and url.
  * 
- * @param const UrlInterface & url
+ * @param Http::Verb::[GET|POST|PUT|PATCH|DELETE|HEAD]
+ * @param cost Http::Interfaces::UrlInterface & url
  * @return const ResponseInterface &
  */
-const Interfaces::ResponseInterface & Client::get(const Interfaces::UrlInterface & url) const
+const Interfaces::ResponseInterface & Client::sendRequest(Http::Verb verb, const Http::Interfaces::UrlInterface & url) const
 {
-    return m_request.get(url); 
-}
+    const Interfaces::RequestInterface & request = Request(Response());
 
-/**
- * Send a post request to given url.
- * 
- * @param const UrlInterface & url
- * @return const ResponseInterface &
- */
-const Interfaces::ResponseInterface & Client::post(const Interfaces::UrlInterface & url) const
-{
-    throw NotImplementedException();
-
-    return m_request.post(url);
-}
-
-/**
- * Send a put request to given url.
- * 
- * @param const UrlInterface & url
- * @return const ResponseInterface &
- */
-const Interfaces::ResponseInterface & Client::put(const Interfaces::UrlInterface & url) const
-{
-    throw NotImplementedException();
-
-    return m_request.put(url);
-}
-
-/**
- * Send a patch request to given url.
- * 
- * @param const UrlInterface & url
- * @return const ResponseInterface &
- */
-const Interfaces::ResponseInterface & Client::patch(const Interfaces::UrlInterface & url) const
-{
-    throw NotImplementedException();
-
-    return m_request.patch(url);
-}
-
-/**
- * Send a delete request to given url.
- * 
- * @param const UrlInterface & url
- * @return const ResponseInterface &
- */
-const Interfaces::ResponseInterface & Client::del(const Interfaces::UrlInterface & url) const
-{
-    throw NotImplementedException();
-
-    return m_request.del(url);
+    switch (verb) {
+    case Http::Verb::GET: return request.get(url);
+    case Http::Verb::POST: return request.post(url);
+    case Http::Verb::PUT: return request.put(url);
+    case Http::Verb::PATCH: return request.patch(url);
+    case Http::Verb::DELETE: return request.del(url);
+    }
 }

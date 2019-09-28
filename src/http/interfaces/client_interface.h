@@ -3,6 +3,9 @@
 
 
 namespace Http {
+  
+    enum class Verb;
+
     namespace Interfaces {
 
         class UrlInterface;
@@ -21,44 +24,13 @@ namespace Http {
             virtual ~ClientInterface() {}
             
             /**
-             * Send a get request to given url.
+             * Sends a request by given type and url.
              * 
-             * @param const UrlInterface url
+             * @param Http::Verb::[GET|POST|PUT|PATCH|DELETE|HEAD]
+             * @param cost Http::Interfaces::UrlInterface & url
              * @return const ResponseInterface &
              */
-            virtual const ResponseInterface & get(const UrlInterface & url) const = 0;
-
-            /**
-             * Send a post request to given url.
-             * 
-             * @param const UrlInterface url
-             * @return const ResponseInterface &
-             */
-            virtual const ResponseInterface & post(const UrlInterface & url) const = 0;
-
-            /**
-             * Send a put request to given url.
-             * 
-             * @param const UrlInterface url
-             * @return const ResponseInterface &
-             */
-            virtual const ResponseInterface & put(const UrlInterface & url) const = 0;
-
-            /**
-             * Send a patch request to given url.
-             * 
-             * @param const UrlInterface url
-             * @return const ResponseInterface &
-             */
-            virtual const ResponseInterface & patch(const UrlInterface & url) const = 0;
-
-            /**
-             * Send a delete request to given url.
-             * 
-             * @param const UrlInterface url
-             * @return const ResponseInterface &
-             */
-            virtual const ResponseInterface & del(const UrlInterface & url) const = 0;
+            virtual const ResponseInterface & sendRequest(Http::Verb verb, const Http::Interfaces::UrlInterface & url) const = 0;
 
         };
     }
