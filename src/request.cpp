@@ -1,4 +1,7 @@
 #include "http/request.h"
+
+#include "http/types/common.h"
+
 #include <string>
 #include <sstream>
 
@@ -28,7 +31,7 @@ Request::Request(const Interfaces::ResponseInterface & response) : m_response(re
  */
 const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterface & url) const
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    #if IS_WINDOWS
         // @todo write windows implemention
     #else
         int sock = socket(AF_INET, SOCK_STREAM, 0);

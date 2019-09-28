@@ -1,8 +1,9 @@
 #ifndef PCH_NETOWRK_H
 #define PCH_NETWORK_H
 
+#include "../types/common.h"
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#if IS_WINDOWS
     #include <winsock2.h>
 #else
     #include <stdlib.h>

@@ -1,4 +1,7 @@
 #include "http/server.h"
+
+#include "http/types/common.h"
+
 #include "http/request.h"
 #include "http/response.h"
 
@@ -13,7 +16,7 @@ using namespace Http;
  */
 Server::Server() : m_address(std::string()), m_running(false)
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    #if IS_WINDOWS
         // @todo write windows specific implemention
     #else
         m_server_fd = ::socket(AF_INET, SOCK_STREAM, 0);
@@ -33,7 +36,7 @@ Server::Server() : m_address(std::string()), m_running(false)
  */
 void Server::bind(const std::string & address)
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    #if IS_WINDOWS
         // @todo write windows specific implemention
     #else
         int opt = 1;
@@ -69,7 +72,7 @@ void Server::bind(const std::string & address)
  */
 void Server::listen(const unsigned int & port)
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    #if IS_WINDOWS
         // @todo write windows specific implemention
     #else
         if (::listen(m_server_fd, 3) < 0) 
@@ -89,7 +92,7 @@ void Server::listen(const unsigned int & port)
  */
 void Server::onMessage(Events::MessageRecievedHandler callback) const
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    #if IS_WINDOWS
         // @todo write windows specific implemention
     #else
         int clientConnection;
