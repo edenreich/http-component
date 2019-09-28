@@ -4,19 +4,25 @@
 #include <stdexcept>
 
 
-class NotImplementedException : public std::exception
-{
+namespace Http {
+    namespace Exceptions {
 
-public:
+        class NotImplementedException : public std::exception
+        {
 
-    /**
-     * Retrieve the reason.
-     * 
-     * @return char const *
-     */
-    char const * what() const throw() override { return "Pending implemention."; }
+        public:
 
-};
+            /**
+             * Retrieve the reason.
+             * 
+             * @return char const *
+             */
+            char const * what() const throw() override { return "Pending implemention."; }
+
+        };
+
+    }
+}
 
 
 #endif // NOT_IMPLEMENTED_EXCEPTION_H

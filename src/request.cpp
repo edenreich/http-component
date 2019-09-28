@@ -42,7 +42,7 @@ const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterfac
 
         if (sock == -1) 
         {
-            throw BadConnectionException();
+            throw Exceptions::BadConnectionException();
         }
 
         unsigned int port = 80;
@@ -73,7 +73,7 @@ const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterfac
  */
 const Interfaces::ResponseInterface & Request::post(const Interfaces::UrlInterface & url) const
 {
-    throw NotImplementedException();
+    throw Exceptions::NotImplementedException();
 }
 
 /**
@@ -84,7 +84,7 @@ const Interfaces::ResponseInterface & Request::post(const Interfaces::UrlInterfa
  */
 const Interfaces::ResponseInterface & Request::put(const Interfaces::UrlInterface & url) const
 {
-    throw NotImplementedException();
+    throw Exceptions::NotImplementedException();
 }
 
 /**
@@ -95,7 +95,7 @@ const Interfaces::ResponseInterface & Request::put(const Interfaces::UrlInterfac
  */
 const Interfaces::ResponseInterface & Request::patch(const Interfaces::UrlInterface & url) const
 {
-    throw NotImplementedException();
+    throw Exceptions::NotImplementedException();
 }
 
 /**
@@ -106,5 +106,5 @@ const Interfaces::ResponseInterface & Request::patch(const Interfaces::UrlInterf
  */
 const Interfaces::ResponseInterface & Request::del(const Interfaces::UrlInterface & url) const
 {
-    throw NotImplementedException();
+    throw Exceptions::NotImplementedException();
 }

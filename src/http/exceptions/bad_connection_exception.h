@@ -4,40 +4,46 @@
 #include <stdexcept>
 
 
-class BadConnectionException : public std::exception
-{
+namespace Http {
+    namespace Exceptions {
 
-public:
+        class BadConnectionException : public std::exception
+        {
 
-    /**
-     * Default constructor.
-     */
-    BadConnectionException() : m_message("Could not connect to server.") {}
+        public:
 
-    /**
-     * Initialize a custom message.
-     * 
-     * @param char const * message
-     */
-    BadConnectionException(char const * message) noexcept : m_message(message) {}
+            /**
+             * Default constructor.
+             */
+            BadConnectionException() : m_message("Could not connect to server.") {}
 
-    /**
-     * Retrieve the reason.
-     * 
-     * @return char const *
-     */
-    char const * what() const throw() override { return m_message; }
+            /**
+             * Initialize a custom message.
+             * 
+             * @param char const * message
+             */
+            BadConnectionException(char const * message) noexcept : m_message(message) {}
 
-private:
+            /**
+             * Retrieve the reason.
+             * 
+             * @return char const *
+             */
+            char const * what() const throw() override { return m_message; }
 
-    /**
-     * Store the custom message.
-     * 
-     * @var char const *
-     */
-    char const * m_message;
+        private:
 
-};
+            /**
+             * Store the custom message.
+             * 
+             * @var char const *
+             */
+            char const * m_message;
+
+        };
+
+    }
+}
 
 
 #endif // BAD_CONNECTION_EXCEPTION_H

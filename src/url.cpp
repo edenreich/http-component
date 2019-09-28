@@ -192,6 +192,6 @@ void Url::parse(const std::string & url)
         m_path = matches[7];
         m_query = matches[9];
     } else {
-        throw InvalidUrlException();
+        throw Exceptions::InvalidUrlException();
     }
 }

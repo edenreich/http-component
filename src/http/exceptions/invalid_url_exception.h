@@ -4,19 +4,25 @@
 #include <stdexcept>
 
 
-class InvalidUrlException : public std::exception
-{
+namespace Http {
+    namespace Exceptions {
 
-public:
+        class InvalidUrlException : public std::exception
+        {
 
-    /**
-     * Retrieve the reason.
-     * 
-     * @return char const *
-     */
-    char const * what() const throw() override { return "Malformed url."; }
+        public:
 
-};
+            /**
+             * Retrieve the reason.
+             * 
+             * @return char const *
+             */
+            char const * what() const throw() override { return "Malformed url."; }
+
+        };
+
+    }
+}
 
 
 #endif // INVALID_URL_EXCEPTION_H

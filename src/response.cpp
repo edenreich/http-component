@@ -16,7 +16,7 @@ Response::Response()
  */
 const Interfaces::StreamInterface & Response::getBody() const
 {
-    throw NotImplementedException();
+    throw Exceptions::NotImplementedException();
 }
 
 /**
@@ -26,5 +26,5 @@ const Interfaces::StreamInterface & Response::getBody() const
  */
 int Response::getStatusCode() const
 {
-    throw NotImplementedException();
+    throw Exceptions::NotImplementedException();
 }

@@ -20,7 +20,7 @@ Server::Server() : m_address(std::string()), m_running(false)
 
         if (m_server_fd == 0) 
         { 
-            throw BadConnectionException("Could not create the socket");
+            throw Exceptions::BadConnectionException("Could not create the socket");
         }
     #endif
 }
@@ -44,19 +44,19 @@ void Server::bind(const std::string & address)
 
         if (::setsockopt(m_server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
         {
-            throw BadConnectionException("Setsockopt failed");
+            throw Exceptions::BadConnectionException("Setsockopt failed");
         } 
 
         int failed = ::bind(m_server_fd, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
 
         if (m_server_fd == 0) 
         { 
-            throw BadConnectionException("Could not bind the server to address!");
+            throw Exceptions::BadConnectionException("Could not bind the server to address!");
         }
 
         if (failed < 0) 
         { 
-            throw BadConnectionException("Could not bind to the given port");
+            throw Exceptions::BadConnectionException("Could not bind to the given port");
         }
     #endif
 }
@@ -74,7 +74,7 @@ void Server::listen(const unsigned int & port)
     #else
         if (::listen(m_server_fd, 3) < 0) 
         { 
-            throw BadConnectionException("Could not listen on the given port");
+            throw Exceptions::BadConnectionException("Could not listen on the given port");
         }
     #endif
 
@@ -99,7 +99,7 @@ void Server::onMessage(Events::MessageRecievedHandler callback) const
         while (m_running) {
             if ((clientConnection = ::accept(m_server_fd, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0)
             {
-                throw BadConnectionException("Could not accept the connection");
+                throw Exceptions::BadConnectionException("Could not accept the connection");
             }
 
             int dataLength = ::read(clientConnection, buffer, 1024);
