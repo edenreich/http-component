@@ -39,7 +39,7 @@ void Server::bind(const std::string & address)
         int opt = 1;
         m_address = address;
         m_localaddr.sin_family = AF_INET;
-        m_localaddr.sin_addr.s_addr = inet_addr(m_address.c_str());
+        m_localaddr.sin_addr.s_addr = ::inet_addr(m_address.c_str());
         m_localaddr.sin_port = htons(8080); 
 
         if (::setsockopt(m_server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 

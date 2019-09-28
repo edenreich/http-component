@@ -2,13 +2,6 @@
 #include <string>
 #include <sstream>
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <winsock2.h>
-#else
-    #include <sys/socket.h>
-    #include <arpa/inet.h>
-#endif
-
 #include "http/exceptions/bad_connection_exception.h"
 #include "http/exceptions/not_implemented_exception.h"
 
@@ -55,7 +48,7 @@ const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterfac
 
         sockaddr_in hint;
         hint.sin_family = AF_INET;
-        hint.sin_port = ::htons(port);
+        hint.sin_port = htons(port);
         ::inet_pton(AF_INET, url.get().c_str(), &hint.sin_addr);
 
         int connectRes = ::connect(sock, (sockaddr*)&hint, sizeof(hint));

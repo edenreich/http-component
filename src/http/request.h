@@ -4,6 +4,7 @@
 #include "interfaces/request_interface.h"
 #include "interfaces/url_interface.h"
 #include "interfaces/response_interface.h"
+#include "pch/network.h"
 
 
 namespace Http {
