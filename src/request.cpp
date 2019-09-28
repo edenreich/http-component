@@ -55,10 +55,10 @@ const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterfac
 
         sockaddr_in hint;
         hint.sin_family = AF_INET;
-        hint.sin_port = htons(port);
-        inet_pton(AF_INET, url.get().c_str(), &hint.sin_addr);
+        hint.sin_port = ::htons(port);
+        ::inet_pton(AF_INET, url.get().c_str(), &hint.sin_addr);
 
-        int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
+        int connectRes = ::connect(sock, (sockaddr*)&hint, sizeof(hint));
     #endif
 
 
