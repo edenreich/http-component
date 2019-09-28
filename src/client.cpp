@@ -31,10 +31,10 @@ const Interfaces::ResponseInterface & Client::sendRequest(Http::Verb verb, const
     const Interfaces::RequestInterface & request = Request(Response());
 
     switch (verb) {
-    case Http::Verb::GET: return request.get(url);
-    case Http::Verb::POST: return request.post(url);
-    case Http::Verb::PUT: return request.put(url);
-    case Http::Verb::PATCH: return request.patch(url);
-    case Http::Verb::DELETE: return request.del(url);
+    case Verb::GET: return request.get(url);
+    case Verb::POST: return request.post(url);
+    case Verb::PUT: return request.put(url);
+    case Verb::PATCH: return request.patch(url);
+    case Verb::DELETE: return request.del(url);
     }
 }
