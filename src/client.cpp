@@ -35,7 +35,7 @@ const Interfaces::ResponseInterface & Client::sendRequest(Verb verb, const Inter
     case Verb::POST: return request.post(url);
     case Verb::PUT: return request.put(url);
     case Verb::PATCH: return request.patch(url);
-    case Verb::DELETE: return request.del(url);
+    case Verb::DEL: return request.del(url);
     }
 
     return request.get(url);

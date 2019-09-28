@@ -9,7 +9,7 @@ namespace Http {
         POST,
         PUT,
         PATCH,
-        DELETE
+        DEL
     };
 
 }
