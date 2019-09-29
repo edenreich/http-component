@@ -47,9 +47,9 @@ Interfaces::StreamInterface * Response::getBody()
 /**
  * Retrieve the status code.
  * 
- * @return int
+ * @return Http::StatusCode
  */
-int Response::getStatusCode() const
+StatusCode Response::getStatusCode() const
 {
     throw Exceptions::NotImplementedException();
 }

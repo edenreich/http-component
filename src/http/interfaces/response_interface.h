@@ -3,6 +3,9 @@
 
 
 namespace Http {
+
+    enum class StatusCode;
+
     namespace Interfaces {
 
         class StreamInterface;
@@ -29,9 +32,9 @@ namespace Http {
             /**
              * Retrieve the status code.
              * 
-             * @return int
+             * @return Http::StatusCode
              */
-            virtual int getStatusCode() const = 0;
+            virtual ::Http::StatusCode getStatusCode() const = 0;
 
         };
     }

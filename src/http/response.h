@@ -3,6 +3,7 @@
 
 #include "interfaces/response_interface.h"
 #include "interfaces/stream_interface.h"
+#include "types/status_codes.h"
 
 
 namespace Http {
@@ -43,9 +44,9 @@ namespace Http {
         /**
          * Retrieve the status code.
          * 
-         * @return int
+         * @return Http::StatusCode
          */
-        int getStatusCode() const override;
+        StatusCode getStatusCode() const override;
 
     private:
 
