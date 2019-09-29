@@ -10,6 +10,8 @@
 #include "http/exceptions/not_implemented_exception.h"
 #include "http/exceptions/bad_connection_exception.h"
 
+#include <cstring>
+
 using namespace Http;
 
 
@@ -75,25 +77,25 @@ void Server::onConnection(Events::MessageRecievedHandler callback)
 
     while (m_running) {
 
-        // int clientSocket = m_socket->waitForConnection();
+        int clientSocket = m_socket->waitForConnection();
 
-        // // Client Request
-        // Interfaces::StreamInterface * stream = new Stream();
-        // Interfaces::ResponseInterface * response = new Response(stream);
-        // Interfaces::RequestInterface * request = new Request(response);
-        // Interfaces::ClientInterface * client = new Client(request);
+        // Client Request
+        Interfaces::SocketStreamInterface * stream = new SocketStream();
+        Interfaces::ResponseInterface * response = new Response(stream);
+        Interfaces::RequestInterface * request = new Request(response);
+        Interfaces::ClientInterface * client = new Client(request);
 
-        // // Server Response
-        // Interfaces::ResponseInterface * serverResponse = callback(client);
-        // Interfaces::StreamInterface * serverStream = serverResponse->getBody();
+        // Server Response
+        Interfaces::ResponseInterface * serverResponse = callback(client);
+        Interfaces::SocketStreamInterface * serverStream = serverResponse->getBody();
 
-        // ::send(clientSocket, serverStream->getContents().c_str(), strlen(serverStream->getContents().c_str()), 0);
+        ::send(clientSocket, serverStream->getContents().c_str(), std::strlen(serverStream->getContents().c_str()), 0);
 
-        // ::close(clientSocket);
-        // ::close(m_serverSocket);
+        ::close(clientSocket);
+        ::close(m_socket->getId());
 
-        // delete client;
-        // delete serverResponse;
+        delete client;
+        delete serverResponse;
     }
     #endif
 }
