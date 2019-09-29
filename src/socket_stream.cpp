@@ -78,12 +78,12 @@ void SocketStream::bind(const std::string & address)
  */
 const int SocketStream::waitForConnection() const
 {
-    #if IS_WINDOWS
-        // @todo write windows specific implemention
-    #else
     int addresslen = sizeof(m_localaddr);
     int clientSocket;
 
+    #if IS_WINDOWS
+        // @todo write windows specific implemention
+    #else
     if ((clientSocket = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0)
     {
         throw Exceptions::BadConnectionException("Could not accept the connection");
