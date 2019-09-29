@@ -18,6 +18,25 @@ namespace Http {
              * Virtual Destructor.
              */
             virtual ~SocketStreamInterface() {}
+
+            /**
+             * Retrieve the id of the socket.
+             * 
+             * @return unsigned int
+             */
+            virtual const unsigned int & getId() const = 0;
+
+            /**
+             * Bind the address to the socket.
+             * 
+             * @param const std::string & address
+             */
+            virtual void bind(const std::string & address) = 0;
+
+            /**
+             * Wait for a connection.
+             */
+            virtual const unsigned int & waitForConnection() const = 0;
             
             /**
              * Retrieve all content.

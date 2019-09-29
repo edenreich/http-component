@@ -1,6 +1,8 @@
 #include "http/socket_stream.h"
 
-#include "pch/network.h"
+#include "http/platform/check.h"
+
+#include "http/exceptions/bad_connection_exception.h"
 #include <ios>
 
 using namespace Http;
@@ -9,21 +11,18 @@ using namespace Http;
 /**
  * Construct a socket stream.
  */
-SocketStream::SocketStream() : m_fileDescriptor(nullptr)
+SocketStream::SocketStream()
 {
-    //
-}
+    #if IS_WINDOWS
+    // @todo write windows specific implemention
+    #else
+    m_socketId = ::socket(AF_INET, SOCK_STREAM, 0);
 
-/**
- * Construct a stream.
- * 
- * - initialize a file descriptor
- * 
- * @param int fileDescriptor
- */
-SocketStream::SocketStream(int * fileDescriptor) : m_fileDescriptor(fileDescriptor)
-{
-    //
+    if (m_socketId == 0) 
+    { 
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+    #endif
 }
 
 /**
@@ -31,7 +30,63 @@ SocketStream::SocketStream(int * fileDescriptor) : m_fileDescriptor(fileDescript
  */
 SocketStream::~SocketStream()
 {
-    delete m_fileDescriptor;
+    //
+}
+
+/**
+ * Retrieve the id of the socket.
+ * 
+ * @return unsigned int
+ */
+const unsigned int & SocketStream::getId() const
+{
+    return m_socketId;
+}
+
+void SocketStream::bind(const std::string & address)
+{
+    #if IS_WINDOWS
+    // @todo write windows specific implemention
+    #else
+    int opt = 1;
+
+    m_localaddr.sin_family = AF_INET;
+    m_localaddr.sin_addr.s_addr = ::inet_addr(address.c_str());
+    m_localaddr.sin_port = htons(8080); 
+
+    if (::setsockopt(m_socketId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
+    {
+        throw Exceptions::BadConnectionException("Setsockopt failed");
+    } 
+
+    int failed = ::bind(m_socketId, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
+
+    if (m_socketId == 0) 
+    { 
+        throw Exceptions::BadConnectionException("Could not bind the socket to address!");
+    }
+
+    if (failed < 0) 
+    { 
+        throw Exceptions::BadConnectionException("Could not bind to the given port");
+    }
+    #endif
+}
+
+/**
+ * Wait for a connection.
+ */
+const unsigned int & SocketStream::waitForConnection() const
+{
+    int addresslen = sizeof(m_localaddr);
+    unsigned int clientSocket;
+
+    if ((clientSocket = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0)
+    {
+        throw Exceptions::BadConnectionException("Could not accept the connection");
+    }
+
+    return clientSocket;
 }
 
 /**

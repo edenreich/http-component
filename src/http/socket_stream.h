@@ -4,6 +4,7 @@
 #include "interfaces/socket_stream_interface.h"
 
 #include <sstream>
+#include "pch/network.h"
 
 
 namespace Http {
@@ -16,23 +17,33 @@ namespace Http {
     public:
 
         /**
-         * Construct a stream.
+         * Construct a socket stream.
          */
-        SocketStream() = default;
-
-        /**
-         * Construct a stream.
-         * 
-         * - initialize a file descriptor.
-         * 
-         * @param int * fileDescriptor
-         */
-        SocketStream(int * fileDescriptor);
+        SocketStream();
 
         /**
          * Destruct the stream.
          */
         ~SocketStream() override;
+
+        /**
+         * Retrieve the id of the socket.
+         * 
+         * @return unsigned int
+         */
+        const unsigned int & getId() const override;
+
+        /**
+         * Bind the address to the socket.
+         * 
+         * @param const std::string & address
+         */
+        void bind(const std::string & address) override;
+
+        /**
+         * Wait for a connection.
+         */
+        const unsigned int & waitForConnection() const override;
 
         /**
          * Retrieve all content.
@@ -90,11 +101,11 @@ namespace Http {
     private:
         
         /**
-         * Store the pointer to the file descriptor.
+         * Store the file descriptor pointer.
          * 
-         * @var int * m_fileDescriptor
+         * @var int m_socketId
          */
-        int * m_fileDescriptor;
+        unsigned int m_socketId;
 
         /**
          * Store the contents.
@@ -102,6 +113,13 @@ namespace Http {
          * @var std::stringstream
          */
         std::stringstream m_content;
+
+        /**
+         * Store the socket address.
+         * 
+         * @var struct sockaddr_in
+         */
+        struct sockaddr_in m_localaddr;
 
     };
 

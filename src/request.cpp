@@ -1,6 +1,6 @@
 #include "http/request.h"
 
-#include "http/types/common.h"
+#include "http/platform/check.h"
 
 #include <string>
 #include <sstream>

@@ -6,7 +6,6 @@ using namespace Http;
 
 
 TEST(StreamTest, CanCreateAStreamWithDefaultConstructor) {
-    
-    int socket = 15;
-    Interfaces::SocketStreamInterface * stream = new SocketStream(&socket);
+
+    Interfaces::SocketStreamInterface * stream = new SocketStream;
 }

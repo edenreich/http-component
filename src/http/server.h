@@ -3,6 +3,7 @@
 
 #include "interfaces/server_interface.h"
 #include "pch/network.h"
+#include "socket_stream.h"
 #include <atomic>
 
 
@@ -19,6 +20,11 @@ namespace Http {
          * Construct a server
          */
         Server();
+
+        /**
+         * Destruct the server.
+         */
+        ~Server() override;
 
         /**
          * Bind the server to specific address.
@@ -54,25 +60,11 @@ namespace Http {
     private:
         
         /**
-         * Store the server file descriptor.
+         * Store the socket stream.
          * 
-         * @var int 
+         * @var SocketStream *
          */
-        int m_serverSocket;
-
-        /**
-         * Store the ip address.
-         * 
-         * @var std::string
-         */
-        std::string m_address;
-
-        /**
-         * Store the socket address.
-         * 
-         * @var struct sockaddr_in
-         */
-        struct sockaddr_in m_localaddr;
+        SocketStream * m_socket;
 
         /**
          * Determine if the server is running.

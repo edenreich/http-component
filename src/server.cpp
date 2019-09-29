@@ -1,6 +1,6 @@
 #include "http/server.h"
 
-#include "http/types/common.h"
+#include "http/platform/check.h"
 
 #include "http/client.h"
 #include "http/request.h"
@@ -16,18 +16,18 @@ using namespace Http;
 /**
  * Construct a server
  */
-Server::Server() : m_address(std::string()), m_running(false)
+Server::Server() : m_socket(new SocketStream), m_running(false)
 {
-    #if IS_WINDOWS
-    // @todo write windows specific implemention
-    #else
-    m_serverSocket = ::socket(AF_INET, SOCK_STREAM, 0);
 
-    if (m_serverSocket == 0) 
-    { 
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-    #endif
+}
+
+
+/**
+ * Destruct the server.
+ */
+Server::~Server()
+{
+    close();
 }
 
 /**
@@ -38,32 +38,7 @@ Server::Server() : m_address(std::string()), m_running(false)
  */
 void Server::bind(const std::string & address)
 {
-    #if IS_WINDOWS
-    // @todo write windows specific implemention
-    #else
-    int opt = 1;
-    m_address = address;
-    m_localaddr.sin_family = AF_INET;
-    m_localaddr.sin_addr.s_addr = ::inet_addr(m_address.c_str());
-    m_localaddr.sin_port = htons(8080); 
-
-    if (::setsockopt(m_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
-    {
-        throw Exceptions::BadConnectionException("Setsockopt failed");
-    } 
-
-    int failed = ::bind(m_serverSocket, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
-
-    if (m_serverSocket == 0) 
-    { 
-        throw Exceptions::BadConnectionException("Could not bind the server to address!");
-    }
-
-    if (failed < 0) 
-    { 
-        throw Exceptions::BadConnectionException("Could not bind to the given port");
-    }
-    #endif
+    m_socket->bind(address);
 }
 
 /**
@@ -77,7 +52,7 @@ void Server::listen(const unsigned int & port)
     #if IS_WINDOWS
     // @todo write windows specific implemention
     #else
-    if (::listen(m_serverSocket, 3) < 0) 
+    if (::listen(m_socket->getId(), 5) < 0) 
     { 
         throw Exceptions::BadConnectionException("Could not listen on the given port");
     }
@@ -96,16 +71,11 @@ void Server::onConnection(Events::MessageRecievedHandler callback)
 {
     #if IS_WINDOWS
     // @todo write windows specific implemention
-    #else        
-    int addresslen = sizeof(m_localaddr);
+    #else
 
     while (m_running) {
-        int clientSocket;
 
-        if ((clientSocket = ::accept(m_serverSocket, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0)
-        {
-            throw Exceptions::BadConnectionException("Could not accept the connection");
-        }
+        int clientSocket = m_socket->waitForConnection();
 
         // // Client Request
         // Interfaces::StreamInterface * stream = new Stream();
@@ -135,5 +105,6 @@ void Server::onConnection(Events::MessageRecievedHandler callback)
  */
 void Server::close()
 {
+    delete m_socket;
     m_running = false;
 }

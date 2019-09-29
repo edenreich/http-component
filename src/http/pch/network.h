@@ -1,7 +1,7 @@
 #ifndef PCH_NETOWRK_H
 #define PCH_NETWORK_H
 
-#include "../types/common.h"
+#include "../platform/check.h"
 
 
 #if IS_WINDOWS
