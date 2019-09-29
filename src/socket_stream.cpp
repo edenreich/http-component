@@ -78,6 +78,9 @@ void SocketStream::bind(const std::string & address)
  */
 const int SocketStream::waitForConnection() const
 {
+    #if IS_WINDOWS
+        // @todo write windows specific implemention
+    #else
     int addresslen = sizeof(m_localaddr);
     int clientSocket;
 
@@ -85,6 +88,7 @@ const int SocketStream::waitForConnection() const
     {
         throw Exceptions::BadConnectionException("Could not accept the connection");
     }
+    #endif
 
     return clientSocket;
 }
