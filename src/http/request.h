@@ -18,61 +18,78 @@ namespace Http {
 
         /**
          * Construct a request.
+         */
+        Request();
+
+        /**
+         * Construct a request.
          *  
          * - initialize a response
          * 
-         * @param const Interfaces::ResponseInterface & response
+         * @param Http::Interfaces::ResponseInterface * response
          */
-        Request(const Interfaces::ResponseInterface & response);
+        Request(Interfaces::ResponseInterface * response);
+
+        /**
+         * Destruct the request.
+         */
+        ~Request();
 
         /**
          * Send a get request to given url.
          * 
          * @param const Interfaces::UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
+         * @return Http::Interfaces::ResponseInterface *
          */
-        const Interfaces::ResponseInterface & get(const Interfaces::UrlInterface & url) const override;
+        Interfaces::ResponseInterface * get(const Interfaces::UrlInterface & url) const override;
 
         /**
          * Send a post request to given url.
          * 
          * @param const Interfaces::UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
+         * @return Http::Interfaces::ResponseInterface *
          */
-        const Interfaces::ResponseInterface & post(const Interfaces::UrlInterface & url) const override;
+        Interfaces::ResponseInterface * post(const Interfaces::UrlInterface & url) const override;
 
         /**
          * Send a put request to given url.
          * 
          * @param const Interfaces::UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
+         * @return Http::Interfaces::ResponseInterface *
          */
-        const Interfaces::ResponseInterface & put(const Interfaces::UrlInterface & url) const override;
+        Interfaces::ResponseInterface * put(const Interfaces::UrlInterface & url) const override;
 
         /**
          * Send a patch request to given url.
          * 
          * @param const Interfaces::UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
+         * @return Http::Interfaces::ResponseInterface *
          */
-        const Interfaces::ResponseInterface & patch(const Interfaces::UrlInterface & url) const override;
+        Interfaces::ResponseInterface * patch(const Interfaces::UrlInterface & url) const override;
 
         /**
          * Send a delete request to given url.
          * 
          * @param const Interfaces::UrlInterface & url
-         * @return const Interfaces::ResponseInterface &
+         * @return Http::Interfaces::ResponseInterface *
          */
-        const Interfaces::ResponseInterface & del(const Interfaces::UrlInterface & url) const override;
+        Interfaces::ResponseInterface * del(const Interfaces::UrlInterface & url) const override;
+
+        /**
+         * Retrieve the body stream.
+         * 
+         * @return Http::Interfaces::StreamInterface *
+         */
+        Interfaces::StreamInterface * getBody() const override;
 
     private:
         
         /**
          * Store the response.
          * 
-         * @var const Interfaces::ResponseInterface &
+         * @var Http::Interfaces::ResponseInterface *
          */
-        const Interfaces::ResponseInterface & m_response;
+        Interfaces::ResponseInterface * m_response;
 
     };
 

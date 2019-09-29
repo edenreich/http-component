@@ -4,6 +4,7 @@
 #include "interfaces/server_interface.h"
 #include "pch/network.h"
 #include <cstring>
+#include <atomic>
 
 
 namespace Http {
@@ -39,10 +40,10 @@ namespace Http {
         /**
          * On message recieved event.
          * 
-         * @param Events::MessageRecievedHandler callback
+         * @param Http::Events::MessageRecievedHandler callback
          * @return void
          */
-        void onMessage(Events::MessageRecievedHandler callback) const override;
+        void onConnection(Events::MessageRecievedHandler callback) override;
 
         /**
          * Close the http server.
@@ -58,12 +59,12 @@ namespace Http {
          * 
          * @var int 
          */
-        int m_server_fd;
+        int m_serverSocket;
 
         /**
          * Store the ip address.
          * 
-         * @var const std::string &
+         * @var std::string
          */
         std::string m_address;
 
@@ -77,9 +78,9 @@ namespace Http {
         /**
          * Determine if the server is running.
          * 
-         * @var bool
+         * @var std::atomic<bool> 
          */
-        bool m_running;
+        std::atomic<bool> m_running;
 
     };
 

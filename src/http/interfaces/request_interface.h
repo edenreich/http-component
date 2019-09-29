@@ -1,14 +1,15 @@
 #ifndef REQUEST_INTERFACE_H
 #define REQUEST_INTERFACE_H
 
-#include "url_interface.h"
 #include <string>
 
 
 namespace Http {
     namespace Interfaces {
 
+        class UrlInterface;
         class ResponseInterface;
+        class StreamInterface;
 
         /**
          * The Request Interface
@@ -25,42 +26,49 @@ namespace Http {
             /**
              * Send a get request to given url.
              * 
-             * @param const UrlInterface & url
-             * @return const ResponseInterface &
+             * @param const Http::Interfaces::UrlInterface & url
+             * @return Http::Interfaces::ResponseInterface *
              */
-            virtual const ResponseInterface & get(const UrlInterface & url) const = 0;
+            virtual ResponseInterface * get(const UrlInterface & url) const = 0;
 
             /**
              * Send a post request to given url.
              * 
-             * @param const UrlInterface & url
-             * @return const ResponseInterface &
+             * @param const Http::Interfaces::UrlInterface & url
+             * @return Http::Interfaces::ResponseInterface *
              */
-            virtual const ResponseInterface & post(const UrlInterface & url) const = 0;
+            virtual ResponseInterface * post(const UrlInterface & url) const = 0;
 
             /**
              * Send a put request to given url.
              * 
-             * @param const UrlInterface & url
-             * @return const ResponseInterface &
+             * @param const Http::Interfaces::UrlInterface & url
+             * @return Http::Interfaces::ResponseInterface *
              */
-            virtual const ResponseInterface & put(const UrlInterface & url) const = 0;
+            virtual ResponseInterface * put(const UrlInterface & url) const = 0;
 
             /**
              * Send a patch request to given url.
              * 
-             * @param const UrlInterface & url
-             * @return const ResponseInterface &
+             * @param const Http::Interfaces::UrlInterface & url
+             * @return Http::Interfaces::ResponseInterface *
              */
-            virtual const ResponseInterface & patch(const UrlInterface & url) const = 0;
+            virtual ResponseInterface * patch(const UrlInterface & url) const = 0;
 
             /**
              * Send a delete request to given url.
              * 
-             * @param const UrlInterface & url
-             * @return const ResponseInterface &
+             * @param const Http::Interfaces::UrlInterface & url
+             * @return Http::Interfaces::ResponseInterface *
              */
-            virtual const ResponseInterface & del(const UrlInterface & url) const = 0;
+            virtual ResponseInterface * del(const UrlInterface & url) const = 0;
+
+            /**
+             * Retrieve the stream body.
+             * 
+             * @return Http::Interfaces::StreamInterface *
+             */
+            virtual StreamInterface * getBody() const = 0;
 
         };
     }

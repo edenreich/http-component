@@ -1,22 +1,47 @@
 #include "http/response.h"
 #include "http/exceptions/not_implemented_exception.h"
 
+#include "http/stream.h"
+
 using namespace Http;
 
 
-Response::Response()
+/**
+ * Construct a response.
+ */
+Response::Response() : m_stream(new Stream)
 {
     //
 }
 
 /**
- * Retrieve the stream body.
+ * Construct a response.
  * 
- * @return const Interfaces::StreamInterface &
+ * - Initialize a stream
+ * 
+ * @param Http::Interfaces::StreamInterface * stream
  */
-const Interfaces::StreamInterface & Response::getBody() const
+Response::Response(Interfaces::StreamInterface * stream) : m_stream(stream)
 {
-    throw Exceptions::NotImplementedException();
+    //
+}
+
+/**
+ * Destructor a response.
+ */
+Response::~Response()
+{
+    delete m_stream;
+}
+
+/**
+ * Retrieve the body stream.
+ * 
+ * @return Http::Interfaces::StreamInterface *
+ */
+Interfaces::StreamInterface * Response::getBody()
+{
+    return m_stream;
 }
 
 /**

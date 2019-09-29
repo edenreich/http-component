@@ -20,11 +20,25 @@ namespace Http {
         Response();
 
         /**
-         * Retrieve the stream body.
+         * Construct a response.
          * 
-         * @return const Interfaces::StreamInterface &
+         * - Initialize a stream
+         * 
+         * @param Http::Interfaces::StreamInterface * stream
          */
-        const Interfaces::StreamInterface & getBody() const override;
+        Response(Interfaces::StreamInterface * stream);
+
+        /**
+         * Destruct the response.
+         */
+        ~Response();
+
+        /**
+         * Retrieve the body stream.
+         * 
+         * @return Http::Interfaces::StreamInterface *
+         */
+        Interfaces::StreamInterface * getBody() override;
 
         /**
          * Retrieve the status code.
@@ -34,7 +48,13 @@ namespace Http {
         int getStatusCode() const override;
 
     private:
-        //
+
+        /**
+         * Store the stream interface.
+         * 
+         * @var Http::Interfaces::StreamInterface *
+         */
+        Interfaces::StreamInterface * m_stream;
 
     };
 

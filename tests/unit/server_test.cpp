@@ -1,13 +1,15 @@
-
 #include <gtest/gtest.h>
 #include <http/server.h>
-#include <http/interfaces/server_interface.h>
+#include <http/response.h>
+#include <http/stream.h>
+#include <http/interfaces/response_interface.h>
+#include <http/interfaces/client_interface.h>
 #include <string>
 
 using namespace Http;
 
 
-TEST(ServerTest, DISABLED_ItRecievesAMessage) {
+TEST(ServerTest, ItRecievesAMessage) {
     
     Server server;
 
@@ -15,7 +17,19 @@ TEST(ServerTest, DISABLED_ItRecievesAMessage) {
 
     server.listen(8080);
 
-    server.onMessage([](Interfaces::ServerInterface const* server, const std::string & message) {
-        std::cout << message << '\n';    
+    server.onConnection([](Interfaces::ClientInterface * client) {
+
+        Interfaces::StreamInterface * stream = client->getRequest()->getBody();
+
+        const char * content = "Hello World";
+
+        *stream << "HTTP/1.1 200 OK\n";
+        *stream << "Content-Type: text/html\n";
+        *stream << "Content-Length: " << strlen(content) << "\n";
+        *stream << "Connection: close\n";
+        *stream << "\n";
+        *stream << content;
+
+        return new Response(stream);    
     });
 }

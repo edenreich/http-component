@@ -10,6 +10,7 @@ namespace Http {
 
         class UrlInterface;
         class ResponseInterface;
+        class RequestInterface;
 
         /**
          * The Client Interface
@@ -28,16 +29,23 @@ namespace Http {
              * 
              * @param Http::Verb::[GET|POST|PUT|PATCH|DELETE|HEAD]
              * @param cost Http::Interfaces::UrlInterface & url
-             * @return const Http::Interfaces::ResponseInterface &
+             * @return Http::Interfaces::ResponseInterface *
              */
-            virtual const ResponseInterface & sendRequest(::Http::Verb verb, const UrlInterface & url) const = 0;
+            virtual ResponseInterface * sendRequest(::Http::Verb verb, const UrlInterface & url) const = 0;
 
             /**
              * Getter for the request.
              * 
-             * @return const Http::Interfaces::RequestInterface &
+             * @return Http::Interfaces::RequestInterface *
              */
-            virtual const RequestInterface & getRequest() const = 0;
+            virtual RequestInterface * getRequest() const = 0;
+
+            /**
+             * Getter for the response.
+             * 
+             * @return Http::Interfaces::ResponseInterface *
+             */
+            virtual ResponseInterface * getResponse() const = 0;
 
         };
     }

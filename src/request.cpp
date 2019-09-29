@@ -4,6 +4,7 @@
 
 #include <string>
 #include <sstream>
+#include "http/response.h"
 
 #include "http/exceptions/bad_connection_exception.h"
 #include "http/exceptions/not_implemented_exception.h"
@@ -13,23 +14,39 @@ using namespace Http;
 
 /**
  * Construct a request.
- *  
- * - initialize a response
- * 
- * @param const Interfaces::ResponseInterface & response
  */
-Request::Request(const Interfaces::ResponseInterface & response) : m_response(response)
+Request::Request() : m_response(new Response)
 {
     //
 }
 
 /**
+ * Construct a request.
+ *  
+ * - initialize a response
+ * 
+ * @param Http::Interfaces::ResponseInterface * response
+ */
+Request::Request(Interfaces::ResponseInterface * response) : m_response(response)
+{
+    //
+}
+
+/**
+ * Destruct the request.
+ */
+Request::~Request()
+{
+    delete m_response;
+}
+
+/**
  * Send a get request to given url.
  * 
- * @param const Interfaces::UrlInterface & url
- * @return const Interfaces::ResponseInterface &
+ * @param const Http::Interfaces::UrlInterface & url
+ * @return Http::Interfaces::ResponseInterface *
  */
-const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterface & url) const
+Interfaces::ResponseInterface * Request::get(const Interfaces::UrlInterface & url) const
 {
     #if IS_WINDOWS
         // @todo write windows implemention
@@ -64,10 +81,10 @@ const Interfaces::ResponseInterface & Request::get(const Interfaces::UrlInterfac
 /**
  * Send a post request to given url.
  * 
- * @param const Interfaces::UrlInterface & url
- * @return const Interfaces::ResponseInterface &
+ * @param const Http::Interfaces::UrlInterface & url
+ * @return Http::Interfaces::ResponseInterface *
  */
-const Interfaces::ResponseInterface & Request::post(const Interfaces::UrlInterface & url) const
+Interfaces::ResponseInterface * Request::post(const Interfaces::UrlInterface & url) const
 {
     throw Exceptions::NotImplementedException();
 }
@@ -75,10 +92,10 @@ const Interfaces::ResponseInterface & Request::post(const Interfaces::UrlInterfa
 /**
  * Send a put request to given url.
  * 
- * @param const Interfaces::UrlInterface & url
- * @return const Interfaces::ResponseInterface &
+ * @param const Http::Interfaces::UrlInterface & url
+ * @return Http::Interfaces::ResponseInterface *
  */
-const Interfaces::ResponseInterface & Request::put(const Interfaces::UrlInterface & url) const
+Interfaces::ResponseInterface * Request::put(const Interfaces::UrlInterface & url) const
 {
     throw Exceptions::NotImplementedException();
 }
@@ -86,10 +103,10 @@ const Interfaces::ResponseInterface & Request::put(const Interfaces::UrlInterfac
 /**
  * Send a patch request to given url.
  * 
- * @param const Interfaces::UrlInterface & url
- * @return const Interfaces::ResponseInterface &
+ * @param const Http::Interfaces::UrlInterface & url
+ * @return Http::Interfaces::ResponseInterface *
  */
-const Interfaces::ResponseInterface & Request::patch(const Interfaces::UrlInterface & url) const
+Interfaces::ResponseInterface * Request::patch(const Interfaces::UrlInterface & url) const
 {
     throw Exceptions::NotImplementedException();
 }
@@ -97,10 +114,20 @@ const Interfaces::ResponseInterface & Request::patch(const Interfaces::UrlInterf
 /**
  * Send a delete request to given url.
  * 
- * @param const Interfaces::UrlInterface & url
- * @return const Interfaces::ResponseInterface &
+ * @param const Http::Interfaces::UrlInterface & url
+ * @return Http::Interfaces::ResponseInterface *
  */
-const Interfaces::ResponseInterface & Request::del(const Interfaces::UrlInterface & url) const
+Interfaces::ResponseInterface * Request::del(const Interfaces::UrlInterface & url) const
+{
+    throw Exceptions::NotImplementedException();
+}
+
+/**
+ * Retrieve the body stream.
+ * 
+ * @return Http::Interfaces::StreamInterface *
+ */
+Interfaces::StreamInterface * Request::getBody() const
 {
     throw Exceptions::NotImplementedException();
 }

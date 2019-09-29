@@ -17,14 +17,14 @@ namespace Http {
             /**
              * Virtual Destructor.
              */
-            virtual ~ResponseInterface() {}
+            virtual ~ResponseInterface() = default;
             
             /**
-             * Retrieve the stream body.
+             * Retrieve the body stream.
              * 
-             * @return const StreamInterface &
+             * @return Http::Interfaces::StreamInterface *
              */
-            virtual const StreamInterface & getBody() const = 0;
+            virtual StreamInterface * getBody() = 0;
 
             /**
              * Retrieve the status code.

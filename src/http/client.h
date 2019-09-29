@@ -19,37 +19,54 @@ namespace Http {
 
         /**
          * Construct a client.
+         */
+        Client();
+
+        /**
+         * Construct a client.
          * 
          * - Initialize a request
          * 
-         * @param const Http::Interfaces::RequestInterface & request
+         * @param Http::Interfaces::RequestInterface * request
          */
-        Client(const Interfaces::RequestInterface & request);
+        Client(Interfaces::RequestInterface * request);
+
+        /**
+         * Destruct the client.
+         */
+        ~Client();
 
         /**
          * Sends a request by given type and url.
          * 
          * @param Http::Verb::[GET|POST|PUT|PATCH|DELETE|HEAD]
          * @param cost Http::Interfaces::UrlInterface & url
-         * @return const ResponseInterface &
+         * @return Http::Interfaces::ResponseInterface *
          */
-        const Interfaces::ResponseInterface & sendRequest(Verb verb, const Interfaces::UrlInterface & url) const override;
+        Interfaces::ResponseInterface * sendRequest(Verb verb, const Interfaces::UrlInterface & url) const override;
 
         /**
          * Getter for the request.
          * 
-         * @return const Http::Interfaces::RequestInterface &
+         * @return Http::Interfaces::RequestInterface *
          */
-        const Interfaces::RequestInterface & getRequest() const override;
+        Interfaces::RequestInterface * getRequest() const override;
+
+        /**
+         * Getter for the response.
+         * 
+         * @return Http::Interfaces::ResponseInterface *
+         */
+        Interfaces::ResponseInterface * getResponse() const override;
 
     private:
         
         /**
          * Store the request.
          * 
-         * @var const Http::Interfaces::RequestInterface &
+         * @var Http::Interfaces::RequestInterface *
          */
-        const Interfaces::RequestInterface & m_request;
+        Interfaces::RequestInterface * m_request;
 
     };
 

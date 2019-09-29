@@ -5,6 +5,7 @@
 #include "server_interface.h"
 #include "../events/common_events.h"
 #include <string>
+#include <functional>
 
 
 namespace Http {
@@ -41,10 +42,10 @@ namespace Http {
             /**
              * On data recieved event.
              * 
-             * @param ::Http::Events::MessageRecievedHandler callback
+             * @param Http::Events::MessageRecievedHandler callback
              * @return void
              */
-            virtual void onMessage(::Http::Events::MessageRecievedHandler callback) const = 0;
+            virtual void onConnection(::Http::Events::MessageRecievedHandler callback) = 0;
 
             /**
              * Close the http server.
