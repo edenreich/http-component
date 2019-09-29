@@ -5,9 +5,7 @@
 #include "http/client.h"
 #include "http/request.h"
 #include "http/response.h"
-#include "http/stream.h"
-
-#include "http/interfaces/client_interface.h"
+#include "http/socket_stream.h"
 
 #include "http/exceptions/not_implemented_exception.h"
 #include "http/exceptions/bad_connection_exception.h"
@@ -91,7 +89,7 @@ void Server::listen(const unsigned int & port)
 /**
  * On data recieved event.
  * 
- * @param Events::MessageRecievedHandler callback
+ * @param Http::Events::MessageRecievedHandler callback
  * @return void
  */
 void Server::onConnection(Events::MessageRecievedHandler callback)
@@ -109,23 +107,23 @@ void Server::onConnection(Events::MessageRecievedHandler callback)
             throw Exceptions::BadConnectionException("Could not accept the connection");
         }
 
-        // Client Request
-        Interfaces::StreamInterface * stream = new Stream(&clientSocket);
-        Interfaces::ResponseInterface * response = new Response(stream);
-        Interfaces::RequestInterface * request = new Request(response);
-        Interfaces::ClientInterface * client = new Client(request);
+        // // Client Request
+        // Interfaces::StreamInterface * stream = new Stream();
+        // Interfaces::ResponseInterface * response = new Response(stream);
+        // Interfaces::RequestInterface * request = new Request(response);
+        // Interfaces::ClientInterface * client = new Client(request);
 
-        // Server Response
-        Interfaces::ResponseInterface * serverResponse = callback(client);
-        Interfaces::StreamInterface * serverStream = serverResponse->getBody();
+        // // Server Response
+        // Interfaces::ResponseInterface * serverResponse = callback(client);
+        // Interfaces::StreamInterface * serverStream = serverResponse->getBody();
 
-        ::send(clientSocket, serverStream->getContents().c_str(), strlen(serverStream->getContents().c_str()), 0);
+        // ::send(clientSocket, serverStream->getContents().c_str(), strlen(serverStream->getContents().c_str()), 0);
 
-        ::close(clientSocket);
-        ::close(m_serverSocket);
+        // ::close(clientSocket);
+        // ::close(m_serverSocket);
 
-        delete client;
-        delete serverResponse;
+        // delete client;
+        // delete serverResponse;
     }
     #endif
 }

@@ -1,7 +1,7 @@
 #include "http/response.h"
 #include "http/exceptions/not_implemented_exception.h"
 
-#include "http/stream.h"
+#include "http/socket_stream.h"
 
 using namespace Http;
 
@@ -9,7 +9,7 @@ using namespace Http;
 /**
  * Construct a response.
  */
-Response::Response() : m_stream(new Stream)
+Response::Response() : m_stream(nullptr)
 {
     //
 }
@@ -19,9 +19,9 @@ Response::Response() : m_stream(new Stream)
  * 
  * - Initialize a stream
  * 
- * @param Http::Interfaces::StreamInterface * stream
+ * @param Http::Interfaces::SocketStreamInterface * stream
  */
-Response::Response(Interfaces::StreamInterface * stream) : m_stream(stream)
+Response::Response(Interfaces::SocketStreamInterface * stream) : m_stream(stream)
 {
     //
 }
@@ -37,9 +37,9 @@ Response::~Response()
 /**
  * Retrieve the body stream.
  * 
- * @return Http::Interfaces::StreamInterface *
+ * @return Http::Interfaces::SocketStreamInterface *
  */
-Interfaces::StreamInterface * Response::getBody()
+Interfaces::SocketStreamInterface * Response::getBody()
 {
     return m_stream;
 }

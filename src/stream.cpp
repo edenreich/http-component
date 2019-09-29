@@ -1,4 +1,4 @@
-#include "http/stream.h"
+#include "http/socket_stream.h"
 
 #include "pch/network.h"
 #include <ios>
@@ -7,9 +7,9 @@ using namespace Http;
 
 
 /**
- * Construct a stream.
+ * Construct a socket stream.
  */
-Stream::Stream() : m_fileDescriptor(nullptr)
+SocketStream::SocketStream() : m_fileDescriptor(nullptr)
 {
     //
 }
@@ -21,7 +21,7 @@ Stream::Stream() : m_fileDescriptor(nullptr)
  * 
  * @param int fileDescriptor
  */
-Stream::Stream(int * fileDescriptor) : m_fileDescriptor(fileDescriptor)
+SocketStream::SocketStream(int * fileDescriptor) : m_fileDescriptor(fileDescriptor)
 {
     //
 }
@@ -29,7 +29,7 @@ Stream::Stream(int * fileDescriptor) : m_fileDescriptor(fileDescriptor)
 /**
  * Destruct the stream.
  */
-Stream::~Stream()
+SocketStream::~SocketStream()
 {
     delete m_fileDescriptor;
 }
@@ -39,7 +39,7 @@ Stream::~Stream()
  * 
  * @return std::string
  */
-std::string Stream::getContents() const
+std::string SocketStream::getContents() const
 {
     return m_content.str();
 }
@@ -50,7 +50,7 @@ std::string Stream::getContents() const
  * @param unsigned int length
  * @return std::string
  */
-std::string Stream::read(unsigned int length)
+std::string SocketStream::read(unsigned int length)
 {
     std::string chunk;
 
@@ -66,7 +66,7 @@ std::string Stream::read(unsigned int length)
  * 
  * @return std::string
  */
-std::string Stream::readLine()
+std::string SocketStream::readLine()
 {
     std::string line;
 
@@ -80,7 +80,7 @@ std::string Stream::readLine()
  * 
  * @return unsigned int
  */
-unsigned int Stream::getSize()
+unsigned int SocketStream::getSize()
 {
     m_content.seekg(0, std::ios::end);
 
@@ -95,9 +95,9 @@ unsigned int Stream::getSize()
  * Setter for output stream - const char array variant.
  * 
  * @param const char * output
- * @return Http::Interfaces::StreamInterface &
+ * @return Http::Interfaces::SocketStreamInterface &
  */
-Interfaces::StreamInterface & Stream::operator<<(const char * output) 
+Interfaces::SocketStreamInterface & SocketStream::operator<<(const char * output) 
 {
     m_content << output;
 
@@ -108,9 +108,9 @@ Interfaces::StreamInterface & Stream::operator<<(const char * output)
  * Setter for output stream - const ref std::string variant.
  * 
  * @param const std::string & output
- * @return Http::Interfaces::StreamInterface &
+ * @return Http::Interfaces::SocketStreamInterface &
  */
-Interfaces::StreamInterface & Stream::operator<<(const std::string & output)
+Interfaces::SocketStreamInterface & SocketStream::operator<<(const std::string & output)
 {
     m_content << output;
 
@@ -121,9 +121,9 @@ Interfaces::StreamInterface & Stream::operator<<(const std::string & output)
  * Setter for output stream - const ref size_t variant.
  * 
  * @param const size_t & output
- * @return Http::Interfaces::StreamInterface
+ * @return Http::Interfaces::SocketStreamInterface
  */
-Interfaces::StreamInterface & Stream::operator<<(const size_t & output)
+Interfaces::SocketStreamInterface & SocketStream::operator<<(const size_t & output)
 {
     m_content << output;
 

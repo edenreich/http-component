@@ -1,6 +1,10 @@
 #ifndef CLIENT_INTERFACE_H
 #define CLIENT_INTERFACE_H
 
+#include "url_interface.h"
+#include "response_interface.h"
+#include "request_interface.h"
+
 
 namespace Http {
   
@@ -8,9 +12,9 @@ namespace Http {
 
     namespace Interfaces {
 
-        class UrlInterface;
-        class ResponseInterface;
-        class RequestInterface;
+        // class UrlInterface;
+        // class ResponseInterface;
+        // class RequestInterface;
 
         /**
          * The Client Interface

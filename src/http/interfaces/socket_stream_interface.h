@@ -1,5 +1,5 @@
-#ifndef STREAM_INTERFACE_H
-#define STREAM_INTERFACE_H
+#ifndef SOCKET_STREAM_INTERFACE_H
+#define SOCKET_STREAM_INTERFACE_H
 
 #include <string>
 
@@ -10,14 +10,14 @@ namespace Http {
         /**
          * The Stream Interface
          */
-        class StreamInterface {
+        class SocketStreamInterface {
 
         public:
 
             /**
              * Virtual Destructor.
              */
-            virtual ~StreamInterface() = default;
+            virtual ~SocketStreamInterface() {}
             
             /**
              * Retrieve all content.
@@ -52,29 +52,29 @@ namespace Http {
              * Setter for output stream - const char array variant.
              * 
              * @param const char * output
-             * @return const StreamInterface &
+             * @return SocketStreamInterface &
              */
-            virtual StreamInterface & operator<<(const char * output) = 0;
+            virtual SocketStreamInterface & operator<<(const char * output) = 0;
 
             /**
              * Setter for output stream - std::string variant.
              * 
              * @param const std::string & output
-             * @return const StreamInterface &
+             * @return SocketStreamInterface &
              */
-            virtual StreamInterface & operator<<(const std::string & output) = 0;
+            virtual SocketStreamInterface & operator<<(const std::string & output) = 0;
 
             /**
              * Setter for output stream - size_t variant.
              * 
              * @param const size_t & output
-             * @return const StreamInterface &
+             * @return SocketStreamInterface &
              */
-            virtual StreamInterface & operator<<(const size_t & output) = 0;
+            virtual SocketStreamInterface & operator<<(const size_t & output) = 0;
 
         };
     }
 }
 
 
-#endif // STREAM_INTERFACE_H
+#endif // SOCKET_STREAM_INTERFACE_H

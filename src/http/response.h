@@ -2,7 +2,7 @@
 #define RESPONSE_H
 
 #include "interfaces/response_interface.h"
-#include "interfaces/stream_interface.h"
+#include "interfaces/socket_stream_interface.h"
 #include "types/status_codes.h"
 
 
@@ -25,9 +25,9 @@ namespace Http {
          * 
          * - Initialize a stream
          * 
-         * @param Http::Interfaces::StreamInterface * stream
+         * @param Http::Interfaces::SocketStreamInterface * stream
          */
-        Response(Interfaces::StreamInterface * stream);
+        Response(Interfaces::SocketStreamInterface * stream);
 
         /**
          * Destruct the response.
@@ -37,9 +37,9 @@ namespace Http {
         /**
          * Retrieve the body stream.
          * 
-         * @return Http::Interfaces::StreamInterface *
+         * @return Http::Interfaces::SocketStreamInterface *
          */
-        Interfaces::StreamInterface * getBody() override;
+        Interfaces::SocketStreamInterface * getBody() override;
 
         /**
          * Retrieve the status code.
@@ -53,9 +53,9 @@ namespace Http {
         /**
          * Store the stream interface.
          * 
-         * @var Http::Interfaces::StreamInterface *
+         * @var Http::Interfaces::SocketStreamInterface *
          */
-        Interfaces::StreamInterface * m_stream;
+        Interfaces::SocketStreamInterface * m_stream;
 
     };
 

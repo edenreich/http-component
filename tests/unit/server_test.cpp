@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <http/server.h>
 #include <http/response.h>
-#include <http/stream.h>
+#include <http/socket_stream.h>
 #include <http/interfaces/response_interface.h>
 #include <http/interfaces/client_interface.h>
 #include <string>
@@ -19,7 +19,7 @@ TEST(ServerTest, ItRecievesAMessage) {
 
     server.onConnection([](Interfaces::ClientInterface * client) {
 
-        Interfaces::StreamInterface * stream = client->getRequest()->getBody();
+        Interfaces::SocketStreamInterface * stream = client->getRequest()->getBody();
 
         const char * content = "Hello World";
 

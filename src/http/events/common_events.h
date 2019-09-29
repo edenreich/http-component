@@ -1,7 +1,6 @@
 #ifndef COMMON_EVENTS_H
 #define COMMON_EVENTS_H
 
-#include <string>
 #include "../interfaces/client_interface.h"
 #include "../interfaces/response_interface.h"
 #include <functional>

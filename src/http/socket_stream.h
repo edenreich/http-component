@@ -1,7 +1,7 @@
-#ifndef STREAM_H
-#define STREAM_H
+#ifndef SOCKET_STREAM_H
+#define SOCKET_STREAM_H
 
-#include "interfaces/stream_interface.h"
+#include "interfaces/socket_stream_interface.h"
 
 #include <sstream>
 
@@ -11,14 +11,14 @@ namespace Http {
     /**
      * The Stream Class
      */
-    class Stream : public Interfaces::StreamInterface {
+    class SocketStream : public Interfaces::SocketStreamInterface {
 
     public:
 
         /**
          * Construct a stream.
          */
-        Stream();
+        SocketStream() = default;
 
         /**
          * Construct a stream.
@@ -27,12 +27,12 @@ namespace Http {
          * 
          * @param int * fileDescriptor
          */
-        Stream(int * fileDescriptor);
+        SocketStream(int * fileDescriptor);
 
         /**
          * Destruct the stream.
          */
-        ~Stream();
+        ~SocketStream() override;
 
         /**
          * Retrieve all content.
@@ -67,25 +67,25 @@ namespace Http {
          * Setter for output stream - const char array variant.
          * 
          * @param const char * output
-         * @return const Interfaces::StreamInterface &
+         * @return const Interfaces::SocketStreamInterface &
          */
-        Interfaces::StreamInterface & operator<<(const char * output) override;
+        Interfaces::SocketStreamInterface & operator<<(const char * output) override;
 
         /**
          * Setter for output stream - const ref std::string variant.
          * 
          * @param const std::string & output
-         * @return const Interfaces::StreamInterface &
+         * @return const Interfaces::SocketStreamInterface &
          */
-        Interfaces::StreamInterface & operator<<(const std::string & output) override;
+        Interfaces::SocketStreamInterface & operator<<(const std::string & output) override;
 
         /**
          * Setter for output stream - const ref size_t variant.
          * 
          * @param const size_t & output
-         * @return const Interfaces::StreamInterface &
+         * @return const Interfaces::SocketStreamInterface &
          */
-        Interfaces::StreamInterface & operator<<(const size_t & output) override;
+        Interfaces::SocketStreamInterface & operator<<(const size_t & output) override;
 
     private:
         
@@ -108,4 +108,4 @@ namespace Http {
 }
 
 
-#endif // STREAM_H
+#endif // SOCKET_STREAM_H

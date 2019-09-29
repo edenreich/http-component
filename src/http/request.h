@@ -78,9 +78,9 @@ namespace Http {
         /**
          * Retrieve the body stream.
          * 
-         * @return Http::Interfaces::StreamInterface *
+         * @return Http::Interfaces::SocketStreamInterface *
          */
-        Interfaces::StreamInterface * getBody() const override;
+        Interfaces::SocketStreamInterface * getBody() const override;
 
     private:
         

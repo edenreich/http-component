@@ -1,11 +1,8 @@
 #ifndef SERVER_INTERFACE_H
 #define SERVER_INTERFACE_H
 
-#include "request_interface.h"
-#include "server_interface.h"
 #include "../events/common_events.h"
 #include <string>
-#include <functional>
 
 
 namespace Http {

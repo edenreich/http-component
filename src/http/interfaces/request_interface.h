@@ -1,15 +1,18 @@
 #ifndef REQUEST_INTERFACE_H
 #define REQUEST_INTERFACE_H
 
+#include "url_interface.h"
+#include "response_interface.h"
+#include "socket_stream_interface.h"
 #include <string>
 
 
 namespace Http {
     namespace Interfaces {
 
-        class UrlInterface;
-        class ResponseInterface;
-        class StreamInterface;
+        // class UrlInterface;
+        // class ResponseInterface;
+        // class StreamInterface;
 
         /**
          * The Request Interface
@@ -66,9 +69,9 @@ namespace Http {
             /**
              * Retrieve the stream body.
              * 
-             * @return Http::Interfaces::StreamInterface *
+             * @return Http::Interfaces::SocketStreamInterface *
              */
-            virtual StreamInterface * getBody() const = 0;
+            virtual SocketStreamInterface * getBody() const = 0;
 
         };
     }

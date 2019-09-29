@@ -1,6 +1,8 @@
 #ifndef RESPONSE_INTERFACE_H
 #define RESPONSE_INTERFACE_H
 
+#include "socket_stream_interface.h"
+
 
 namespace Http {
 
@@ -8,7 +10,7 @@ namespace Http {
 
     namespace Interfaces {
 
-        class StreamInterface;
+        // class StreamInterface;
 
         /**
          * The Response Interface
@@ -25,9 +27,9 @@ namespace Http {
             /**
              * Retrieve the body stream.
              * 
-             * @return Http::Interfaces::StreamInterface *
+             * @return Http::Interfaces::SocketStreamInterface *
              */
-            virtual StreamInterface * getBody() = 0;
+            virtual SocketStreamInterface * getBody() = 0;
 
             /**
              * Retrieve the status code.
