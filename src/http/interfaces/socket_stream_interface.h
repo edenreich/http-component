@@ -36,7 +36,7 @@ namespace Http {
             /**
              * Wait for a connection.
              */
-            virtual const unsigned int & waitForConnection() const = 0;
+            virtual const int waitForConnection() const = 0;
             
             /**
              * Retrieve all content.

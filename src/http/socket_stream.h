@@ -43,7 +43,7 @@ namespace Http {
         /**
          * Wait for a connection.
          */
-        const unsigned int & waitForConnection() const override;
+        const int waitForConnection() const override;
 
         /**
          * Retrieve all content.

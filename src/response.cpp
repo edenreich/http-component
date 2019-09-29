@@ -9,7 +9,7 @@ using namespace Http;
 /**
  * Construct a response.
  */
-Response::Response() : m_stream(nullptr)
+Response::Response() : m_stream(new SocketStream)
 {
     //
 }

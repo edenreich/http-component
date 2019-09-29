@@ -11,7 +11,7 @@ using namespace Http;
 /**
  * Construct a socket stream.
  */
-SocketStream::SocketStream()
+SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream()), m_localaddr{} 
 {
     #if IS_WINDOWS
     // @todo write windows specific implemention
@@ -76,10 +76,10 @@ void SocketStream::bind(const std::string & address)
 /**
  * Wait for a connection.
  */
-const unsigned int & SocketStream::waitForConnection() const
+const int SocketStream::waitForConnection() const
 {
     int addresslen = sizeof(m_localaddr);
-    unsigned int clientSocket;
+    int clientSocket;
 
     if ((clientSocket = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0)
     {

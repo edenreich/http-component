@@ -75,7 +75,7 @@ void Server::onConnection(Events::MessageRecievedHandler callback)
 
     while (m_running) {
 
-        int clientSocket = m_socket->waitForConnection();
+        // int clientSocket = m_socket->waitForConnection();
 
         // // Client Request
         // Interfaces::StreamInterface * stream = new Stream();
