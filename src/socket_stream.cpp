@@ -180,7 +180,7 @@ Interfaces::SocketStreamInterface & SocketStream::operator<<(const std::string &
  * Setter for output stream - const ref size_t variant.
  * 
  * @param const size_t & output
- * @return Http::Interfaces::SocketStreamInterface
+ * @return Http::Interfaces::SocketStreamInterface &
  */
 Interfaces::SocketStreamInterface & SocketStream::operator<<(const size_t & output)
 {
