@@ -86,6 +86,7 @@ namespace Http {
          * @var unsigned int
          */
         unsigned int m_port;
+
     };
 
 }

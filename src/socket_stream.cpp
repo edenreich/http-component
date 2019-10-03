@@ -11,32 +11,38 @@ using namespace Http;
 /**
  * Construct a socket stream.
  */
-SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream()), m_localaddr{} 
+SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
 {
     #if IS_WINDOWS
+    m_result = NULL;
     int iResult;
-    struct addrinfo * result = NULL;
+    struct addrinfo hints;
     WSADATA wsaData;
 
-    SOCKET ListenSocket = INVALID_SOCKET;
-    SOCKET ClientSocket = INVALID_SOCKET;
+    SOCKET m_socketId = INVALID_SOCKET;
 
-    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    iResult = ::WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) 
     {
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
 
-    iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+    ZeroMemory(&hints, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+    hints.ai_flags = AI_PASSIVE;
+
+    iResult = ::getaddrinfo(NULL, "80", &hints, &m_result);
     if (iResult != 0) {
-        WSACleanup();
+        ::WSACleanup();
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
 
-    ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-    if (ListenSocket == INVALID_SOCKET) {
-        freeaddrinfo(result);
-        WSACleanup();
+    m_socketId = ::socket(m_result->ai_family, m_result->ai_socktype, m_result->ai_protocol);
+    if (m_socketId == INVALID_SOCKET) {
+        ::freeaddrinfo(m_result);
+        ::WSACleanup();
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
     #else
@@ -70,7 +76,16 @@ const unsigned int & SocketStream::getId() const
 void SocketStream::bind(const std::string & address)
 {
     #if IS_WINDOWS
-    // @todo write windows specific implemention
+    int iResult;
+    iResult = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
+    if (iResult == SOCKET_ERROR) {
+        ::freeaddrinfo(m_result);
+        ::closesocket(m_socketId);
+        ::WSACleanup();
+        throw Exceptions::BadConnectionException("Faild to bind socket to address");
+    }
+
+    ::freeaddrinfo(m_result);
     #else
     int opt = 1;
 
@@ -80,7 +95,7 @@ void SocketStream::bind(const std::string & address)
 
     if (::setsockopt(m_socketId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
     {
-        throw Exceptions::BadConnectionException("Setsockopt failed");
+        throw Exceptions::BadConnectionException("Faild to bind socket to address");
     } 
 
     int failed = ::bind(m_socketId, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
@@ -99,17 +114,23 @@ void SocketStream::bind(const std::string & address)
 
 /**
  * Wait for a connection.
+ * 
+ * @return const Http::ClientSocketId
  */
-const int SocketStream::waitForConnection() const
+const ClientSocketId SocketStream::waitForConnection() const
 {
-    int addresslen = sizeof(m_localaddr);
-    int clientSocket;
+    SOCKET clientSocket;
 
     #if IS_WINDOWS
-        // @todo write windows specific implemention
+    clientSocket = ::accept(m_socketId, NULL, NULL);
+    if (clientSocket == INVALID_SOCKET) {
+        throw Exceptions::BadConnectionException("Could not accept the connection");
+        ::closesocket(m_socketId);
+        ::WSACleanup();
+    }
     #else
-    if ((clientSocket = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0)
-    {
+    int addresslen = sizeof(m_localaddr);
+    if ((clientSocket = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
         throw Exceptions::BadConnectionException("Could not accept the connection");
     }
     #endif

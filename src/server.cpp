@@ -65,10 +65,14 @@ void Server::listen(const unsigned int & port)
     m_port = port;
 
     #if IS_WINDOWS
-    // @todo write windows specific implemention
+    int iResult = ::listen(m_socket->getId(), SOMAXCONN);
+    if (iResult == SOCKET_ERROR) {
+        throw Exceptions::BadConnectionException("Could not listen on the given port");
+        closesocket(m_socket->getId());
+        WSACleanup();
+    }
     #else
-    if (::listen(m_socket->getId(), 1) < 0) 
-    { 
+    if (::listen(m_socket->getId(), 1) < 0) { 
         throw Exceptions::BadConnectionException("Could not listen on the given port");
     }
     #endif

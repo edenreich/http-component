@@ -2,6 +2,7 @@
 #define SOCKET_STREAM_INTERFACE_H
 
 #include <string>
+#include "types/common.h"
 
 
 namespace Http {
@@ -22,9 +23,9 @@ namespace Http {
             /**
              * Retrieve the id of the socket.
              * 
-             * @return unsigned int
+             * @return Http::ServerSocketId
              */
-            virtual const unsigned int & getId() const = 0;
+            virtual const ::Http::ServerSocketId & getId() const = 0;
 
             /**
              * Bind the address to the socket.
@@ -35,8 +36,10 @@ namespace Http {
 
             /**
              * Wait for a connection.
+             * 
+             * @return const Http::ClientSocketId
              */
-            virtual const int waitForConnection() const = 0;
+            virtual const ::Http::ClientSocketId waitForConnection() const = 0;
             
             /**
              * Retrieve all content.

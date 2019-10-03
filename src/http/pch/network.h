@@ -7,9 +7,9 @@
 #include <stdio.h>
 
 #if IS_WINDOWS
-    #include <windows.h>
     #include <winsock2.h>
     #include <ws2tcpip.h>
+    #include <windows.h>
 #else
     extern "C" {
         #include <sys/socket.h>

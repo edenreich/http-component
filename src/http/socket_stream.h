@@ -29,9 +29,9 @@ namespace Http {
         /**
          * Retrieve the id of the socket.
          * 
-         * @return unsigned int
+         * @return Http::ServerSocketId
          */
-        const unsigned int & getId() const override;
+        const ServerSocketId & getId() const override;
 
         /**
          * Bind the address to the socket.
@@ -42,8 +42,10 @@ namespace Http {
 
         /**
          * Wait for a connection.
+         * 
+         * @return const Http::ClientSocketId
          */
-        const int waitForConnection() const override;
+        const Http::ClientSocketId waitForConnection() const override;
 
         /**
          * Retrieve all content.
@@ -99,13 +101,13 @@ namespace Http {
         Interfaces::SocketStreamInterface & operator<<(const size_t & output) override;
 
     private:
-        
+
         /**
          * Store the file descriptor pointer.
          * 
-         * @var int m_socketId
-         */
-        unsigned int m_socketId;
+         * @var Http::ServerSocketId m_socketId
+         */ 
+        ServerSocketId m_socketId;
 
         /**
          * Store the contents.
@@ -114,13 +116,24 @@ namespace Http {
          */
         std::stringstream m_content;
 
+        #if IS_LINUX
         /**
          * Store the socket address.
          * 
          * @var struct sockaddr_in
          */
         struct sockaddr_in m_localaddr;
+        #endif
 
+        #if IS_WINDOWS
+        /**
+         * Store the address info.
+         * 
+         * @var struct addrinfo *
+         */
+        struct addrinfo * m_result;
+        
+        #endif
     };
 
 }
