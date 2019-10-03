@@ -116,15 +116,6 @@ namespace Http {
          */
         std::stringstream m_content;
 
-        #if IS_LINUX
-        /**
-         * Store the socket address.
-         * 
-         * @var struct sockaddr_in
-         */
-        struct sockaddr_in m_localaddr;
-        #endif
-
         #if IS_WINDOWS
         /**
          * Store the address info.
@@ -132,7 +123,15 @@ namespace Http {
          * @var struct addrinfo *
          */
         struct addrinfo * m_result;
-        
+
+        #else
+        /**
+         * Store the socket address.
+         * 
+         * @var struct sockaddr_in
+         */
+        struct sockaddr_in m_localaddr;
+
         #endif
     };
 
