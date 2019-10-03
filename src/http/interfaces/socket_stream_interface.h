@@ -2,7 +2,7 @@
 #define SOCKET_STREAM_INTERFACE_H
 
 #include <string>
-#include "types/common.h"
+#include "../types/common.h"
 
 
 namespace Http {

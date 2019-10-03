@@ -11,8 +11,8 @@ namespace Http {
     typedef SOCKET ClientSocketId;
     typedef SOCKET ServerSocketId;
     #else
-    unsigned int ClientSocketId;
-    unsigned int ServerSocketId;
+    typedef unsigned int ClientSocketId;
+    typedef unsigned int ServerSocketId;
     #endif
 
 }

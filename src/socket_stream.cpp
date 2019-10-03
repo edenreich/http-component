@@ -66,9 +66,9 @@ SocketStream::~SocketStream()
 /**
  * Retrieve the id of the socket.
  * 
- * @return unsigned int
+ * @return Http::ServerSocketId
  */
-const unsigned int & SocketStream::getId() const
+const ServerSocketId & SocketStream::getId() const
 {
     return m_socketId;
 }
@@ -119,23 +119,23 @@ void SocketStream::bind(const std::string & address)
  */
 const ClientSocketId SocketStream::waitForConnection() const
 {
-    SOCKET clientSocket;
+    ClientSocketId clientSocketId;
 
     #if IS_WINDOWS
-    clientSocket = ::accept(m_socketId, NULL, NULL);
-    if (clientSocket == INVALID_SOCKET) {
+    clientSocketId = ::accept(m_socketId, NULL, NULL);
+    if (clientSocketId == INVALID_SOCKET) {
         throw Exceptions::BadConnectionException("Could not accept the connection");
         ::closesocket(m_socketId);
         ::WSACleanup();
     }
     #else
     int addresslen = sizeof(m_localaddr);
-    if ((clientSocket = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
+    if ((clientSocketId = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
         throw Exceptions::BadConnectionException("Could not accept the connection");
     }
     #endif
 
-    return clientSocket;
+    return clientSocketId;
 }
 
 /**
