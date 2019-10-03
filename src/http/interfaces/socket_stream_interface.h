@@ -71,6 +71,13 @@ namespace Http {
             virtual unsigned int getSize() = 0;
 
             /**
+             * Close the socket.
+             * 
+             * @return int
+             */
+            virtual int close() const = 0;
+
+            /**
              * Setter for output stream - const char array variant.
              * 
              * @param const char * output

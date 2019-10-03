@@ -77,6 +77,13 @@ namespace Http {
         unsigned int getSize() override;
 
         /**
+         * Close the socket.
+         * 
+         * @return int
+         */
+        int close() const override;
+
+        /**
          * Setter for output stream - const char array variant.
          * 
          * @param const char * output

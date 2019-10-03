@@ -8,9 +8,11 @@
 namespace Http {
     
     #if IS_WINDOWS
+    typedef SOCKET SocketId;
     typedef SOCKET ClientSocketId;
     typedef SOCKET ServerSocketId;
     #else
+    typedef unsigned int SocketId;
     typedef unsigned int ClientSocketId;
     typedef unsigned int ServerSocketId;
     #endif

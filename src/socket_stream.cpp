@@ -208,6 +208,24 @@ unsigned int SocketStream::getSize()
 }
 
 /**
+ * Close the socket by given socket id.
+ * 
+ * @return int
+ */
+int SocketStream::close() const
+{
+    int result;
+
+    #if IS_WINDOWS
+    result = ::closesocket(m_socketId);
+    #else
+    result = ::close(m_socketId);
+    #endif
+
+    return result;
+}
+
+/**
  * Setter for output stream - const char array variant.
  * 
  * @param const char * output
