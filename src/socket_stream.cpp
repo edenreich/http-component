@@ -14,7 +14,31 @@ using namespace Http;
 SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream()), m_localaddr{} 
 {
     #if IS_WINDOWS
-    // @todo write windows specific implemention
+    int iResult;
+    struct addrinfo * result = NULL;
+    WSADATA wsaData;
+
+    SOCKET ListenSocket = INVALID_SOCKET;
+    SOCKET ClientSocket = INVALID_SOCKET;
+
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0) 
+    {
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+
+    iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+    if (iResult != 0) {
+        WSACleanup();
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+
+    ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+    if (ListenSocket == INVALID_SOCKET) {
+        freeaddrinfo(result);
+        WSACleanup();
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
     #else
     m_socketId = ::socket(AF_INET, SOCK_STREAM, 0);
 
