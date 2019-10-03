@@ -1,14 +1,10 @@
-#include <filesystem>
+#include <cstring>
 
 #include <http/server.h>
 #include <http/response.h>
 #include <http/interfaces/socket_stream_interface.h>
 #include <http/interfaces/response_interface.h>
 #include <http/interfaces/client_interface.h>
-
-#include "helpers.h"
-
-namespace fs = std::filesystem;
 
 using namespace Http;
 
@@ -24,14 +20,32 @@ int main(int argc, char const *argv[])
     server.onConnection([](Interfaces::ClientInterface * client) {
 
         Interfaces::SocketStreamInterface * stream = client->getRequest()->getBody();
-        std::string json = getFileContent(fs::current_path().concat("/../examples/api/data/products.json"));
+        const char * json = R"JSON(
+            [
+                {
+                    "id": 1,
+                    "name": "Pizza",
+                    "description": "lorem ipsum"
+                },
+                {
+                    "id": 2,
+                    "name": "Cola",
+                    "description": "lorem ipsum"
+                },
+                {
+                    "id": 3,
+                    "name": "Hamburger",
+                    "description": "lorem ipsum"
+                }
+            ]
+        )JSON";
 
         *stream << "HTTP/1.1 200 OK\n";
         *stream << "Content-Type: application/json\n";
-        *stream << "Content-Length: " << strlen(json.c_str()) << "\n";
+        *stream << "Content-Length: " << strlen(json) << "\n";
         *stream << "Connection: close\n";
         *stream << "\n";
-        *stream << json.c_str();
+        *stream << json;
 
         return new Response(stream);
     });

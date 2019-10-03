@@ -15,6 +15,6 @@ add_executable(${PROJECT_NAME}
     ${SOURCES_CXX_FILES}
 )
 
-target_link_libraries(${PROJECT_NAME} http stdc++fs)
+target_link_libraries(${PROJECT_NAME} http)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin)
