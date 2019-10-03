@@ -30,7 +30,9 @@ Server::Server() : m_socket(new SocketStream), m_running(false)
  */
 Server::~Server()
 {
-    close();
+    m_running = false;
+    ::close(m_socket->getId());
+    delete m_socket;
 }
 
 /**
@@ -59,13 +61,13 @@ void Server::listen(const unsigned int & port)
     #if IS_WINDOWS
     // @todo write windows specific implemention
     #else
-    if (::listen(m_socket->getId(), 5) < 0) 
+    if (::listen(m_socket->getId(), 1) < 0) 
     { 
         throw Exceptions::BadConnectionException("Could not listen on the given port");
     }
     #endif
 
-    std::cout << "Server started on " << m_address << ":" << m_port << '\n';
+    std::cout << "Server started listening on " << m_address << ":" << m_port << '\n';
     m_running = true;
 }
 
@@ -77,11 +79,7 @@ void Server::listen(const unsigned int & port)
  */
 void Server::onConnection(Events::MessageRecievedHandler handler)
 {
-    #if IS_WINDOWS
-    // @todo write windows specific implemention
-    #else
-
-    while (m_running) {
+    do {
 
         int clientSocket = m_socket->waitForConnection();
 
@@ -102,20 +100,18 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
         ::close(clientSocket);
 
         delete client;
-    }
 
-    ::close(m_socket->getId());
+    } while((m_running));
 
-    #endif
+    shutdown();
 }
 
 /**
- * Close the http server.
+ * Shutdown the http server.
  * 
  * @return void
  */
-void Server::close()
+void Server::shutdown()
 {
-    delete m_socket;
-    m_running = false;
+    delete this;
 }

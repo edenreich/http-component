@@ -51,11 +51,11 @@ namespace Http {
         void onConnection(Events::MessageRecievedHandler handler) override;
 
         /**
-         * Close the http server.
+         * Shutdown the http server.
          * 
          * @return void
          */
-        void close() override;
+        void shutdown() override;
 
     private:
         

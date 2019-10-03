@@ -45,11 +45,11 @@ namespace Http {
             virtual void onConnection(::Http::Events::MessageRecievedHandler handler) = 0;
 
             /**
-             * Close the http server.
+             * Shutdown the http server.
              * 
              * @return void
              */
-            virtual void close() = 0;
+            virtual void shutdown() = 0;
 
         };
 
