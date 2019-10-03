@@ -102,7 +102,11 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
 
         ::send(clientSocket, serverStream->getContents().c_str(), std::strlen(serverStream->getContents().c_str()), 0);
 
+        #if IS_WINDOWS
+        ::closesocket(clientSocket);
+        #else
         ::close(clientSocket);
+        #endif
 
         delete client;
 
