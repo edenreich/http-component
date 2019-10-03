@@ -15,13 +15,14 @@ SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
 {
     #if IS_WINDOWS
     m_result = NULL;
+    m_socketId = INVALID_SOCKET;
+
     int iResult;
     struct addrinfo hints;
+
     WSADATA wsaData;
-
-    SOCKET m_socketId = INVALID_SOCKET;
-
     iResult = ::WSAStartup(MAKEWORD(2,2), &wsaData);
+    
     if (iResult != 0) 
     {
         throw Exceptions::BadConnectionException("Could not create the socket");
@@ -33,24 +34,30 @@ SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_PASSIVE;
 
-    iResult = ::getaddrinfo(NULL, "80", &hints, &m_result);
+    iResult = ::getaddrinfo(NULL, DEFAULT_PORT, &hints, &m_result);
     if (iResult != 0) {
-        ::WSACleanup();
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
 
     m_socketId = ::socket(m_result->ai_family, m_result->ai_socktype, m_result->ai_protocol);
     if (m_socketId == INVALID_SOCKET) {
-        ::freeaddrinfo(m_result);
-        ::WSACleanup();
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
     #else
+    int opt = 1;
     m_socketId = ::socket(AF_INET, SOCK_STREAM, 0);
+
+    m_localaddr.sin_family = AF_INET;
+    m_localaddr.sin_port = htons(8080); 
 
     if (m_socketId == 0) 
     { 
         throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+
+    if (::setsockopt(m_socketId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
+    {
+        throw Exceptions::BadConnectionException("Faild to bind socket to address");
     }
     #endif
 }
@@ -60,7 +67,12 @@ SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
  */
 SocketStream::~SocketStream()
 {
-    //
+    #if IS_WINDOWS
+    ::freeaddrinfo(m_result);
+    ::WSACleanup();
+    #else
+
+    #endif
 }
 
 /**
@@ -73,10 +85,16 @@ const ServerSocketId & SocketStream::getId() const
     return m_socketId;
 }
 
+/**
+ * Bind the address to the socket.
+ * 
+ * @param const std::string & address
+ */
 void SocketStream::bind(const std::string & address)
 {
-    #if IS_WINDOWS
     int iResult;
+
+    #if IS_WINDOWS
     iResult = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
     if (iResult == SOCKET_ERROR) {
         ::freeaddrinfo(m_result);
@@ -87,25 +105,16 @@ void SocketStream::bind(const std::string & address)
 
     ::freeaddrinfo(m_result);
     #else
-    int opt = 1;
-
-    m_localaddr.sin_family = AF_INET;
     m_localaddr.sin_addr.s_addr = ::inet_addr(address.c_str());
-    m_localaddr.sin_port = htons(8080); 
-
-    if (::setsockopt(m_socketId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
-    {
-        throw Exceptions::BadConnectionException("Faild to bind socket to address");
-    } 
-
-    int failed = ::bind(m_socketId, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
+    
+    iResult = ::bind(m_socketId, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
 
     if (m_socketId == 0) 
     { 
         throw Exceptions::BadConnectionException("Could not bind the socket to address!");
     }
 
-    if (failed < 0) 
+    if (iResult < 0) 
     { 
         throw Exceptions::BadConnectionException("Could not bind to the given port");
     }
