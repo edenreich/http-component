@@ -33,6 +33,8 @@ Server::~Server()
     m_running = false;
 
     m_socket->close();
+
+    delete m_socket;
 }
 
 /**
@@ -85,12 +87,11 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
 {
     do {
 
-        int clientSocket = m_socket->waitForConnection();
+        Interfaces::SocketStreamInterface * stream = m_socket->waitForConnection();
 
-        std::cout << "Accepted connection. Client id " << clientSocket << '\n'; 
+        std::cout << "Accepted connection. Client id " << stream->getId() << '\n'; 
 
         // Client Request
-        Interfaces::SocketStreamInterface * stream = new SocketStream();
         Interfaces::ResponseInterface * response = new Response(stream);
         Interfaces::RequestInterface * request = new Request(response);
         Interfaces::ClientInterface * client = new Client(request);
@@ -102,14 +103,9 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
         std::string content = serverStream->getContents(); 
         int bufferLength = static_cast<int>(std::strlen(content.c_str()));
         
-        ::send(clientSocket, content.c_str(), bufferLength, 0);
+        ::send(stream->getId(), content.c_str(), bufferLength, 0);
 
-        #if IS_WINDOWS
-        ::closesocket(clientSocket);
-        #else
-        ::close(clientSocket);
-        #endif
-
+        // Deleting the client will delete all it's dependend instances.
         delete client;
 
     } while((m_running));

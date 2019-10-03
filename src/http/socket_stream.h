@@ -43,9 +43,9 @@ namespace Http {
         /**
          * Wait for a connection.
          * 
-         * @return const Http::ClientSocketId
+         * @return Http::Interfaces::SocketStreamInterface *
          */
-        const Http::ClientSocketId waitForConnection() const override;
+        Interfaces::SocketStreamInterface * waitForConnection() override;
 
         /**
          * Retrieve all content.

@@ -97,9 +97,6 @@ void SocketStream::bind(const std::string & address)
     #if IS_WINDOWS
     iResult = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
     if (iResult == SOCKET_ERROR) {
-        ::freeaddrinfo(m_result);
-        ::closesocket(m_socketId);
-        ::WSACleanup();
         throw Exceptions::BadConnectionException("Faild to bind socket to address");
     }
 
@@ -124,27 +121,23 @@ void SocketStream::bind(const std::string & address)
 /**
  * Wait for a connection.
  * 
- * @return const Http::ClientSocketId
+ * @return Http::Interfaces::SocketStreamInterface *
  */
-const ClientSocketId SocketStream::waitForConnection() const
+Interfaces::SocketStreamInterface * SocketStream::waitForConnection()
 {
-    ClientSocketId clientSocketId;
-
     #if IS_WINDOWS
-    clientSocketId = ::accept(m_socketId, NULL, NULL);
-    if (clientSocketId == INVALID_SOCKET) {
+    m_socketId = ::accept(m_socketId, NULL, NULL);
+    if (m_socketId == INVALID_SOCKET) {
         throw Exceptions::BadConnectionException("Could not accept the connection");
-        ::closesocket(m_socketId);
-        ::WSACleanup();
     }
     #else
     int addresslen = sizeof(m_localaddr);
-    if ((clientSocketId = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
+    if ((m_socketId = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
         throw Exceptions::BadConnectionException("Could not accept the connection");
     }
     #endif
 
-    return clientSocketId;
+    return this;
 }
 
 /**

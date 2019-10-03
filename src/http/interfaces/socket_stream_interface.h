@@ -37,9 +37,9 @@ namespace Http {
             /**
              * Wait for a connection.
              * 
-             * @return const Http::ClientSocketId
+             * @return Interfaces::SocketStreamInterface *
              */
-            virtual const ::Http::ClientSocketId waitForConnection() const = 0;
+            virtual SocketStreamInterface * waitForConnection() = 0;
             
             /**
              * Retrieve all content.
