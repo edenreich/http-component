@@ -31,7 +31,12 @@ Server::Server() : m_socket(new SocketStream), m_running(false)
 Server::~Server()
 {
     m_running = false;
+
+    #if IS_WINDOWS
+    ::closesocket(m_socket->getId())
+    #else
     ::close(m_socket->getId());
+    #endif
     delete m_socket;
 }
 
