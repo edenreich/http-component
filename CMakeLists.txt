@@ -23,6 +23,7 @@ set(CMAKE_PDB_OUTPUT_DIRECTORY_DEBUG       ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(src)
 
 if(WITH_EXAMPLES)
+    add_subdirectory(examples/api)
     add_subdirectory(examples/webpage)
 endif()
 
