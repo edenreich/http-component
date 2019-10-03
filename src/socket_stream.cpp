@@ -17,13 +17,13 @@ SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
     m_result = NULL;
     m_socketId = INVALID_SOCKET;
 
-    int iResult;
+    int result;
     struct addrinfo hints;
 
     WSADATA wsaData;
-    iResult = ::WSAStartup(MAKEWORD(2,2), &wsaData);
+    result = ::WSAStartup(MAKEWORD(2,2), &wsaData);
     
-    if (iResult != 0) 
+    if (result != 0) 
     {
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
@@ -34,8 +34,8 @@ SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_PASSIVE;
 
-    iResult = ::getaddrinfo(NULL, DEFAULT_PORT, &hints, &m_result);
-    if (iResult != 0) {
+    result = ::getaddrinfo(NULL, "8080", &hints, &m_result);
+    if (result != 0) {
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
 
