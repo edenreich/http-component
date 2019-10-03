@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "name": "Pizza",
+        "description": "lorem ipsum"
+    },
+    {
+        "id": 2,
+        "name": "Cola",
+        "description": "lorem ipsum"
+    },
+    {
+        "id": 3,
+        "name": "Hamburger",
+        "description": "lorem ipsum"
+    }
+]
