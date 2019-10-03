@@ -11,6 +11,7 @@
 #include "http/exceptions/bad_connection_exception.h"
 
 #include <cstring>
+#include <iostream>
 
 using namespace Http;
 
@@ -40,6 +41,8 @@ Server::~Server()
  */
 void Server::bind(const std::string & address)
 {
+    m_address = address;
+
     m_socket->bind(address);
 }
 
@@ -51,6 +54,8 @@ void Server::bind(const std::string & address)
  */
 void Server::listen(const unsigned int & port)
 {
+    m_port = port;
+
     #if IS_WINDOWS
     // @todo write windows specific implemention
     #else
@@ -60,6 +65,7 @@ void Server::listen(const unsigned int & port)
     }
     #endif
 
+    std::cout << "Server started on " << m_address << ":" << m_port << '\n';
     m_running = true;
 }
 
@@ -78,6 +84,8 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
     while (m_running) {
 
         int clientSocket = m_socket->waitForConnection();
+
+        std::cout << "Accepted connection. Client id " << clientSocket << '\n'; 
 
         // Client Request
         Interfaces::SocketStreamInterface * stream = new SocketStream();

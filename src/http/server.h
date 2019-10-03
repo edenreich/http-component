@@ -73,6 +73,9 @@ namespace Http {
          */
         std::atomic<bool> m_running;
 
+        std::string m_address;
+
+        unsigned int m_port;
     };
 
 }
