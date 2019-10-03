@@ -29,7 +29,7 @@ namespace Http {
              * 
              * @return Http::Interfaces::SocketStreamInterface *
              */
-            virtual SocketStreamInterface * getBody() = 0;
+            virtual SocketStreamInterface * getBody() const = 0;
 
             /**
              * Retrieve the status code.

@@ -41,7 +41,7 @@ Response::~Response()
  * 
  * @return Http::Interfaces::SocketStreamInterface *
  */
-Interfaces::SocketStreamInterface * Response::getBody()
+Interfaces::SocketStreamInterface * Response::getBody() const
 {
     return m_stream;
 }

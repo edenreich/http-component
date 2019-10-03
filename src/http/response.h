@@ -39,7 +39,7 @@ namespace Http {
          * 
          * @return Http::Interfaces::SocketStreamInterface *
          */
-        Interfaces::SocketStreamInterface * getBody() override;
+        Interfaces::SocketStreamInterface * getBody() const override;
 
         /**
          * Retrieve the status code.
