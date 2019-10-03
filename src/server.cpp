@@ -101,7 +101,10 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
         Interfaces::ResponseInterface * serverResponse = handler(client);
         Interfaces::SocketStreamInterface * serverStream = serverResponse->getBody();
 
-        ::send(clientSocket, serverStream->getContents().c_str(), std::strlen(serverStream->getContents().c_str()), 0);
+        std::string content = serverStream->getContents(); 
+        int bufferLength = static_cast<int>(std::strlen(content.c_str()));
+        
+        ::send(clientSocket, content.c_str(), bufferLength, 0);
 
         #if IS_WINDOWS
         ::closesocket(clientSocket);
