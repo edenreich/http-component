@@ -9,7 +9,7 @@
 using namespace Http;
 
 
-TEST(ServerTest, DISABLED_ItRecievesAMessage) {
+TEST(ServerTest, ItRecievesAMessage) {
     
     Server server;
 

@@ -129,5 +129,5 @@ Interfaces::ResponseInterface * Request::del(const Interfaces::UrlInterface & ur
  */
 Interfaces::SocketStreamInterface * Request::getBody() const
 {
-    throw Exceptions::NotImplementedException();
+    return m_response->getBody();
 }

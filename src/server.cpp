@@ -66,10 +66,10 @@ void Server::listen(const unsigned int & port)
 /**
  * On data recieved event.
  * 
- * @param Http::Events::MessageRecievedHandler callback
+ * @param Http::Events::MessageRecievedHandler handler
  * @return void
  */
-void Server::onConnection(Events::MessageRecievedHandler callback)
+void Server::onConnection(Events::MessageRecievedHandler handler)
 {
     #if IS_WINDOWS
     // @todo write windows specific implemention
@@ -86,17 +86,18 @@ void Server::onConnection(Events::MessageRecievedHandler callback)
         Interfaces::ClientInterface * client = new Client(request);
 
         // Server Response
-        Interfaces::ResponseInterface * serverResponse = callback(client);
+        Interfaces::ResponseInterface * serverResponse = handler(client);
         Interfaces::SocketStreamInterface * serverStream = serverResponse->getBody();
 
         ::send(clientSocket, serverStream->getContents().c_str(), std::strlen(serverStream->getContents().c_str()), 0);
 
         ::close(clientSocket);
-        ::close(m_socket->getId());
 
         delete client;
-        delete serverResponse;
     }
+
+    ::close(m_socket->getId());
+
     #endif
 }
 
