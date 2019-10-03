@@ -39,10 +39,10 @@ namespace Http {
             /**
              * On data recieved event.
              * 
-             * @param Http::Events::MessageRecievedHandler callback
+             * @param Http::Events::MessageRecievedHandler handler
              * @return void
              */
-            virtual void onConnection(::Http::Events::MessageRecievedHandler callback) = 0;
+            virtual void onConnection(::Http::Events::MessageRecievedHandler handler) = 0;
 
             /**
              * Close the http server.

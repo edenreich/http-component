@@ -45,10 +45,10 @@ namespace Http {
         /**
          * On message recieved event.
          * 
-         * @param Http::Events::MessageRecievedHandler callback
+         * @param Http::Events::MessageRecievedHandler handler
          * @return void
          */
-        void onConnection(Events::MessageRecievedHandler callback) override;
+        void onConnection(Events::MessageRecievedHandler handler) override;
 
         /**
          * Close the http server.
