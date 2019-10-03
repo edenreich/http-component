@@ -35,6 +35,7 @@ set(SOURCES_CXX_FILES
   unit/socket_stream_test.cpp
   unit/server_test.cpp
   # unit/request_test.cpp
+  unit/response_test.cpp
   # unit/client_test.cpp
 )
 

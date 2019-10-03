@@ -46,7 +46,7 @@ namespace Http {
          * 
          * @return Http::StatusCode
          */
-        StatusCode getStatusCode() const override;
+        StatusCode getStatusCode() override;
 
     private:
 
@@ -56,6 +56,13 @@ namespace Http {
          * @var Http::Interfaces::SocketStreamInterface *
          */
         Interfaces::SocketStreamInterface * m_stream;
+
+        /**
+         * Store the status code.
+         * 
+         * @var StatusCode
+         */
+        StatusCode m_statusCode;
 
     };
 

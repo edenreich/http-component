@@ -36,7 +36,7 @@ namespace Http {
              * 
              * @return Http::StatusCode
              */
-            virtual ::Http::StatusCode getStatusCode() const = 0;
+            virtual ::Http::StatusCode getStatusCode() = 0;
 
         };
     }

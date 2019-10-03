@@ -3,13 +3,15 @@
 
 #include "http/socket_stream.h"
 
+#include <regex>
+
 using namespace Http;
 
 
 /**
  * Construct a response.
  */
-Response::Response() : m_stream(new SocketStream)
+Response::Response() : m_stream(new SocketStream), m_statusCode(StatusCode::NOT_FOUND)
 {
     //
 }
@@ -21,7 +23,7 @@ Response::Response() : m_stream(new SocketStream)
  * 
  * @param Http::Interfaces::SocketStreamInterface * stream
  */
-Response::Response(Interfaces::SocketStreamInterface * stream) : m_stream(stream)
+Response::Response(Interfaces::SocketStreamInterface * stream) : m_stream(stream), m_statusCode(StatusCode::NOT_FOUND)
 {
     //
 }
@@ -49,7 +51,23 @@ Interfaces::SocketStreamInterface * Response::getBody()
  * 
  * @return Http::StatusCode
  */
-StatusCode Response::getStatusCode() const
+StatusCode Response::getStatusCode()
 {
-    throw Exceptions::NotImplementedException();
+    std::regex pattern("^HTTP/\\d\\.\\d\\s(\\d{3})\\s.+$");
+    std::smatch matches;
+    const std::string & content = m_stream->getContents();
+
+    if (std::regex_match(content, matches, pattern)) {
+        const std::string & statusCodeStr = matches[1].str();
+        
+        unsigned int statusCode;
+        std::stringstream ss;
+
+        ss << statusCodeStr;
+        ss >> statusCode;
+
+        m_statusCode = static_cast<StatusCode>(statusCode);
+    }
+
+    return m_statusCode;
 }
