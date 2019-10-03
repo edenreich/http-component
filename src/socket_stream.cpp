@@ -188,8 +188,11 @@ unsigned int SocketStream::getSize()
 {
     m_content.seekg(0, std::ios::end);
 
+    #pragma warning(push)
+    #pragma warning(disable: 4244)
     unsigned int size = m_content.tellg();
-
+    #pragma warning(pop)
+    
     m_content.seekg(0, std::ios::beg);
 
     return size;
