@@ -73,8 +73,18 @@ namespace Http {
          */
         std::atomic<bool> m_running;
 
+        /**
+         * Store the ip address.
+         * 
+         * @var std::string
+         */
         std::string m_address;
 
+        /**
+         * Store the port
+         * 
+         * @var unsigned int
+         */
         unsigned int m_port;
     };
 
