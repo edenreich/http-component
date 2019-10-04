@@ -116,6 +116,14 @@ namespace Http {
          */
         WriteableSocketInterface & operator<<(const size_t & output) override;
 
+        /**
+         * Send a message on a socket.
+         * 
+         * @param const std::string & message
+         * @return int
+         */
+        int send(const std::string & message) const override;
+
     private:
 
         /**

@@ -32,11 +32,10 @@ include_directories(
 
 set(SOURCES_CXX_FILES
   unit/url_test.cpp
-  unit/socket_stream_test.cpp
   unit/server_test.cpp
-  # unit/request_test.cpp
+  unit/request_test.cpp
   unit/response_test.cpp
-  # unit/client_test.cpp
+  unit/client_test.cpp
 )
 
 add_executable(${PROJECT_NAME} main.cpp ${SOURCES_CXX_FILES})

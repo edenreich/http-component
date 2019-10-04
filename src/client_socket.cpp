@@ -3,7 +3,9 @@
 #include "http/platform/check.h"
 
 #include "http/exceptions/bad_connection_exception.h"
+
 #include <ios>
+#include <cstring>
 
 using namespace Http;
 
@@ -190,4 +192,26 @@ Interfaces::WriteableSocketInterface & ClientSocket::operator<<(const size_t & o
     m_content << output;
 
     return *this;
+}
+
+/**
+ * Send a message on a socket.
+ * 
+ * @param const std::string & message
+ * @return int
+ */
+int ClientSocket::send(const std::string & message) const
+{
+    int result = 0;
+
+    #if IS_WINDOWS
+        //
+    #else
+    const char * cmessage = message.c_str();
+    int bufferLength = message.length();
+
+    result = ::send(m_socketId, cmessage, bufferLength, 0);
+    #endif
+
+    return result;
 }

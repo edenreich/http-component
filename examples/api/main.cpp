@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
 
     server.onConnection([](Interfaces::ClientInterface * client) {
 
-        Interfaces::ClientSocketInterface * stream = client->getRequest()->getBody();
+        Interfaces::ClientSocketInterface * socket = client->getRequest()->getBody();
         const char * json = R"JSON(
             [
                 {
@@ -40,14 +40,14 @@ int main(int argc, char const *argv[])
             ]
         )JSON";
 
-        *stream << "HTTP/1.1 200 OK\n";
-        *stream << "Content-Type: application/json\n";
-        *stream << "Content-Length: " << strlen(json) << "\n";
-        *stream << "Connection: close\n";
-        *stream << "\n";
-        *stream << json;
+        *socket << "HTTP/1.1 200 OK\n";
+        *socket << "Content-Type: application/json\n";
+        *socket << "Content-Length: " << strlen(json) << "\n";
+        *socket << "Connection: close\n";
+        *socket << "\n";
+        *socket << json;
 
-        return new Response(stream);
+        return new Response(socket);
     });
 
     return 0;

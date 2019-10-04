@@ -4,6 +4,7 @@
 #include "socket_interface.h"
 #include "readable_socket_interface.h"
 #include "writeable_socket_interface.h"
+#include "transport_interface.h"
 
 #include <string>
 
@@ -16,7 +17,8 @@ namespace Http {
          */
         class ClientSocketInterface : virtual public SocketInterface,
                                       virtual public ReadableSocketInterface,
-                                      virtual public WriteableSocketInterface
+                                      virtual public WriteableSocketInterface,
+                                      virtual public TransportInterface
         {
 
         public:
@@ -115,6 +117,14 @@ namespace Http {
              * @return Http::Interfaces::WriteableSocketInterface &
              */
             virtual WriteableSocketInterface & operator<<(const size_t & output) override = 0;
+
+            /**
+             * Send a message on a socket.
+             * 
+             * @param const std::string & message
+             * @return int
+             */
+            virtual int send(const std::string & message) const override = 0;
 
         };
     }

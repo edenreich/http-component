@@ -100,12 +100,11 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
         Interfaces::ResponseInterface * serverResponse = handler(client);
         clientSocket = serverResponse->getBody();
 
-        std::string content = clientSocket->getContents(); 
-        int bufferLength = static_cast<int>(std::strlen(content.c_str()));
-        
-        ::send(clientSocket->getId(), content.c_str(), bufferLength, 0);
+        const std::string & content = clientSocket->getContents(); 
 
-        // Deleting the client will delete all it's dependend instances.
+        clientSocket->send(content);
+        clientSocket->close();
+
         delete client;
 
     } while((m_running));
