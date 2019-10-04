@@ -134,29 +134,28 @@ int ServerSocket::close() const
  */
 void ServerSocket::bind(const std::string & address)
 {
-    int iResult;
-
-    m_localaddr.sin_family = AF_INET;
-    m_localaddr.sin_port = htons(8080);
+    int result;
 
     #if IS_WINDOWS
-    iResult = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
-    if (iResult == SOCKET_ERROR) {
+    result = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
+    if (result == SOCKET_ERROR) {
         throw Exceptions::BadConnectionException("Faild to bind socket to address");
     }
 
     ::freeaddrinfo(m_result);
     #else
+    m_localaddr.sin_family = AF_INET;
+    m_localaddr.sin_port = htons(8080);
     m_localaddr.sin_addr.s_addr = ::inet_addr(address.c_str());
     
-    iResult = ::bind(m_socketId, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
+    result = ::bind(m_socketId, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
 
     if (m_socketId == 0) 
     { 
         throw Exceptions::BadConnectionException("Could not bind the socket to address!");
     }
 
-    if (iResult < 0) 
+    if (result < 0) 
     { 
         throw Exceptions::BadConnectionException("Could not bind to the given port");
     }
