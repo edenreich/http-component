@@ -4,6 +4,7 @@
 #include "interfaces/request_interface.h"
 #include "interfaces/url_interface.h"
 #include "interfaces/response_interface.h"
+#include "interfaces/client_socket_interface.h"
 #include "pch/network.h"
 
 
@@ -78,9 +79,9 @@ namespace Http {
         /**
          * Retrieve the body stream.
          * 
-         * @return Http::Interfaces::SocketStreamInterface *
+         * @return Http::Interfaces::ClientSocketInterface *
          */
-        Interfaces::SocketStreamInterface * getBody() const override;
+        Interfaces::ClientSocketInterface * getBody() const override;
 
     private:
         

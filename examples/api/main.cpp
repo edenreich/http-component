@@ -2,7 +2,7 @@
 
 #include <http/server.h>
 #include <http/response.h>
-#include <http/interfaces/socket_stream_interface.h>
+#include <http/interfaces/client_socket_interface.h>
 #include <http/interfaces/response_interface.h>
 #include <http/interfaces/client_interface.h>
 
@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
 
     server.onConnection([](Interfaces::ClientInterface * client) {
 
-        Interfaces::SocketStreamInterface * stream = client->getRequest()->getBody();
+        Interfaces::ClientSocketInterface * stream = client->getRequest()->getBody();
         const char * json = R"JSON(
             [
                 {

@@ -1,7 +1,7 @@
 #include "http/response.h"
 #include "http/exceptions/not_implemented_exception.h"
 
-#include "http/socket_stream.h"
+#include "http/client_socket.h"
 
 #include <regex>
 
@@ -11,7 +11,7 @@ using namespace Http;
 /**
  * Construct a response.
  */
-Response::Response() : m_stream(new SocketStream), m_statusCode(StatusCode::NOT_FOUND)
+Response::Response() : m_socket(new ClientSocket), m_statusCode(StatusCode::NOT_FOUND)
 {
     //
 }
@@ -19,11 +19,11 @@ Response::Response() : m_stream(new SocketStream), m_statusCode(StatusCode::NOT_
 /**
  * Construct a response.
  * 
- * - Initialize a stream
+ * - Initialize a socket
  * 
- * @param Http::Interfaces::SocketStreamInterface * stream
+ * @param Http::Interfaces::ClientSocketInterface * socket
  */
-Response::Response(Interfaces::SocketStreamInterface * stream) : m_stream(stream), m_statusCode(StatusCode::NOT_FOUND)
+Response::Response(Interfaces::ClientSocketInterface * socket) : m_socket(socket), m_statusCode(StatusCode::NOT_FOUND)
 {
     //
 }
@@ -33,17 +33,17 @@ Response::Response(Interfaces::SocketStreamInterface * stream) : m_stream(stream
  */
 Response::~Response()
 {
-    delete m_stream;
+    delete m_socket;
 }
 
 /**
  * Retrieve the body stream.
  * 
- * @return Http::Interfaces::SocketStreamInterface *
+ * @return Http::Interfaces::ClientSocketInterface *
  */
-Interfaces::SocketStreamInterface * Response::getBody() const
+Interfaces::ClientSocketInterface * Response::getBody() const
 {
-    return m_stream;
+    return m_socket;
 }
 
 /**
@@ -55,7 +55,7 @@ StatusCode Response::getStatusCode()
 {
     std::regex pattern("^HTTP/\\d\\.\\d\\s(\\d{3})\\s.+$");
     std::smatch matches;
-    const std::string & content = m_stream->getContents();
+    const std::string & content = m_socket->getContents();
 
     if (std::regex_match(content, matches, pattern)) {
         const std::string & statusCodeStr = matches[1].str();

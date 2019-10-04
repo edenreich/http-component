@@ -1,7 +1,7 @@
-#ifndef SOCKET_STREAM_H
-#define SOCKET_STREAM_H
+#ifndef SERVER_SOCKET_H
+#define SERVER_SOCKET_H
 
-#include "interfaces/socket_stream_interface.h"
+#include "interfaces/server_socket_interface.h"
 
 #include <sstream>
 #include "pch/network.h"
@@ -10,28 +10,51 @@
 namespace Http {
 
     /**
-     * The Stream Class
+     * The Server Socket Class
      */
-    class SocketStream : public Interfaces::SocketStreamInterface {
+    class ServerSocket : public Interfaces::ServerSocketInterface
+    {
 
     public:
 
         /**
          * Construct a socket stream.
          */
-        SocketStream();
+        ServerSocket();
 
         /**
          * Destruct the stream.
          */
-        ~SocketStream() override;
+        ~ServerSocket() override;
+
+        /**
+         * Set the id of the socket.
+         * 
+         * @param Http::SocketId socketId
+         * @return void
+         */
+        void setId(SocketId socketId) override;
 
         /**
          * Retrieve the id of the socket.
          * 
-         * @return Http::ServerSocketId
+         * @return Http::SocketId
          */
-        const ServerSocketId & getId() const override;
+        const SocketId & getId() const override;
+
+        /**
+         * Open the socket.
+         * 
+         * @return int
+         */
+        int open() const override;
+
+        /**
+         * Close the socket.
+         * 
+         * @return int
+         */
+        int close() const override;
 
         /**
          * Bind the address to the socket.
@@ -43,9 +66,9 @@ namespace Http {
         /**
          * Wait for a connection.
          * 
-         * @return Http::Interfaces::SocketStreamInterface *
+         * @return Http::Interfaces::ClientSocketInterface *
          */
-        Interfaces::SocketStreamInterface * waitForConnection() override;
+        Interfaces::ClientSocketInterface * waitForConnection() override;
 
         /**
          * Retrieve all content.
@@ -77,44 +100,45 @@ namespace Http {
         unsigned int getSize() override;
 
         /**
-         * Close the socket.
+         * Read the stream into variable.
          * 
-         * @return int
+         * @param std::string & input
+         * @return Http::Interfaces::ReadableSocketInterface &
          */
-        int close() const override;
+        Interfaces::ReadableSocketInterface & operator>>(std::string & input) override;
 
         /**
          * Setter for output stream - const char array variant.
          * 
          * @param const char * output
-         * @return const Interfaces::SocketStreamInterface &
+         * @return const Interfaces::ServerSocketInterface &
          */
-        Interfaces::SocketStreamInterface & operator<<(const char * output) override;
+        Interfaces::ServerSocketInterface & operator<<(const char * output) override;
 
         /**
          * Setter for output stream - const ref std::string variant.
          * 
          * @param const std::string & output
-         * @return const Interfaces::SocketStreamInterface &
+         * @return const Interfaces::ServerSocketInterface &
          */
-        Interfaces::SocketStreamInterface & operator<<(const std::string & output) override;
+        Interfaces::ServerSocketInterface & operator<<(const std::string & output) override;
 
         /**
          * Setter for output stream - const ref size_t variant.
          * 
          * @param const size_t & output
-         * @return const Interfaces::SocketStreamInterface &
+         * @return const Interfaces::ServerSocketInterface &
          */
-        Interfaces::SocketStreamInterface & operator<<(const size_t & output) override;
+        Interfaces::ServerSocketInterface & operator<<(const size_t & output) override;
 
     private:
 
         /**
-         * Store the file descriptor pointer.
+         * Store the socket id.
          * 
-         * @var Http::ServerSocketId m_socketId
+         * @var Http::SocketId m_socketId
          */ 
-        ServerSocketId m_socketId;
+        SocketId m_socketId;
 
         /**
          * Store the contents.
@@ -145,4 +169,4 @@ namespace Http {
 }
 
 
-#endif // SOCKET_STREAM_H
+#endif // SERVER_SOCKET_H

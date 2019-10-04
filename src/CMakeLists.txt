@@ -15,7 +15,8 @@ set(SOURCES_CXX_FILES_HTTP
     request.cpp
     response.cpp
     url.cpp
-    socket_stream.cpp
+    client_socket.cpp
+    server_socket.cpp
 )
 
 add_library(${PROJECT_NAME}

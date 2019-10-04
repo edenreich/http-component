@@ -12,10 +12,6 @@ namespace Http {
 
     namespace Interfaces {
 
-        // class UrlInterface;
-        // class ResponseInterface;
-        // class RequestInterface;
-
         /**
          * The Client Interface
          */

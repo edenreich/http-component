@@ -5,7 +5,7 @@
 #include "http/client.h"
 #include "http/request.h"
 #include "http/response.h"
-#include "http/socket_stream.h"
+#include "http/server_socket.h"
 
 #include "http/exceptions/not_implemented_exception.h"
 #include "http/exceptions/bad_connection_exception.h"
@@ -19,7 +19,7 @@ using namespace Http;
 /**
  * Construct a server
  */
-Server::Server() : m_socket(new SocketStream), m_running(false)
+Server::Server() : m_socket(new ServerSocket), m_running(false)
 {
 
 }
@@ -87,23 +87,23 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
 {
     do {
 
-        Interfaces::SocketStreamInterface * stream = m_socket->waitForConnection();
+        Interfaces::ClientSocketInterface * clientSocket = m_socket->waitForConnection();
 
-        std::cout << "Accepted connection. Client id " << stream->getId() << '\n'; 
+        std::cout << "Accepted connection. Client id " << clientSocket->getId() << '\n'; 
 
         // Client Request
-        Interfaces::ResponseInterface * response = new Response(stream);
+        Interfaces::ResponseInterface * response = new Response(clientSocket);
         Interfaces::RequestInterface * request = new Request(response);
         Interfaces::ClientInterface * client = new Client(request);
 
         // Server Response
         Interfaces::ResponseInterface * serverResponse = handler(client);
-        Interfaces::SocketStreamInterface * serverStream = serverResponse->getBody();
+        clientSocket = serverResponse->getBody();
 
-        std::string content = serverStream->getContents(); 
+        std::string content = clientSocket->getContents(); 
         int bufferLength = static_cast<int>(std::strlen(content.c_str()));
         
-        ::send(stream->getId(), content.c_str(), bufferLength, 0);
+        ::send(clientSocket->getId(), content.c_str(), bufferLength, 0);
 
         // Deleting the client will delete all it's dependend instances.
         delete client;

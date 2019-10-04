@@ -1,9 +1,11 @@
-#include "http/socket_stream.h"
+#include "http/server_socket.h"
+#include "http/client_socket.h"
 
 #include "http/platform/check.h"
 
 #include "http/exceptions/bad_connection_exception.h"
 #include <ios>
+
 
 using namespace Http;
 
@@ -11,7 +13,7 @@ using namespace Http;
 /**
  * Construct a socket stream.
  */
-SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
+ServerSocket::ServerSocket() : m_socketId(0), m_content(std::stringstream())
 {
     #if IS_WINDOWS
     m_result = NULL;
@@ -47,9 +49,6 @@ SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
     int opt = 1;
     m_socketId = ::socket(AF_INET, SOCK_STREAM, 0);
 
-    m_localaddr.sin_family = AF_INET;
-    m_localaddr.sin_port = htons(8080); 
-
     if (m_socketId == 0) 
     { 
         throw Exceptions::BadConnectionException("Could not create the socket");
@@ -65,7 +64,7 @@ SocketStream::SocketStream() : m_socketId(0), m_content(std::stringstream())
 /**
  * Destruct the stream.
  */
-SocketStream::~SocketStream()
+ServerSocket::~ServerSocket()
 {
     #if IS_WINDOWS
     ::freeaddrinfo(m_result);
@@ -76,13 +75,56 @@ SocketStream::~SocketStream()
 }
 
 /**
+ * Set the id of the socket.
+ * 
+ * @param Http::SocketId socketId
+ * @return void
+ */
+void ServerSocket::setId(SocketId socketId)
+{
+    m_socketId = socketId;
+}
+
+/**
  * Retrieve the id of the socket.
  * 
- * @return Http::ServerSocketId
+ * @return Http::SocketId
  */
-const ServerSocketId & SocketStream::getId() const
+const SocketId & ServerSocket::getId() const
 {
     return m_socketId;
+}
+
+/**
+ * Open the socket.
+ * 
+ * @return int
+ */
+int ServerSocket::open() const
+{
+    int result;
+
+    // transfer the necessary code to open the socket here
+
+    return result;
+}
+
+/**
+ * Close the socket.
+ * 
+ * @return int
+ */
+int ServerSocket::close() const
+{
+    int result;
+
+    #if IS_WINDOWS
+    result = ::closesocket(m_socketId);
+    #else
+    result = ::close(m_socketId);
+    #endif
+
+    return result;
 }
 
 /**
@@ -90,9 +132,12 @@ const ServerSocketId & SocketStream::getId() const
  * 
  * @param const std::string & address
  */
-void SocketStream::bind(const std::string & address)
+void ServerSocket::bind(const std::string & address)
 {
     int iResult;
+
+    m_localaddr.sin_family = AF_INET;
+    m_localaddr.sin_port = htons(8080);
 
     #if IS_WINDOWS
     iResult = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
@@ -121,23 +166,32 @@ void SocketStream::bind(const std::string & address)
 /**
  * Wait for a connection.
  * 
- * @return Http::Interfaces::SocketStreamInterface *
+ * @return Http::Interfaces::ClientSocketInterface *
  */
-Interfaces::SocketStreamInterface * SocketStream::waitForConnection()
+Interfaces::ClientSocketInterface * ServerSocket::waitForConnection()
 {
+    Interfaces::ClientSocketInterface * socket = new ClientSocket;
+
     #if IS_WINDOWS
-    m_socketId = ::accept(m_socketId, NULL, NULL);
-    if (m_socketId == INVALID_SOCKET) {
+    SocketId socketId;
+
+    socketId = ::accept(m_socketId, NULL, NULL);
+    if (socketId == INVALID_SOCKET) {
         throw Exceptions::BadConnectionException("Could not accept the connection");
     }
     #else
     int addresslen = sizeof(m_localaddr);
-    if ((m_socketId = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
+
+    SocketId socketId = 0;
+
+    if ((socketId = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
         throw Exceptions::BadConnectionException("Could not accept the connection");
     }
     #endif
 
-    return this;
+    socket->setId(socketId);
+
+    return socket;
 }
 
 /**
@@ -145,7 +199,7 @@ Interfaces::SocketStreamInterface * SocketStream::waitForConnection()
  * 
  * @return std::string
  */
-std::string SocketStream::getContents() const
+std::string ServerSocket::getContents() const
 {
     return m_content.str();
 }
@@ -156,7 +210,7 @@ std::string SocketStream::getContents() const
  * @param unsigned int length
  * @return std::string
  */
-std::string SocketStream::read(unsigned int length)
+std::string ServerSocket::read(unsigned int length)
 {
     std::string chunk;
 
@@ -172,7 +226,7 @@ std::string SocketStream::read(unsigned int length)
  * 
  * @return std::string
  */
-std::string SocketStream::readLine()
+std::string ServerSocket::readLine()
 {
     std::string line;
 
@@ -186,7 +240,7 @@ std::string SocketStream::readLine()
  * 
  * @return unsigned int
  */
-unsigned int SocketStream::getSize()
+unsigned int ServerSocket::getSize()
 {
     m_content.seekg(0, std::ios::end);
 
@@ -201,30 +255,25 @@ unsigned int SocketStream::getSize()
 }
 
 /**
- * Close the socket by given socket id.
+ * Read the stream into variable.
  * 
- * @return int
+ * @param std::string & input
+ * @return Http::Interfaces::ReadableSocketInterface &
  */
-int SocketStream::close() const
+Interfaces::ReadableSocketInterface & ServerSocket::operator>>(std::string & input)
 {
-    int result;
+    m_content >> input;
 
-    #if IS_WINDOWS
-    result = ::closesocket(m_socketId);
-    #else
-    result = ::close(m_socketId);
-    #endif
-
-    return result;
+    return *this;
 }
 
 /**
  * Setter for output stream - const char array variant.
  * 
  * @param const char * output
- * @return Http::Interfaces::SocketStreamInterface &
+ * @return Http::Interfaces::ServerSocketInterface &
  */
-Interfaces::SocketStreamInterface & SocketStream::operator<<(const char * output) 
+Interfaces::ServerSocketInterface & ServerSocket::operator<<(const char * output) 
 {
     m_content << output;
 
@@ -235,9 +284,9 @@ Interfaces::SocketStreamInterface & SocketStream::operator<<(const char * output
  * Setter for output stream - const ref std::string variant.
  * 
  * @param const std::string & output
- * @return Http::Interfaces::SocketStreamInterface &
+ * @return Http::Interfaces::ServerSocketInterface &
  */
-Interfaces::SocketStreamInterface & SocketStream::operator<<(const std::string & output)
+Interfaces::ServerSocketInterface & ServerSocket::operator<<(const std::string & output)
 {
     m_content << output;
 
@@ -248,9 +297,9 @@ Interfaces::SocketStreamInterface & SocketStream::operator<<(const std::string &
  * Setter for output stream - const ref size_t variant.
  * 
  * @param const size_t & output
- * @return Http::Interfaces::SocketStreamInterface &
+ * @return Http::Interfaces::ServerSocketInterface &
  */
-Interfaces::SocketStreamInterface & SocketStream::operator<<(const size_t & output)
+Interfaces::ServerSocketInterface & ServerSocket::operator<<(const size_t & output)
 {
     m_content << output;
 

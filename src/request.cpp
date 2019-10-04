@@ -125,9 +125,9 @@ Interfaces::ResponseInterface * Request::del(const Interfaces::UrlInterface & ur
 /**
  * Retrieve the body stream.
  * 
- * @return Http::Interfaces::SocketStreamInterface *
+ * @return Http::Interfaces::ClientSocketInterface *
  */
-Interfaces::SocketStreamInterface * Request::getBody() const
+Interfaces::ClientSocketInterface * Request::getBody() const
 {
     return m_response->getBody();
 }

@@ -3,16 +3,12 @@
 
 #include "url_interface.h"
 #include "response_interface.h"
-#include "socket_stream_interface.h"
+#include "client_socket_interface.h"
 #include <string>
 
 
 namespace Http {
     namespace Interfaces {
-
-        // class UrlInterface;
-        // class ResponseInterface;
-        // class StreamInterface;
 
         /**
          * The Request Interface
@@ -22,7 +18,7 @@ namespace Http {
         public:
 
             /**
-             * Virtual Destructor.
+             * Virtual destructor.
              */
             virtual ~RequestInterface() {}
             
@@ -69,9 +65,9 @@ namespace Http {
             /**
              * Retrieve the stream body.
              * 
-             * @return Http::Interfaces::SocketStreamInterface *
+             * @return Http::Interfaces::ClientSocketInterface *
              */
-            virtual SocketStreamInterface * getBody() const = 0;
+            virtual ClientSocketInterface * getBody() const = 0;
 
         };
     }

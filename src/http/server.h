@@ -2,8 +2,8 @@
 #define SERVER_H
 
 #include "interfaces/server_interface.h"
+#include "interfaces/server_socket_interface.h"
 #include "pch/network.h"
-#include "socket_stream.h"
 #include <atomic>
 
 
@@ -62,9 +62,9 @@ namespace Http {
         /**
          * Store the socket stream.
          * 
-         * @var SocketStream *
+         * @var Interfaces::ServerSocketInterface *
          */
-        SocketStream * m_socket;
+        Interfaces::ServerSocketInterface * m_socket;
 
         /**
          * Determine if the server is running.

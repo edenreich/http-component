@@ -1,7 +1,7 @@
 #ifndef RESPONSE_INTERFACE_H
 #define RESPONSE_INTERFACE_H
 
-#include "socket_stream_interface.h"
+#include "client_socket_interface.h"
 
 
 namespace Http {
@@ -9,8 +9,6 @@ namespace Http {
     enum class StatusCode;
 
     namespace Interfaces {
-
-        // class StreamInterface;
 
         /**
          * The Response Interface
@@ -20,16 +18,16 @@ namespace Http {
         public:
 
             /**
-             * Virtual Destructor.
+             * Virtual destructor.
              */
-            virtual ~ResponseInterface() = default;
+            virtual ~ResponseInterface() {}
             
             /**
              * Retrieve the body stream.
              * 
-             * @return Http::Interfaces::SocketStreamInterface *
+             * @return Http::Interfaces::ClientSocketInterface *
              */
-            virtual SocketStreamInterface * getBody() const = 0;
+            virtual ClientSocketInterface * getBody() const = 0;
 
             /**
              * Retrieve the status code.
