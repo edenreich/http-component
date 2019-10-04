@@ -13,50 +13,7 @@ using namespace Http;
  */
 ClientSocket::ClientSocket() : m_socketId(0), m_content(std::stringstream())
 {
-    #if IS_WINDOWS
-    m_result = NULL;
-    m_socketId = INVALID_SOCKET;
 
-    int result;
-    struct addrinfo hints;
-
-    WSADATA wsaData;
-    result = ::WSAStartup(MAKEWORD(2,2), &wsaData);
-    
-    if (result != 0) 
-    {
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-
-    ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_TCP;
-    hints.ai_flags = AI_PASSIVE;
-
-    result = ::getaddrinfo(NULL, "8080", &hints, &m_result);
-    if (result != 0) {
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-
-    m_socketId = ::socket(m_result->ai_family, m_result->ai_socktype, m_result->ai_protocol);
-    if (m_socketId == INVALID_SOCKET) {
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-    #else
-    int opt = 1;
-    m_socketId = ::socket(AF_INET, SOCK_STREAM, 0);
-
-    if (m_socketId == 0) 
-    { 
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-
-    if (::setsockopt(m_socketId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
-    {
-        throw Exceptions::BadConnectionException("Faild to bind socket to address");
-    }
-    #endif
 }
 
 /**
