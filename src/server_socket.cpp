@@ -141,8 +141,6 @@ void ServerSocket::bind(const std::string & address)
     if (result == SOCKET_ERROR) {
         throw Exceptions::BadConnectionException("Faild to bind socket to address");
     }
-
-    ::freeaddrinfo(m_result);
     #else
     m_localaddr.sin_family = AF_INET;
     m_localaddr.sin_port = htons(8080);
