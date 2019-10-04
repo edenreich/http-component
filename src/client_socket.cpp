@@ -9,7 +9,7 @@ using namespace Http;
 
 
 /**
- * Construct a socket stream.
+ * Construct a socket.
  */
 ClientSocket::ClientSocket() : m_socketId(0), m_content(std::stringstream())
 {
