@@ -48,14 +48,14 @@ namespace Http {
              * 
              * @return int
              */
-            virtual int open() const override = 0;
+            virtual int open() override = 0;
 
             /**
              * Close the socket.
              * 
              * @return int
              */
-            virtual int close() const override = 0;
+            virtual int close() override = 0;
             
             /**
              * Retrieve all content.

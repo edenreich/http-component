@@ -21,7 +21,7 @@ using namespace Http;
  */
 Server::Server() : m_socket(new ServerSocket), m_running(false)
 {
-
+    m_socket->open();
 }
 
 
@@ -53,27 +53,17 @@ void Server::bind(const std::string & address)
 /**
  * Start an http server on given port.
  * 
- * @param const unsigned int & port
+ * @param const unsigned int port
  * @return void
  */
-void Server::listen(const unsigned int & port)
+void Server::listen(const unsigned int port)
 {
     m_port = port;
-
-    #if IS_WINDOWS
-    int iResult = ::listen(m_socket->getId(), SOMAXCONN);
-    if (iResult == SOCKET_ERROR) {
-        throw Exceptions::BadConnectionException("Could not listen on the given port");
-        closesocket(m_socket->getId());
-        WSACleanup();
-    }
-    #else
-    if (::listen(m_socket->getId(), 1) < 0) { 
-        throw Exceptions::BadConnectionException("Could not listen on the given port");
-    }
-    #endif
+    
+    m_socket->listen(port);
 
     std::cout << "Server started listening on " << m_address << ":" << m_port << '\n';
+
     m_running = true;
 }
 

@@ -31,10 +31,10 @@ namespace Http {
             /**
              * Start an http server on given port.
              * 
-             * @param const unsigned int & port
+             * @param const unsigned int port
              * @return void
              */
-            virtual void listen(const unsigned int & port) = 0;
+            virtual void listen(const unsigned int port) = 0;
 
             /**
              * On data recieved event.

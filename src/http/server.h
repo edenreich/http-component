@@ -37,10 +37,10 @@ namespace Http {
         /**
          * Start an http server on given port.
          * 
-         * @param const unsigned int & port
+         * @param const unsigned int port
          * @return void
          */
-        void listen(const unsigned int & port) override;
+        void listen(const unsigned int port) override;
 
         /**
          * On message recieved event.

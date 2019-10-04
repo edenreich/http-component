@@ -25,8 +25,17 @@ namespace Http {
              * Bind the address to the socket.
              * 
              * @param const std::string & address
+             * @return void
              */
             virtual void bind(const std::string & address) = 0;
+
+            /**
+             * Listen on a given port.
+             * 
+             * @param const unsigned int port
+             * @return void
+             */
+            virtual void listen(const unsigned int port) = 0;
 
             /**
              * Wait for a connection.

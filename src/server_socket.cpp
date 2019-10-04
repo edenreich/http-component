@@ -18,46 +18,8 @@ ServerSocket::ServerSocket() : m_socketId(0), m_content(std::stringstream())
     #if IS_WINDOWS
     m_result = NULL;
     m_socketId = INVALID_SOCKET;
-
-    int result;
-    struct addrinfo hints;
-
-    WSADATA wsaData;
-    result = ::WSAStartup(MAKEWORD(2,2), &wsaData);
-    
-    if (result != 0) 
-    {
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-
-    ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_TCP;
-    hints.ai_flags = AI_PASSIVE;
-
-    result = ::getaddrinfo(NULL, "8080", &hints, &m_result);
-    if (result != 0) {
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-
-    m_socketId = ::socket(m_result->ai_family, m_result->ai_socktype, m_result->ai_protocol);
-    if (m_socketId == INVALID_SOCKET) {
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
     #else
-    int opt = 1;
-    m_socketId = ::socket(AF_INET, SOCK_STREAM, 0);
-
-    if (m_socketId == 0) 
-    { 
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-
-    if (::setsockopt(m_socketId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
-    {
-        throw Exceptions::BadConnectionException("Faild to bind socket to address");
-    }
+    //
     #endif
 }
 
@@ -100,11 +62,50 @@ const SocketId & ServerSocket::getId() const
  * 
  * @return int
  */
-int ServerSocket::open() const
+int ServerSocket::open()
 {
     int result;
 
-    // transfer the necessary code to open the socket here
+    #if IS_WINDOWS
+    struct addrinfo hints;
+
+    WSADATA wsaData;
+    result = ::WSAStartup(MAKEWORD(2,2), &wsaData);
+    
+    if (result != 0) 
+    {
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+
+    ZeroMemory(&hints, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+    hints.ai_flags = AI_PASSIVE;
+
+    result = ::getaddrinfo(NULL, "8080", &hints, &m_result);
+    if (result != 0) {
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+
+    m_socketId = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (m_socketId == INVALID_SOCKET) {
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+    #else
+    int opt = 1;
+    m_socketId = ::socket(AF_INET, SOCK_STREAM, 0);
+
+    if (m_socketId == 0) 
+    { 
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+
+    if (::setsockopt(m_socketId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
+    {
+        throw Exceptions::BadConnectionException("Faild to bind socket to address");
+    }
+    #endif
 
     return result;
 }
@@ -114,7 +115,7 @@ int ServerSocket::open() const
  * 
  * @return int
  */
-int ServerSocket::close() const
+int ServerSocket::close()
 {
     int result;
 
@@ -125,70 +126,6 @@ int ServerSocket::close() const
     #endif
 
     return result;
-}
-
-/**
- * Bind the address to the socket.
- * 
- * @param const std::string & address
- */
-void ServerSocket::bind(const std::string & address)
-{
-    int result;
-
-    #if IS_WINDOWS
-    result = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
-    if (result == SOCKET_ERROR) {
-        throw Exceptions::BadConnectionException("Faild to bind socket to address");
-    }
-    #else
-    m_localaddr.sin_family = AF_INET;
-    m_localaddr.sin_port = htons(8080);
-    m_localaddr.sin_addr.s_addr = ::inet_addr(address.c_str());
-    
-    result = ::bind(m_socketId, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
-
-    if (m_socketId == 0) 
-    { 
-        throw Exceptions::BadConnectionException("Could not bind the socket to address!");
-    }
-
-    if (result < 0) 
-    { 
-        throw Exceptions::BadConnectionException("Could not bind to the given port");
-    }
-    #endif
-}
-
-/**
- * Wait for a connection.
- * 
- * @return Http::Interfaces::ClientSocketInterface *
- */
-Interfaces::ClientSocketInterface * ServerSocket::waitForConnection()
-{
-    Interfaces::ClientSocketInterface * socket = new ClientSocket;
-
-    #if IS_WINDOWS
-    SocketId socketId;
-
-    socketId = ::accept(m_socketId, NULL, NULL);
-    if (socketId == INVALID_SOCKET) {
-        throw Exceptions::BadConnectionException("Could not accept the connection");
-    }
-    #else
-    int addresslen = sizeof(m_localaddr);
-
-    SocketId socketId = 0;
-
-    if ((socketId = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
-        throw Exceptions::BadConnectionException("Could not accept the connection");
-    }
-    #endif
-
-    socket->setId(socketId);
-
-    return socket;
 }
 
 /**
@@ -301,4 +238,89 @@ Interfaces::ServerSocketInterface & ServerSocket::operator<<(const size_t & outp
     m_content << output;
 
     return *this;
+}
+
+/**
+ * Bind the address to the socket.
+ * 
+ * @param const std::string & address
+ * @return void
+ */
+void ServerSocket::bind(const std::string & address)
+{
+    int result;
+
+    #if IS_WINDOWS
+    result = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
+    if (result == SOCKET_ERROR) {
+        throw Exceptions::BadConnectionException("Faild to bind socket to address");
+    }
+    #else
+    m_localaddr.sin_family = AF_INET;
+    m_localaddr.sin_port = htons(8080);
+    m_localaddr.sin_addr.s_addr = ::inet_addr(address.c_str());
+    
+    result = ::bind(m_socketId, (struct sockaddr *)&m_localaddr, sizeof(m_localaddr));
+
+    if (m_socketId == 0) 
+    { 
+        throw Exceptions::BadConnectionException("Could not bind the socket to address!");
+    }
+
+    if (result < 0) 
+    { 
+        throw Exceptions::BadConnectionException("Could not bind to the given port");
+    }
+    #endif
+}
+
+/**
+ * Listen on a given port.
+ * 
+ * @param const unsigned int port
+ * @return void
+ */
+void ServerSocket::listen(const unsigned int port)
+{
+    #if IS_WINDOWS
+    int result = ::listen(getId(), SOMAXCONN);
+    if (result == SOCKET_ERROR) {
+        throw Exceptions::BadConnectionException("Could not listen on the given port");
+    }
+    #else
+    if (::listen(getId(), 1) < 0) { 
+        throw Exceptions::BadConnectionException("Could not listen on the given port");
+    }
+    #endif
+}
+
+/**
+ * Wait for a connection.
+ * 
+ * @return Http::Interfaces::ClientSocketInterface *
+ */
+Interfaces::ClientSocketInterface * ServerSocket::waitForConnection()
+{
+    Interfaces::ClientSocketInterface * socket = new ClientSocket;
+
+    #if IS_WINDOWS
+    SocketId socketId;
+
+    socketId = ::accept(m_socketId, NULL, NULL);
+    if (socketId == INVALID_SOCKET) {
+        throw Exceptions::BadConnectionException("Could not accept the connection");
+    }
+    #else
+    int addresslen = sizeof(m_localaddr);
+
+    SocketId socketId = 0;
+
+    if ((socketId = ::accept(m_socketId, (struct sockaddr *)&m_localaddr, (socklen_t*)&addresslen)) < 0) {
+        throw Exceptions::BadConnectionException("Could not accept the connection");
+    }
+    #endif
+
+    socket->setId(socketId);
+
+    return socket;
 }

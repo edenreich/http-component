@@ -57,7 +57,7 @@ const SocketId & ClientSocket::getId() const
  * 
  * @return int
  */
-int ClientSocket::close() const
+int ClientSocket::close()
 {
     int result;
 
@@ -75,7 +75,7 @@ int ClientSocket::close() const
  * 
  * @return int
  */
-int ClientSocket::open() const
+int ClientSocket::open()
 {
     int result;
 

@@ -48,14 +48,14 @@ namespace Http {
              * 
              * @return int
              */
-            virtual int open() const override = 0;
+            virtual int open() override = 0;
 
             /**
              * Close the socket.
              * 
              * @return int
              */
-            virtual int close() const override = 0;
+            virtual int close() override = 0;
             
             /**
              * Retrieve all content.
@@ -122,8 +122,17 @@ namespace Http {
              * Bind the address to the socket.
              * 
              * @param const std::string & address
+             * @return void
              */
             virtual void bind(const std::string & address) override = 0;
+
+            /**
+             * Listen on a given port.
+             * 
+             * @param const unsigned int port
+             * @return void
+             */
+            virtual void listen(const unsigned int port) override = 0;
 
             /**
              * Wait for a connection.

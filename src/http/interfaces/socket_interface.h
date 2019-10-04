@@ -39,14 +39,14 @@ namespace Http {
              * 
              * @return int
              */
-            virtual int open() const = 0;
+            virtual int open() = 0;
 
             /**
              * Close the socket.
              * 
              * @return int
              */
-            virtual int close() const = 0;
+            virtual int close() = 0;
 
         };
     }

@@ -47,28 +47,14 @@ namespace Http {
          * 
          * @return int
          */
-        int open() const override;
+        int open() override;
 
         /**
          * Close the socket.
          * 
          * @return int
          */
-        int close() const override;
-
-        /**
-         * Bind the address to the socket.
-         * 
-         * @param const std::string & address
-         */
-        void bind(const std::string & address) override;
-
-        /**
-         * Wait for a connection.
-         * 
-         * @return Http::Interfaces::ClientSocketInterface *
-         */
-        Interfaces::ClientSocketInterface * waitForConnection() override;
+        int close() override;
 
         /**
          * Retrieve all content.
@@ -130,6 +116,29 @@ namespace Http {
          * @return const Interfaces::ServerSocketInterface &
          */
         Interfaces::ServerSocketInterface & operator<<(const size_t & output) override;
+
+        /**
+         * Bind the address to the socket.
+         * 
+         * @param const std::string & address
+         * @return void
+         */
+        void bind(const std::string & address) override;
+
+        /**
+         * Listen on a given port.
+         * 
+         * @param const unsigned int port
+         * @return void
+         */
+        void listen(const unsigned int port) override;
+
+        /**
+         * Wait for a connection.
+         * 
+         * @return Http::Interfaces::ClientSocketInterface *
+         */
+        Interfaces::ClientSocketInterface * waitForConnection() override;
 
     private:
 

@@ -46,14 +46,14 @@ namespace Http {
          * 
          * @return int
          */
-        int open() const override;
+        int open() override;
 
         /**
          * Close the socket.
          * 
          * @return int
          */
-        int close() const override;
+        int close() override;
 
         /**
          * Retrieve all content.
