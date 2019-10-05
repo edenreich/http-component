@@ -122,6 +122,10 @@ std::string ClientSocket::readLine(unsigned int number)
     do
     {
         std::getline(m_content, line);
+        
+        if (line[line.size()-1] == '\r') {
+            line = line.substr(0, line.size()-1);
+        }
 
         number--;
     } while (std::string::npos != m_content.str().find('\n') && number != 0);

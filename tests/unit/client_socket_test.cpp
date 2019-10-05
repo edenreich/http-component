@@ -17,13 +17,13 @@ TEST(ClientSocketTest, itReturnsALineByGivenNumber) {
     )JSON";
 
     // Simulate a request message
-    *socket << "POST /home HTTP/1.1\n";
-    *socket << "Accept: */*\n";
-    *socket << "Host: localhost:8080\n";
-    *socket << "Cache-Control: no-cache\n";
-    *socket << "Content-Length: " << content.length() << "\n";
-    *socket << "Connection: keep-alive\n";
-    *socket << "\n";
+    *socket << "POST /home HTTP/1.1\r\n";
+    *socket << "Accept: */*\r\n";
+    *socket << "Host: localhost:8080\r\n";
+    *socket << "Cache-Control: no-cache\r\n";
+    *socket << "Content-Length: " << content.length() << "\r\n";
+    *socket << "Connection: keep-alive\r\n";
+    *socket << "\r\n";
     *socket << content;
 
     EXPECT_EQ(socket->readLine(2), "Accept: */*");
