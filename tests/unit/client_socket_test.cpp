@@ -6,7 +6,7 @@
 using namespace Http;
 
 
-TEST(ClientSocketTest, ItReturnsTheVeryFirstLine) {
+TEST(ClientSocketTest, itReturnsALineByGivenNumber) {
     
     Interfaces::ClientSocketInterface * socket = new ClientSocket;
 
@@ -25,7 +25,6 @@ TEST(ClientSocketTest, ItReturnsTheVeryFirstLine) {
     *socket << "Connection: keep-alive\n";
     *socket << "\n";
     *socket << content;
-
 
     EXPECT_EQ(socket->readLine(2), "Accept: */*");
 }
