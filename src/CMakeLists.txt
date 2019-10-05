@@ -12,6 +12,7 @@ set(DISTRIBUTE_DIR ${CMAKE_BINARY_DIR}/dist)
 set(SOURCES_CXX_FILES_HTTP
     client.cpp
     server.cpp
+    message.cpp
     request.cpp
     response.cpp
     url.cpp

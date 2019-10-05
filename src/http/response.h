@@ -2,6 +2,7 @@
 #define RESPONSE_H
 
 #include "interfaces/response_interface.h"
+#include "interfaces/message_interface.h"
 #include "interfaces/client_socket_interface.h"
 #include "types/status_codes.h"
 
@@ -23,11 +24,11 @@ namespace Http {
         /**
          * Construct a response.
          * 
-         * - Initialize a stream
+         * - Initialize a message
          * 
-         * @param Http::Interfaces::ClientSocketInterface * socket
+         * @param Http::Interfaces::MessageInterface * message
          */
-        Response(Interfaces::ClientSocketInterface * socket);
+        Response(Interfaces::MessageInterface * message);
 
         /**
          * Destruct the response.
@@ -37,9 +38,9 @@ namespace Http {
         /**
          * Retrieve the body stream.
          * 
-         * @return Http::Interfaces::ClientSocketInterface *
+         * @return std::stringstream
          */
-        Interfaces::ClientSocketInterface * getBody() const override;
+        std::stringstream getBody() const override;
 
         /**
          * Retrieve the status code.
@@ -51,11 +52,11 @@ namespace Http {
     private:
 
         /**
-         * Store the stream interface.
+         * Store the message content.
          * 
-         * @var Http::Interfaces::ClientSocketInterface *
+         * @var Http::Interfaces::MessageInterface *
          */
-        Interfaces::ClientSocketInterface * m_socket;
+        Interfaces::MessageInterface * m_message;
 
         /**
          * Store the status code.

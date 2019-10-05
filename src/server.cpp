@@ -78,16 +78,18 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
 
         Interfaces::ClientSocketInterface * clientSocket = m_socket->waitForConnection();
 
-        std::cout << "Accepted connection. Client id " << clientSocket->getId() << '\n'; 
+        std::cout << "Accepted connection. Client id " << clientSocket->getId() << '\n';
+
+        // @todo extract the request message from the client socket so it could passed to the request constructor.
 
         // Client Request
-        Interfaces::ResponseInterface * response = new Response(clientSocket);
-        Interfaces::RequestInterface * request = new Request(response);
+        Interfaces::RequestInterface * request = new Request;
         Interfaces::ClientInterface * client = new Client(request);
 
         // Server Response
         Interfaces::ResponseInterface * serverResponse = handler(client);
-        clientSocket = serverResponse->getBody();
+        
+        std::stringstream ss = serverResponse->getBody();
 
         const std::string & content = clientSocket->getContents(); 
 

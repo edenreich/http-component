@@ -16,7 +16,7 @@ using namespace Http;
 /**
  * Construct a request.
  */
-Request::Request() : m_response(new Response)
+Request::Request() : m_message(nullptr), m_response(nullptr)
 {
     //
 }
@@ -24,11 +24,11 @@ Request::Request() : m_response(new Response)
 /**
  * Construct a request.
  *  
- * - initialize a response
+ * - initialize a message
  * 
- * @param Http::Interfaces::ResponseInterface * response
+ * @param Http::Interfaces::MessageInterface * message
  */
-Request::Request(Interfaces::ResponseInterface * response) : m_response(response)
+Request::Request(Interfaces::MessageInterface * message) : m_message(message), m_response(nullptr)
 {
     //
 }
@@ -39,6 +39,7 @@ Request::Request(Interfaces::ResponseInterface * response) : m_response(response
 Request::~Request()
 {
     delete m_response;
+    delete m_message;
 }
 
 /**
@@ -75,6 +76,7 @@ Interfaces::ResponseInterface * Request::get(const Interfaces::UrlInterface & ur
         int connectRes = ::connect(sock, (sockaddr*)&hint, sizeof(hint));
     #endif
 
+    // @todo Compute the response.
 
     return m_response;
 }
@@ -126,9 +128,11 @@ Interfaces::ResponseInterface * Request::del(const Interfaces::UrlInterface & ur
 /**
  * Retrieve the body stream.
  * 
- * @return Http::Interfaces::ClientSocketInterface *
+ * @return std::stringstream
  */
-Interfaces::ClientSocketInterface * Request::getBody() const
+std::stringstream Request::getBody() const
 {
-    return m_response->getBody();
+    std::stringstream ss;
+
+    return ss;
 }

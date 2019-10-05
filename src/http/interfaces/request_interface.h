@@ -65,9 +65,9 @@ namespace Http {
             /**
              * Retrieve the stream body.
              * 
-             * @return Http::Interfaces::ClientSocketInterface *
+             * @return std::stringstream
              */
-            virtual ClientSocketInterface * getBody() const = 0;
+            virtual std::stringstream getBody() const = 0;
 
         };
     }

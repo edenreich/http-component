@@ -46,7 +46,7 @@ Interfaces::ResponseInterface * Client::sendRequest(Verb verb, const Interfaces:
 
     if (m_request == nullptr)
     {
-        request = new Request(new Response());
+        request = new Request;
     }
     else
     {

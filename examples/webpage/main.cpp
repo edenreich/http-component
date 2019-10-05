@@ -1,7 +1,10 @@
 #include <http/server.h>
 #include <http/response.h>
+#include <http/message.h>
 #include <http/interfaces/client_socket_interface.h>
 #include <http/interfaces/client_interface.h>
+
+#include <sstream>
 
 using namespace Http;
 
@@ -16,7 +19,9 @@ int main(int argc, char const *argv[])
 
     server.onConnection([](Interfaces::ClientInterface * client) {
 
-        Interfaces::ClientSocketInterface * socket = client->getRequest()->getBody();
+        std::stringstream requestMessage = client->getRequest()->getBody();
+        std::stringstream responseMessage;
+
         std::string content = R"HTML(
             <html>
                 <head>
@@ -29,14 +34,14 @@ int main(int argc, char const *argv[])
             </html>
         )HTML"; 
 
-        *socket << "HTTP/1.1 200 OK\n";
-        *socket << "Content-Type: text/html\n";
-        *socket << "Content-Length: " << content.length() << "\n";
-        *socket << "Connection: close\n";
-        *socket << "\n";
-        *socket << content;
+        responseMessage << "HTTP/1.1 200 OK\n";
+        responseMessage << "Content-Type: text/html\n";
+        responseMessage << "Content-Length: " << content.length() << "\n";
+        responseMessage << "Connection: close\n";
+        responseMessage << "\n";
+        responseMessage << content;
 
-        return new Response(socket);    
+        return new Response(new Message(responseMessage));    
     });
 
     return 0;

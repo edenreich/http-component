@@ -4,6 +4,7 @@
 #include "interfaces/request_interface.h"
 #include "interfaces/url_interface.h"
 #include "interfaces/response_interface.h"
+#include "interfaces/message_interface.h"
 #include "interfaces/client_socket_interface.h"
 #include "pch/network.h"
 
@@ -27,9 +28,9 @@ namespace Http {
          *  
          * - initialize a response
          * 
-         * @param Http::Interfaces::ResponseInterface * response
+         * @param Http::Interfaces::MessageInterface * message
          */
-        Request(Interfaces::ResponseInterface * response);
+        Request(Interfaces::MessageInterface * message);
 
         /**
          * Destruct the request.
@@ -79,14 +80,21 @@ namespace Http {
         /**
          * Retrieve the body stream.
          * 
-         * @return Http::Interfaces::ClientSocketInterface *
+         * @return std::stringstream
          */
-        Interfaces::ClientSocketInterface * getBody() const override;
+        std::stringstream getBody() const override;
 
     private:
         
         /**
-         * Store the response.
+         * Store the message.
+         * 
+         * @var Http::Interfaces::MessageInterface *
+         */
+        Interfaces::MessageInterface * m_message;
+
+        /**
+         * Store the message.
          * 
          * @var Http::Interfaces::ResponseInterface *
          */

@@ -10,7 +10,7 @@ using namespace Http;
 /**
  * Construct a response.
  */
-Response::Response() : m_socket(new ClientSocket), m_statusCode(StatusCode::NOT_FOUND)
+Response::Response() : m_message(nullptr), m_statusCode(StatusCode::NOT_FOUND)
 {
     //
 }
@@ -18,11 +18,11 @@ Response::Response() : m_socket(new ClientSocket), m_statusCode(StatusCode::NOT_
 /**
  * Construct a response.
  * 
- * - Initialize a socket
+ * - Initialize a message
  * 
- * @param Http::Interfaces::ClientSocketInterface * socket
+ * @param Http::Interfaces::MessageInterface * message
  */
-Response::Response(Interfaces::ClientSocketInterface * socket) : m_socket(socket), m_statusCode(StatusCode::NOT_FOUND)
+Response::Response(Interfaces::MessageInterface * message) : m_message(message), m_statusCode(StatusCode::NOT_FOUND)
 {
     //
 }
@@ -32,19 +32,19 @@ Response::Response(Interfaces::ClientSocketInterface * socket) : m_socket(socket
  */
 Response::~Response()
 {
-    delete m_socket;
+    delete m_message;
 }
 
 /**
  * Retrieve the body stream.
  * 
- * @return Http::Interfaces::ClientSocketInterface *
+ * @return std::stringstream
  */
-Interfaces::ClientSocketInterface * Response::getBody() const
+std::stringstream Response::getBody() const
 {
-    
+    std::stringstream ss; 
 
-    return m_socket;
+    return ss;
 }
 
 /**
@@ -56,9 +56,9 @@ StatusCode Response::getStatusCode()
 {
     std::regex pattern("^HTTP/\\d\\.\\d\\s(\\d{3})\\s.+$");
     std::smatch matches;
-    const std::string & content = m_socket->getContents();
+    std::string protocolLine = m_message->getProtocolLine();
 
-    if (std::regex_match(content, matches, pattern)) {
+    if (std::regex_match(protocolLine, matches, pattern)) {
         const std::string & statusCodeStr = matches[1].str();
         
         unsigned int statusCode;
