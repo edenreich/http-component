@@ -146,13 +146,19 @@ std::string ServerSocket::read(unsigned int length)
 /**
  * Read a line.
  * 
+ * @param unsigned int number
  * @return std::string
  */
-std::string ServerSocket::readLine()
+std::string ServerSocket::readLine(unsigned int number)
 {
     std::string line;
 
-    std::getline(m_content, line);
+    do
+    {
+        std::getline(m_content, line);
+
+        number--;
+    } while (std::string::npos != m_content.str().find('\n') && number != 0);
 
     return line;
 }

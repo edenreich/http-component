@@ -42,6 +42,8 @@ Response::~Response()
  */
 Interfaces::ClientSocketInterface * Response::getBody() const
 {
+    
+
     return m_socket;
 }
 

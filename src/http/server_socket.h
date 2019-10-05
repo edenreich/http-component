@@ -74,9 +74,10 @@ namespace Http {
         /**
          * Read a line.
          * 
+         * @param unsigned int number
          * @return std::string
          */
-        std::string readLine() override;
+        std::string readLine(unsigned int number) override;
 
         /**
          * Get the size.
