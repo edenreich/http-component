@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 
     server.onConnection([](Interfaces::ClientInterface * client) {
 
-        Interfaces::ClientSocketInterface * stream = client->getRequest()->getBody();
+        Interfaces::ClientSocketInterface * socket = client->getRequest()->getBody();
         std::string content = R"HTML(
             <html>
                 <head>
@@ -29,14 +29,14 @@ int main(int argc, char const *argv[])
             </html>
         )HTML"; 
 
-        *stream << "HTTP/1.1 200 OK\n";
-        *stream << "Content-Type: text/html\n";
-        *stream << "Content-Length: " << content.length() << "\n";
-        *stream << "Connection: close\n";
-        *stream << "\n";
-        *stream << content;
+        *socket << "HTTP/1.1 200 OK\n";
+        *socket << "Content-Type: text/html\n";
+        *socket << "Content-Length: " << content.length() << "\n";
+        *socket << "Connection: close\n";
+        *socket << "\n";
+        *socket << content;
 
-        return new Response(stream);    
+        return new Response(socket);    
     });
 
     return 0;
