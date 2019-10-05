@@ -7,7 +7,6 @@
 #include "http/response.h"
 #include "http/server_socket.h"
 
-#include "http/exceptions/not_implemented_exception.h"
 #include "http/exceptions/bad_connection_exception.h"
 
 #include <cstring>

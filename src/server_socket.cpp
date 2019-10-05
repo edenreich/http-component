@@ -4,6 +4,7 @@
 #include "http/platform/check.h"
 
 #include "http/exceptions/bad_connection_exception.h"
+
 #include <ios>
 
 using namespace Http;

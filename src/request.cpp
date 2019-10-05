@@ -2,12 +2,13 @@
 
 #include "http/platform/check.h"
 
-#include <string>
-#include <sstream>
 #include "http/response.h"
 
 #include "http/exceptions/bad_connection_exception.h"
 #include "http/exceptions/not_implemented_exception.h"
+
+#include <string>
+#include <sstream>
 
 using namespace Http;
 

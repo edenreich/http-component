@@ -1,5 +1,4 @@
 #include "http/response.h"
-#include "http/exceptions/not_implemented_exception.h"
 
 #include "http/client_socket.h"
 

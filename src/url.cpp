@@ -1,8 +1,10 @@
 #include "http/url.h"
+
+#include "http/exceptions/invalid_url_exception.h"
+
 #include <algorithm>
 #include <regex>
 #include <map>
-#include "http/exceptions/invalid_url_exception.h"
 
 using namespace Http;
 

@@ -207,10 +207,7 @@ int ClientSocket::send(const std::string & message) const
     #if IS_WINDOWS
         //
     #else
-    const char * cmessage = message.c_str();
-    int bufferLength = message.length();
-
-    result = ::send(m_socketId, cmessage, bufferLength, 0);
+    result = ::send(m_socketId, message.c_str(), message.length(), 0);
     #endif
 
     return result;
