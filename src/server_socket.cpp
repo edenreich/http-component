@@ -162,7 +162,7 @@ std::string ServerSocket::readLine(unsigned int number)
         }
 
         number--;
-    } while (std::string::npos != m_content.str().find("\r\n") && number != 0);
+    } while (std::string::npos != m_content.str().find('\n') && number != 0);
 
     return line;
 }
