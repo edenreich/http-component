@@ -77,7 +77,7 @@ int ClientSocket::close()
  */
 int ClientSocket::open()
 {
-    int result;
+    int result = 0;
 
     return result;
 }

@@ -6,7 +6,6 @@
 #include "http/exceptions/bad_connection_exception.h"
 #include <ios>
 
-
 using namespace Http;
 
 
@@ -67,7 +66,6 @@ int ServerSocket::open()
     int result;
 
     #if IS_WINDOWS
-    struct addrinfo hints;
 
     WSADATA wsaData;
     result = ::WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -77,18 +75,7 @@ int ServerSocket::open()
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
 
-    ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_TCP;
-    hints.ai_flags = AI_PASSIVE;
-
-    result = ::getaddrinfo(NULL, "8080", &hints, &m_result);
-    if (result != 0) {
-        throw Exceptions::BadConnectionException("Could not create the socket");
-    }
-
-    m_socketId = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    m_socketId = ::socket(m_result->ai_family, m_result->ai_socktype, m_result->ai_protocol);
     if (m_socketId == INVALID_SOCKET) {
         throw Exceptions::BadConnectionException("Could not create the socket");
     }
@@ -251,6 +238,19 @@ void ServerSocket::bind(const std::string & address)
     int result;
 
     #if IS_WINDOWS
+    struct addrinfo service;
+
+    ZeroMemory(&service, sizeof(service));
+    service.ai_family = AF_INET;
+    service.ai_socktype = SOCK_STREAM;
+    service.ai_protocol = IPPROTO_TCP;
+    service.ai_flags = AI_PASSIVE;
+
+    result = ::getaddrinfo(NULL, address.c_str(), &service, &m_result);
+    if (result != 0) {
+        throw Exceptions::BadConnectionException("Could not create the socket");
+    }
+
     result = ::bind(m_socketId, m_result->ai_addr, (int)m_result->ai_addrlen);
     if (result == SOCKET_ERROR) {
         throw Exceptions::BadConnectionException("Faild to bind socket to address");
@@ -283,7 +283,7 @@ void ServerSocket::bind(const std::string & address)
 void ServerSocket::listen(const unsigned int port)
 {
     #if IS_WINDOWS
-    int result = ::listen(getId(), SOMAXCONN);
+    int result = ::listen(m_socketId, SOMAXCONN);
     if (result == SOCKET_ERROR) {
         throw Exceptions::BadConnectionException("Could not listen on the given port");
     }

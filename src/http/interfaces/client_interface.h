@@ -20,7 +20,7 @@ namespace Http {
         public:
 
             /**
-             * Virtual Destructor.
+             * Virtual destructor.
              */
             virtual ~ClientInterface() {}
             
