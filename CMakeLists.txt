@@ -1,5 +1,10 @@
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-cmake_minimum_required(VERSION 3.12)
+project(http
+VERSION 1.0.0
+LANGUAGES C CXX
+DESCRIPTION "An easy to use component for interacting with the http layer."
+)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
