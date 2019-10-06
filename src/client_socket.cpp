@@ -248,8 +248,12 @@ void ClientSocket::parseSocketData()
     if (m_content.str().empty()) {
 
         buffer = new char[MESSAGE_MAX_SIZE];
-            
+
+        #if IS_WINDOWS
+        ::recv(m_socketId, buffer, MESSAGE_MAX_SIZE, 0);
+        #else    
         ::read(m_socketId, buffer, MESSAGE_MAX_SIZE);
+        #endif
 
         m_content << buffer;
 
