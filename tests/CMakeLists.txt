@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 project(tests)
 
@@ -33,6 +34,7 @@ include_directories(
 set(SOURCES_CXX_FILES
   unit/url_test.cpp
   unit/server_test.cpp
+  unit/message_test.cpp
   unit/request_test.cpp
   unit/response_test.cpp
   unit/client_test.cpp
