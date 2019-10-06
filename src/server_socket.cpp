@@ -121,7 +121,7 @@ int ServerSocket::close()
  * 
  * @return std::string
  */
-std::string ServerSocket::getContents() const
+std::string ServerSocket::getContents()
 {
     return m_content.str();
 }

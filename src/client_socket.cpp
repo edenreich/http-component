@@ -2,12 +2,16 @@
 
 #include "http/platform/check.h"
 
+#include "http/exceptions/invalid_client_socket_exception.h"
 #include "http/exceptions/bad_connection_exception.h"
 
 #include <ios>
+#include <iomanip>
 #include <cstring>
 
 using namespace Http;
+
+#define MESSAGE_MAX_SIZE 6000
 
 
 /**
@@ -87,8 +91,10 @@ int ClientSocket::open()
  * 
  * @return std::string
  */
-std::string ClientSocket::getContents() const
+std::string ClientSocket::getContents()
 {
+    parseSocketData();
+
     return m_content.str();
 }
 
@@ -100,13 +106,19 @@ std::string ClientSocket::getContents() const
  */
 std::string ClientSocket::read(unsigned int length)
 {
-    std::string chunk;
+    parseSocketData();
 
-    chunk.reserve(length);
+    std::stringstream message;
+    char * messageBuffer = new char[length];
+    
+    m_content.read(messageBuffer, length);
+    m_content.seekg(0, std::ios::beg);
 
-    m_content >> chunk;
+    message << messageBuffer;
 
-    return chunk;
+    delete messageBuffer;
+
+    return message.str();
 }
 
 /**
@@ -221,4 +233,26 @@ int ClientSocket::send(const std::string & message) const
     #endif
 
     return result;
+}
+
+/**
+ * Parse the socket and load all data
+ * to class member.
+ * 
+ * @return void
+ */
+void ClientSocket::parseSocketData()
+{
+    char * buffer = nullptr;
+
+    if (m_content.str().empty()) {
+
+        buffer = new char[MESSAGE_MAX_SIZE];
+            
+        ::read(m_socketId, buffer, MESSAGE_MAX_SIZE);
+
+        m_content << buffer;
+
+        delete buffer;
+    }
 }

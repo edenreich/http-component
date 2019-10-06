@@ -60,7 +60,7 @@ namespace Http {
          * 
          * @return std::string
          */
-        std::string getContents() const override;
+        std::string getContents() override;
 
         /**
          * Read data by given length.
@@ -126,6 +126,14 @@ namespace Http {
         int send(const std::string & message) const override;
 
     private:
+
+        /**
+         * Parse the socket and load all data
+         * to class member.
+         * 
+         * @return void
+         */
+        void parseSocketData();
 
         /**
          * Store the socket id.

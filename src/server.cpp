@@ -3,6 +3,7 @@
 #include "http/platform/check.h"
 
 #include "http/client.h"
+#include "http/message.h"
 #include "http/request.h"
 #include "http/response.h"
 #include "http/server_socket.h"
@@ -13,6 +14,8 @@
 #include <iostream>
 
 using namespace Http;
+
+#define MAX_CLIENT_MESSAGE 6000
 
 
 /**
@@ -78,12 +81,12 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
 
         Interfaces::ClientSocketInterface * clientSocket = m_socket->waitForConnection();
 
+        std::string message = clientSocket->read(MAX_CLIENT_MESSAGE);
+
         std::cout << "Accepted connection. Client id " << clientSocket->getId() << '\n';
 
-        // @todo extract the request message from the client socket so it could passed to the request constructor.
-
         // Client Request
-        Interfaces::RequestInterface * request = new Request;
+        Interfaces::RequestInterface * request = new Request(new Message(message));
         Interfaces::ClientInterface * client = new Client(request);
 
         // Server Response

@@ -24,7 +24,7 @@ namespace Http {
              * 
              * @return std::string
              */
-            virtual std::string getContents() const = 0;
+            virtual std::string getContents() = 0;
 
             /**
              * Read data by given length.

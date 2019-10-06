@@ -61,7 +61,7 @@ namespace Http {
          * 
          * @return std::string
          */
-        std::string getContents() const override;
+        std::string getContents() override;
 
         /**
          * Read data by given length.

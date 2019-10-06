@@ -62,7 +62,7 @@ namespace Http {
              * 
              * @return std::string
              */
-            virtual std::string getContents() const override = 0;
+            virtual std::string getContents() override = 0;
 
             /**
              * Read data by given length.
