@@ -9,8 +9,8 @@ DESCRIPTION "An easy to use component for interacting with the http layer."
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-option(WITH_EXAMPLES "Compile the examples." ON)
-option(WITH_TESTS "Compile the tests as well." ON)
+option(WITH_EXAMPLES "Compile the examples." OFF)
+option(WITH_TESTS "Compile the tests as well." OFF)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY         ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
