@@ -59,11 +59,36 @@ namespace Http {
     private:
 
         /**
+         * Trim the spaces and linebreaks
+         * from the begin of the given content.
+         * 
+         * @param std::string
+         * @return std::string
+         */
+        std::string leftTrim(std::string content);
+
+        /**
+         * Trim the spaces and linebreaks
+         * from the end of the given content.
+         * 
+         * @param std::string
+         * @return std::string
+         */
+        std::string rightTrim(std::string content);
+
+        /**
          * Store the message content.
          * 
          * @var std::stringstream
          */
         std::stringstream m_content;
+
+        /**
+         * Store the protocol line.
+         * 
+         * @var std::string
+         */
+        std::string m_protocolLine;
 
     };
 
