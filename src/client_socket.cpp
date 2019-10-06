@@ -226,11 +226,7 @@ int ClientSocket::send(const std::string & message) const
 {
     int result = 0;
 
-    #if IS_WINDOWS
-        //
-    #else
     result = ::send(m_socketId, message.c_str(), message.length(), 0);
-    #endif
 
     return result;
 }
