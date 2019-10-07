@@ -53,11 +53,12 @@ int main(int argc, char const *argv[])
             ]
         )JSON";
 
-        responseMessage << "HTTP/1.1 200 OK\n";
-        responseMessage << "Content-Type: application/json\n";
-        responseMessage << "Content-Length: " << json.length() << "\n";
-        responseMessage << "Connection: close\n";
-        responseMessage << "\n";
+        responseMessage << "HTTP/1.1 200 OK\r\n";
+        responseMessage << "Content-Type: application/json\r\n";
+        responseMessage << "Content-Length: " << json.length() << "\r\n";
+        responseMessage << "Connection: close\r\n";
+        responseMessage << "\r\n";
+        responseMessage << "\r\n";
         responseMessage << json;
 
         return new Response(new Message(responseMessage));

@@ -32,11 +32,12 @@ int main(int argc, char const *argv[])
             </html>
         )HTML"; 
 
-        responseMessage << "HTTP/1.1 200 OK\n";
-        responseMessage << "Content-Type: text/html\n";
-        responseMessage << "Content-Length: " << content.length() << "\n";
-        responseMessage << "Connection: close\n";
-        responseMessage << "\n";
+        responseMessage << "HTTP/1.1 200 OK\r\n";
+        responseMessage << "Content-Type: text/html\r\n";
+        responseMessage << "Content-Length: " << content.length() << "\r\n";
+        responseMessage << "Connection: close\r\n";
+        responseMessage << "\r\n";
+        responseMessage << "\r\n";
         responseMessage << content;
 
         return new Response(new Message(responseMessage));    
