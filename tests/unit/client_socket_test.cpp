@@ -6,7 +6,7 @@
 using namespace Http;
 
 
-TEST(ClientSocketTest, itReturnsALineByGivenNumber) {
+TEST(ClientSocketTest, ItReturnsALineByGivenNumber) {
     
     Interfaces::ClientSocketInterface * socket = new ClientSocket;
 

@@ -24,7 +24,7 @@ Response::Response() : m_message(nullptr), m_statusCode(StatusCode::NOT_FOUND)
  */
 Response::Response(Interfaces::MessageInterface * message) : m_message(message), m_statusCode(StatusCode::NOT_FOUND)
 {
-    //
+
 }
 
 /**
@@ -38,7 +38,7 @@ Response::~Response()
 /**
  * Retrieve the body stream.
  * 
- * @return const std::stringstream const
+ * @return const std::stringstream & const
  */
 const std::stringstream & Response::getBody() const
 {

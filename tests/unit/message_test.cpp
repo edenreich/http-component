@@ -7,7 +7,7 @@
 using namespace Http;
 
 
-TEST(MessageTest, itRetrievesTheProtocolLine) {
+TEST(MessageTest, ItRetrievesTheProtocolLine) {
     std::string content =
     "POST /home HTTP/1.1\r\n"
     "Accept: */*\r\n"
@@ -30,11 +30,11 @@ TEST(MessageTest, itRetrievesTheProtocolLine) {
     delete message;
 }
 
-TEST(MessageTest, itThrowAnExceptionIfAnEmptyMessageWasPassed) {
+TEST(MessageTest, ItThrowAnExceptionIfAnEmptyMessageWasPassed) {
     EXPECT_THROW(new Message(""), Exceptions::InvalidMessageException);
 }
 
-TEST(MessageTest, itRetrieveTheHeadersOfTheMessage) {
+TEST(MessageTest, ItRetrieveTheHeadersOfTheMessage) {
     std::string content =
     "POST /home HTTP/1.1\r\n"
     "Accept: */*\r\n"
@@ -58,7 +58,7 @@ TEST(MessageTest, itRetrieveTheHeadersOfTheMessage) {
     delete message;
 }
 
-TEST(MessageTest, itRetrieveTheBodyOfTheMessage) {
+TEST(MessageTest, ItRetrieveTheBodyOfTheMessage) {
     std::string content =
     "POST /home HTTP/1.1\r\n"
     "Accept: */*\r\n"

@@ -30,7 +30,7 @@ Request::Request() : m_message(nullptr), m_response(nullptr)
  */
 Request::Request(Interfaces::MessageInterface * message) : m_message(message), m_response(nullptr)
 {
-    //
+    // std::regex pattern(R"(^\n\r?HTTP)");
 }
 
 /**

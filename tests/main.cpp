@@ -5,7 +5,5 @@ int main(int argc, char ** argv)
 {
     testing::InitGoogleTest(&argc, argv);
 
-    int exitCode = RUN_ALL_TESTS();
-
-    return 0;
+    return RUN_ALL_TESTS();
 }
