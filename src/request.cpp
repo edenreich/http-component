@@ -3,10 +3,13 @@
 #include "http/platform/check.h"
 
 #include "http/response.h"
+#include "http/utils/functions.h"
 
+#include "http/exceptions/invalid_message_exception.h"
 #include "http/exceptions/bad_connection_exception.h"
 #include "http/exceptions/not_implemented_exception.h"
 
+#include <regex>
 #include <string>
 #include <sstream>
 
@@ -30,7 +33,14 @@ Request::Request() : m_message(nullptr), m_response(nullptr)
  */
 Request::Request(Interfaces::MessageInterface * message) : m_message(message), m_response(nullptr)
 {
-    // std::regex pattern(R"(^\n\r?HTTP)");
+    const std::string & protocolLine = message->getProtocolLine();
+
+    std::regex pattern(R"(^(GET|POST|PATCH|PUT|DELETE))", std::regex::extended);
+    std::smatch matches;
+
+    if (!std::regex_search(protocolLine, matches, pattern)) {
+        throw Exceptions::InvalidMessageException("Request HTTP-Verb is invalid");
+    }
 }
 
 /**

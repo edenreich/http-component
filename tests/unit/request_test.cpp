@@ -14,7 +14,7 @@ using namespace Http;
 
 TEST(RequestTest, ItThrowsAnInvalidMessageExceptionIfAnInvalidRequestMessageWasPassed) {
     EXPECT_THROW(new Request(new Message("HTTP/1.1 200 OK")), Exceptions::InvalidMessageException);
-    EXPECT_THROW(new Request(new Message("UNKNOWN_HTTP_VERB /path Http/1.1")), Exceptions::InvalidMessageException);
+    EXPECT_THROW(new Request(new Message("UNKNOWN_HTTP_VERB /path HTTP/1.1")), Exceptions::InvalidMessageException);
 }
 
 // TEST(RequestTest, ItReturnsAnHttpStatusCode) {
