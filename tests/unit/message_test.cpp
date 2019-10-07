@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include <http/message.h>
 #include <http/interfaces/message_interface.h>
+#include <http/exceptions/invalid_message_exception.h>
 
 using namespace Http;
 
@@ -26,6 +27,11 @@ TEST(MessageTest, itRetrievesTheProtocolLine) {
 
     EXPECT_EQ(line, "POST /home HTTP/1.1");
 
+    delete message;
+}
+
+TEST(MessageTest, itThrowAnExceptionIfAnEmptyMessageWasPassed) {
+    EXPECT_THROW(new Message(""), Exceptions::InvalidMessageException);
 }
 
 TEST(MessageTest, itReturnsTheMessageBody) {
