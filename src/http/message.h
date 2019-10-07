@@ -2,9 +2,6 @@
 #define MESSAGE_H
 
 #include "interfaces/message_interface.h"
-#include "interfaces/client_socket_interface.h"
-
-#include <sstream>
 
 
 namespace Http {
@@ -74,35 +71,6 @@ namespace Http {
          * @return void
          */
         void parse(const std::string & content);
-
-        /**
-         * Trim content from right and left.
-         * 
-         * @param std::string & content
-         * @param const std::string & delimiters
-         * @return void
-         */
-        void trim(std::string & content, const std::string & delimiters = " \f\n\r\t\v");
-
-        /**
-         * Trim the spaces and linebreaks
-         * from the begin of the given content.
-         * 
-         * @param const std::string & content
-         * @param const std::string & delimiters
-         * @return void
-         */
-        void leftTrim(std::string & content, const std::string & delimiters = " \f\n\r\t\v");
-
-        /**
-         * Trim the spaces and linebreaks
-         * from the end of the given content.
-         * 
-         * @param const std::string & content
-         * @param const std::string & delimiters
-         * @return void
-         */
-        void rightTrim(std::string & content, const std::string & delimiters = " \f\n\r\t\v");
 
         /**
          * Store the message content.

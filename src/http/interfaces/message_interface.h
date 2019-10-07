@@ -3,6 +3,7 @@
 
 #include "../types/message.h"
 
+#include <string>
 #include <sstream>
 
 

@@ -1,11 +1,13 @@
 #include "http/message.h"
 
-#include "http/exceptions/invalid_message_exception.h"
+#include "http/utils/functions.h"
 
-using namespace Http;
+#include "http/exceptions/invalid_message_exception.h"
 
 #include <regex>
 #include <algorithm>
+
+using namespace Http;
 
 
 /**
@@ -96,17 +98,17 @@ void Message::parse(const std::string & content)
 {
     // Parse protocol line.
     std::string contentCopy = content;
-    trim(contentCopy);
+    Utils::trim(contentCopy);
     m_content << contentCopy;
 
     std::getline(m_content, m_protocolLine);
-    trim(m_protocolLine);
+    Utils::trim(m_protocolLine);
 
     // Parse Headers
     std::string line;
     while (std::getline(m_content, line))
     {
-        trim(line, "\r\n");
+        Utils::trim(line, "\r\n");
 
         if (line.empty()) {
             break;
@@ -129,48 +131,9 @@ void Message::parse(const std::string & content)
     // Parse Body
     if (!m_content.eof()) {
         std::string rest = m_content.str().substr(m_content.tellg());
-        trim(rest);
+        Utils::trim(rest);
         m_body << rest;
     }
 
     m_content.seekg(0);
-}
-
-/**
- * Trim content from right and left.
- * 
- * @param std::string & content
- * @param const std::string & delimiters
- * @return void
- */
-void Message::trim(std::string & content, const std::string & delimiters)
-{
-    leftTrim(content, delimiters);
-    rightTrim(content, delimiters);
-}
-
-/**
- * Trim the spaces from the begin 
- * and the end of the given string.
- * 
- * @param std::string & content
- * @param const std::string & delimiters
- * @return void
- */
-void Message::leftTrim(std::string & content, const std::string & delimiters)
-{
-    content.erase(0, content.find_first_not_of(delimiters));
-}
-
-/**
- * Trim the spaces and linebreaks
- * from the end of the given content.
- * 
- * @param std::string & content
- * @param const std::string & delimiters
- * @return void
- */
-void Message::rightTrim(std::string & content, const std::string & delimiters)
-{
-    content.erase(content.find_last_not_of(delimiters) + 1);
 }
