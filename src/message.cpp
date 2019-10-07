@@ -1,8 +1,11 @@
 #include "http/message.h"
 
+#include "http/exceptions/invalid_message_exception.h"
+
 using namespace Http;
 
-#include "http/exceptions/invalid_message_exception.h"
+#include <regex>
+#include <algorithm>
 
 
 /**
@@ -10,21 +13,13 @@ using namespace Http;
  * 
  * @param const std::string & content
  */
-Message::Message(const std::string & content) : m_content(content)
+Message::Message(const std::string & content)
 {
     if (content.empty()) {
         throw Exceptions::InvalidMessageException("Content of the message could not be empty!");
     }
 
-    std::string trimmedContent = leftTrim(content);
-
-    m_content << trimmedContent;
-
-    std::getline(m_content, m_protocolLine);
-    std::string trimmedLine = rightTrim(m_protocolLine);
-    
-    m_protocolLine = trimmedLine; 
-
+    parse(content);
 }
 
 /**
@@ -32,10 +27,13 @@ Message::Message(const std::string & content) : m_content(content)
  * 
  * @param const std::stringstream & content
  */
-Message::Message(const std::stringstream & content) : m_content(content.str())
+Message::Message(const std::stringstream & content)
 {
+    if (content.str().empty()) {
+        throw Exceptions::InvalidMessageException("Content of the message could not be empty!");
+    }
 
-    // @todo pre parse the message content of the message.
+    parse(content.str());
 }
 
 /**
@@ -43,7 +41,7 @@ Message::Message(const std::stringstream & content) : m_content(content.str())
  */
 Message::~Message()
 {
-
+    m_content.clear();
 }
 
 /**
@@ -63,9 +61,7 @@ std::string Message::getProtocolLine() const
  */
 Headers Message::getHeaders() const
 {
-    Headers headers;
-
-    return headers;
+    return m_headers;
 }
 
 /**
@@ -73,50 +69,104 @@ Headers Message::getHeaders() const
  * 
  * @return std::stringstream
  */
-std::stringstream Message::getBody() const
+const std::stringstream & Message::getBody() const
 {
-    std::stringstream ss;
+    return m_body;
+}
 
+/**
+ * Retrieve the raw message
+ * with the protocol line,
+ * headers and body.
+ * 
+ * @return std::stringstream
+ */
+const std::stringstream & Message::getRaw() const
+{
+    return m_content;
+}
 
-    return ss;
+/**
+ * Parse the message content.
+ * 
+ * @param const std::string & content
+ * @return void
+ */
+void Message::parse(const std::string & content)
+{
+    // Parse protocol line.
+    std::string contentCopy = content;
+    trim(contentCopy);
+    m_content << contentCopy;
+
+    std::getline(m_content, m_protocolLine);
+    trim(m_protocolLine);
+
+    // Parse Headers
+    std::string line;
+    while (std::getline(m_content, line))
+    {
+        trim(line, "\r\n");
+
+        if (line.empty()) {
+            break;
+        }
+
+        std::regex pattern(R"(^(([a-zA-Z-]+): (.*))?)", std::regex::extended);
+        std::smatch matches;
+
+        if (std::regex_match(line, matches, pattern)) {
+            std::string key = matches[2].str();
+            std::string value = matches[3].str();
+
+            m_headers[key] = value;
+            continue;
+        }
+
+        break;
+    }
+
+    // Parse Body
+    std::string rest = m_content.str().substr(m_content.tellg());
+    trim(rest);
+    m_body << rest;
+}
+
+/**
+ * Trim content from right and left.
+ * 
+ * @param std::string & content
+ * @param const std::string & delimiters
+ * @return void
+ */
+void Message::trim(std::string & content, const std::string & delimiters)
+{
+    leftTrim(content, delimiters);
+    rightTrim(content, delimiters);
 }
 
 /**
  * Trim the spaces from the begin 
  * and the end of the given string.
  * 
- * @param const std::string &
- * @return std::string
+ * @param std::string & content
+ * @param const std::string & delimiters
+ * @return void
  */
-std::string Message::leftTrim(std::string content)
+void Message::leftTrim(std::string & content, const std::string & delimiters)
 {
-    for (const char & letter : content) {
-        if (letter != 10 && letter != 32 && letter != 79 && letter != 84) {
-            break;
-        }
-
-        content.erase(0, 1);
-    }
-
-    return content;
+    content.erase(0, content.find_first_not_of(delimiters));
 }
 
 /**
  * Trim the spaces and linebreaks
  * from the end of the given content.
  * 
- * @param std::string
- * @return std::string
+ * @param std::string & content
+ * @param const std::string & delimiters
+ * @return void
  */
-std::string Message::rightTrim(std::string content)
+void Message::rightTrim(std::string & content, const std::string & delimiters)
 {
-    for (int i = content.size() - 1; i >= 0; i--) {
-        if (content[i] != 110 && content[i] != 92 && content[i] != 114) {
-            break;
-        }
-
-        content.erase(i, 1);
-    }
-
-    return content;
+    content.erase(content.find_last_not_of(delimiters) + 1);
 }

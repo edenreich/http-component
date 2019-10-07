@@ -40,7 +40,16 @@ namespace Http {
              * 
              * @return std::stringstream
              */
-            virtual std::stringstream getBody() const = 0;
+            virtual const std::stringstream & getBody() const = 0;
+
+            /**
+             * Retrieve the raw message
+             * with the protocol line,
+             * headers and body.
+             * 
+             * @return std::stringstream
+             */
+            virtual const std::stringstream & getRaw() const = 0;
 
         };
     }

@@ -8,18 +8,18 @@ using namespace Http;
 
 
 TEST(MessageTest, itRetrievesTheProtocolLine) {
-    std::string content = R"REQUEST(
-    POST /home HTTP/1.1\r\n
-    Accept: */*\r\n
-    Host: localhost:8080\r\n
-    Cache-Control: no-cache\r\n
-    Content-Length: CONTENT_LENGTH\r\n
-    Connection: keep-alive\r\n
-    \r\n
-        {
-            "key": "value"
-        }
-    )REQUEST";
+    std::string content =
+    "POST /home HTTP/1.1\r\n"
+    "Accept: */*\r\n"
+    "Host: localhost:8080\r\n"
+    "Cache-Control: no-cache\r\n"
+    "Content-Length: CONTENT_LENGTH\r\n"
+    "Connection: keep-alive\r\n"
+    "\r\n"
+        "{"
+            "\"key\": \"value\""
+        "}"
+    ;
 
     Interfaces::MessageInterface * message =  new Message(content);
 
@@ -34,36 +34,49 @@ TEST(MessageTest, itThrowAnExceptionIfAnEmptyMessageWasPassed) {
     EXPECT_THROW(new Message(""), Exceptions::InvalidMessageException);
 }
 
-TEST(MessageTest, itReturnsTheMessageBody) {
+TEST(MessageTest, itRetrieveTheHeadersOfTheMessage) {
+    std::string content =
+    "POST /home HTTP/1.1\r\n"
+    "Accept: */*\r\n"
+    "Host: localhost:8080\r\n"
+    "Cache-Control: no-cache\r\n"
+    "Content-Length: CONTENT_LENGTH\r\n"
+    "Connection: keep-alive\r\n"
+    "\r\n"
+        "{"
+            "\"key\": \"value\""
+        "}"
+    ;
 
-    // std::string content = R"REQUEST(
-    // POST /home HTTP/1.1\r\n
-    // Accept: */*\r\n
-    // Host: localhost:8080\r\n
-    // Cache-Control: no-cache\r\n
-    // Content-Length: CONTENT_LENGTH\r\n
-    // Connection: keep-alive\r\n
-    // \r\n
-    //     {
-    //         "key": "value"
-    //     }
-    // )REQUEST";
+    Interfaces::MessageInterface * message =  new Message(content);
 
-    // std::stringstream ss;
-    // std::string contentLength;
+    Headers headers = message->getHeaders();
 
-    // ss << content.length();
-    // ss >> contentLength;
+    EXPECT_EQ(headers["Accept"], "*/*");
+    EXPECT_EQ(headers["Cache-Control"], "no-cache");
 
-    // content.replace(content.find("CONTENT_LENGTH"), 15, contentLength);
+    delete message;
+}
 
-    // Interfaces::MessageInterface * message = new Message(content);
+TEST(MessageTest, itRetrieveTheBodyOfTheMessage) {
+    std::string content =
+    "POST /home HTTP/1.1\r\n"
+    "Accept: */*\r\n"
+    "Host: localhost:8080\r\n"
+    "Cache-Control: no-cache\r\n"
+    "Content-Length: CONTENT_LENGTH\r\n"
+    "Connection: keep-alive\r\n"
+    "\r\n"
+        "{\"key\": \"value\"}"
+    ;
 
-    // std::string messageBody = R"BODY(
-    //     {
-    //         "key": "value"
-    //     }
-    // )BODY";
+    Interfaces::MessageInterface * message =  new Message(content);
 
-    // EXPECT_EQ(message->getBody().str(), messageBody);
+    const std::stringstream & body = message->getBody();
+
+    std::string json = R"({"key": "value"})";
+
+    EXPECT_EQ(body.str(), json);
+
+    delete message;
 }

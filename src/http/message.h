@@ -54,27 +54,55 @@ namespace Http {
          * 
          * @return std::stringstream
          */
-        std::stringstream getBody() const override;
+        const std::stringstream & getBody() const override;
+
+        /**
+         * Retrieve the raw message
+         * with the protocol line,
+         * headers and body.
+         * 
+         * @return std::stringstream
+         */
+        const std::stringstream & getRaw() const override;
 
     private:
+
+        /**
+         * Parse the message content.
+         * 
+         * @param const std::string & content
+         * @return void
+         */
+        void parse(const std::string & content);
+
+        /**
+         * Trim content from right and left.
+         * 
+         * @param std::string & content
+         * @param const std::string & delimiters
+         * @return void
+         */
+        void trim(std::string & content, const std::string & delimiters = " \f\n\r\t\v");
 
         /**
          * Trim the spaces and linebreaks
          * from the begin of the given content.
          * 
-         * @param std::string
-         * @return std::string
+         * @param const std::string & content
+         * @param const std::string & delimiters
+         * @return void
          */
-        std::string leftTrim(std::string content);
+        void leftTrim(std::string & content, const std::string & delimiters = " \f\n\r\t\v");
 
         /**
          * Trim the spaces and linebreaks
          * from the end of the given content.
          * 
-         * @param std::string
-         * @return std::string
+         * @param const std::string & content
+         * @param const std::string & delimiters
+         * @return void
          */
-        std::string rightTrim(std::string content);
+        void rightTrim(std::string & content, const std::string & delimiters = " \f\n\r\t\v");
 
         /**
          * Store the message content.
@@ -89,6 +117,20 @@ namespace Http {
          * @var std::string
          */
         std::string m_protocolLine;
+
+        /**
+         * Store the headers.
+         * 
+         * @var Http::headers
+         */
+        Headers m_headers;
+
+        /**
+         * Store the body of the message.
+         * 
+         * @var std::stringstream
+         */
+        std::stringstream m_body;
 
     };
 
