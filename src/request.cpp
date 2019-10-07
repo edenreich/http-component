@@ -128,11 +128,19 @@ Interfaces::ResponseInterface * Request::del(const Interfaces::UrlInterface & ur
 /**
  * Retrieve the body stream.
  * 
- * @return std::stringstream
+ * @return const std::stringstream &
  */
-std::stringstream Request::getBody() const
+const std::stringstream & Request::getBody() const
 {
-    std::stringstream ss;
+    return m_message->getBody();
+}
 
-    return ss;
+/**
+ * Retrieve the message.
+ * 
+ * @return Http::Interfaces::MessageInterface *
+ */
+Interfaces::MessageInterface * Request::getMessage() const
+{
+    return m_message;
 }

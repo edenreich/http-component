@@ -38,13 +38,21 @@ Response::~Response()
 /**
  * Retrieve the body stream.
  * 
- * @return std::stringstream
+ * @return const std::stringstream const
  */
-std::stringstream Response::getBody() const
+const std::stringstream & Response::getBody() const
 {
-    std::stringstream ss; 
+    return m_message->getBody();
+}
 
-    return ss;
+/**
+ * Retrieve the message.
+ * 
+ * @return Http::Interfaces::MessageInterface *
+ */
+Interfaces::MessageInterface * Response::getMessage() const
+{
+    return m_message;
 }
 
 /**

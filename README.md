@@ -13,8 +13,10 @@ An easy to use component for interacting with the http layer written in C++
 // main.cpp
 #include <http/server.h>
 #include <http/response.h>
-#include <http/interfaces/client_socket_interface.h>
+#include <http/message.h>
 #include <http/interfaces/client_interface.h>
+
+#include <sstream>
 
 using namespace Http;
 
@@ -28,33 +30,41 @@ int main(int argc, char const *argv[])
     server.listen(8080);
 
     server.onConnection([](Interfaces::ClientInterface * client) {
+        Interfaces::MessageInterface * requestMessage = client->getRequest()->getMessage();
+        std::stringstream responseMessage;
 
-        Interfaces::ClientSocketInterface * socket = client->getRequest()->getBody();
-        std::string content = R"HTML(
-            <html>
-                <head>
-                    <title>First Home Page</title>
-                </head>
-                <body>
-                    <h1>Hello World</h1>
-                    <p>This is some awesome homepage</p>
-                </body>
-            </html>
-        )HTML"; 
+        std::string json = R"JSON(
+            [
+                {
+                    "id": 1,
+                    "name": "Pizza",
+                    "description": "lorem ipsum"
+                },
+                {
+                    "id": 2,
+                    "name": "Cola",
+                    "description": "lorem ipsum"
+                },
+                {
+                    "id": 3,
+                    "name": "Hamburger",
+                    "description": "lorem ipsum"
+                }
+            ]
+        )JSON";
 
-        *socket << "HTTP/1.1 200 OK\n";
-        *socket << "Content-Type: text/html\n";
-        *socket << "Content-Length: " << content.length() << "\n";
-        *socket << "Connection: close\n";
-        *socket << "\n";
-        *socket << content;
+        responseMessage << "HTTP/1.1 200 OK\n";
+        responseMessage << "Content-Type: application/json\n";
+        responseMessage << "Content-Length: " << json.length() << "\n";
+        responseMessage << "Connection: close\n";
+        responseMessage << "\n";
+        responseMessage << json;
 
-        return new Response(socket);    
+        return new Response(new Message(responseMessage));
     });
 
     return 0;
 }
-
 ```
 
 ## Target

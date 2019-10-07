@@ -22,12 +22,11 @@ TEST(ServerTest, DISABLED_ItRecievesAMessage) {
 
     server.onConnection([](Interfaces::ClientInterface * client) {
 
-        std::stringstream body = client->getRequest()->getBody();
+        const std::stringstream & requestBody = client->getRequest()->getBody();
 
-        const char * content = "Hello World";
+        std::stringstream responseMessage;
+        responseMessage << "Hello World";
 
-        body << content;
-
-        return new Response(new Message(body));    
+        return new Response(new Message(responseMessage));    
     });
 }

@@ -1,7 +1,7 @@
 #ifndef RESPONSE_INTERFACE_H
 #define RESPONSE_INTERFACE_H
 
-#include "client_socket_interface.h"
+#include "message_interface.h"
 
 
 namespace Http {
@@ -25,9 +25,16 @@ namespace Http {
             /**
              * Retrieve the body stream.
              * 
-             * @return std::stringstream
+             * @return const std::stringstream &
              */
-            virtual std::stringstream getBody() const = 0;
+            virtual const std::stringstream & getBody() const = 0;
+
+            /**
+             * Retrieve the message.
+             * 
+             * @return Http::Interfaces::MessageInterface *
+             */
+            virtual MessageInterface * getMessage() const = 0;
 
             /**
              * Retrieve the status code.

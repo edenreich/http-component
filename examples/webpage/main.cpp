@@ -1,7 +1,6 @@
 #include <http/server.h>
 #include <http/response.h>
 #include <http/message.h>
-#include <http/interfaces/client_socket_interface.h>
 #include <http/interfaces/client_interface.h>
 
 #include <sstream>
@@ -18,8 +17,7 @@ int main(int argc, char const *argv[])
     server.listen(8080);
 
     server.onConnection([](Interfaces::ClientInterface * client) {
-
-        std::stringstream requestMessage = client->getRequest()->getBody();
+        Interfaces::MessageInterface * requestMessage = client->getRequest()->getMessage();
         std::stringstream responseMessage;
 
         std::string content = R"HTML(

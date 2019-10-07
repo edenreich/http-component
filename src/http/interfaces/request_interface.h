@@ -3,7 +3,7 @@
 
 #include "url_interface.h"
 #include "response_interface.h"
-#include "client_socket_interface.h"
+#include "message_interface.h"
 #include <string>
 
 
@@ -65,9 +65,16 @@ namespace Http {
             /**
              * Retrieve the stream body.
              * 
-             * @return std::stringstream
+             * @return const std::stringstream &
              */
-            virtual std::stringstream getBody() const = 0;
+            virtual const std::stringstream & getBody() const = 0;
+
+            /**
+             * Retrieve the message.
+             * 
+             * @return Http::Interfaces::MessageInterface *
+             */
+            virtual MessageInterface * getMessage() const = 0;
 
         };
     }

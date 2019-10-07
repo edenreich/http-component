@@ -38,9 +38,16 @@ namespace Http {
         /**
          * Retrieve the body stream.
          * 
-         * @return std::stringstream
+         * @return const std::stringstream &
          */
-        std::stringstream getBody() const override;
+        const std::stringstream & getBody() const override;
+
+        /**
+         * Retrieve the message.
+         * 
+         * @return Http::Interfaces::MessageInterface *
+         */
+        Interfaces::MessageInterface * getMessage() const override;
 
         /**
          * Retrieve the status code.

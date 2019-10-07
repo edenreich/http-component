@@ -49,7 +49,7 @@ Message::~Message()
  * 
  * @return std::string
  */
-std::string Message::getProtocolLine() const
+const std::string & Message::getProtocolLine() const
 {
     return m_protocolLine;
 }
@@ -67,7 +67,7 @@ Headers Message::getHeaders() const
 /**
  * Retrieve the body stream.
  * 
- * @return std::stringstream
+ * @return const std::stringstream &
  */
 const std::stringstream & Message::getBody() const
 {
@@ -127,9 +127,13 @@ void Message::parse(const std::string & content)
     }
 
     // Parse Body
-    std::string rest = m_content.str().substr(m_content.tellg());
-    trim(rest);
-    m_body << rest;
+    if (!m_content.eof()) {
+        std::string rest = m_content.str().substr(m_content.tellg());
+        trim(rest);
+        m_body << rest;
+    }
+
+    m_content.seekg(0);
 }
 
 /**

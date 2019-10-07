@@ -91,17 +91,16 @@ void Server::onConnection(Events::MessageRecievedHandler handler)
 
         // Server Response
         Interfaces::ResponseInterface * serverResponse = handler(client);
-        
-        std::stringstream ss = serverResponse->getBody();
+        Interfaces::MessageInterface * serverMessage = serverResponse->getMessage();
 
-        const std::string & content = clientSocket->getContents(); 
+        std::string reply = serverMessage->getRaw().str();
 
-        clientSocket->send(content);
+        clientSocket->send(reply);
         clientSocket->close();
 
         delete client;
 
-    } while((m_running));
+    } while (m_running);
 
     shutdown();
 }

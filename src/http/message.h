@@ -38,9 +38,9 @@ namespace Http {
         /**
          * Get the first line of the message.
          * 
-         * @return std::string
+         * @return const std::string &
          */
-        std::string getProtocolLine() const override;
+        const std::string & getProtocolLine() const override;
 
         /**
          * Retrieve the message headers.
@@ -52,7 +52,7 @@ namespace Http {
         /**
          * Retrieve the body stream.
          * 
-         * @return std::stringstream
+         * @return const std::stringstream &
          */
         const std::stringstream & getBody() const override;
 
@@ -61,7 +61,7 @@ namespace Http {
          * with the protocol line,
          * headers and body.
          * 
-         * @return std::stringstream
+         * @return const std::stringstream &
          */
         const std::stringstream & getRaw() const override;
 
